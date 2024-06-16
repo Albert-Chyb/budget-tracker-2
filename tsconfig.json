@@ -19,9 +19,10 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    
+
     "paths": {
-      "@shadcn/*": ["./@shadcn/*"]
+      "@shadcn/*": ["./@shadcn/*"],
+      "@pages/*": ["./src/pages/*"]
     }
   },
   "include": ["src"],
