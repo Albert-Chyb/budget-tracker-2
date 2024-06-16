@@ -4,6 +4,7 @@ import { Link, Outlet } from 'react-router-dom';
 
 export default function RootPage() {
   const [count, setCount] = useState(0);
+
   return (
     <>
       <Button onClick={() => setCount((oldCount) => oldCount + 1)}>
@@ -25,7 +26,7 @@ export default function RootPage() {
         </ul>
       </nav>
 
-      <main>
+      <main className='container'>
         <Outlet />
       </main>
     </>
