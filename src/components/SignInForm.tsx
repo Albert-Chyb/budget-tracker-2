@@ -23,20 +23,20 @@ export default function SignInForm({
   });
 
   useEffect(() => {
-    if (serverErrors?.emailNotFound) {
+    if (form.formState.isSubmitSuccessful && serverErrors?.emailNotFound) {
       form.setError('email', {
         type: 'server',
-        message: 'Nie istnieje konto powiązane z podanym adresem email',
+        message: EMAIL_NOT_FOUND_MESSAGE,
       });
     }
 
-    if (serverErrors?.passwordIsInvalid) {
+    if (form.formState.isSubmitSuccessful && serverErrors?.passwordIsInvalid) {
       form.setError('password', {
         type: 'server',
-        message: 'Hasło jest niepoprawne',
+        message: PASSWORD_INVALID_MESSAGE,
       });
     }
-  }, [serverErrors]);
+  }, [serverErrors, form.formState.isSubmitSuccessful]);
 
   function handleSignIn(formValue: FormValue) {
     onSignIn(formValue);
@@ -65,7 +65,7 @@ export default function SignInForm({
                 />
               </FormControl>
 
-              <FormMessage />
+              <FormMessage data-testid='email-error-message' />
             </FormItem>
           )}
         />
@@ -86,7 +86,7 @@ export default function SignInForm({
                 />
               </FormControl>
 
-              <FormMessage />
+              <FormMessage data-testid='password-error-message' />
             </FormItem>
           )}
         />
@@ -99,14 +99,25 @@ export default function SignInForm({
   );
 }
 
+export const EMAIL_REQUIRED_MESSAGE = 'Email jest wymagany';
+export const EMAIL_INVALID_MESSAGE = 'To nie jest poprawny email';
+export const EMAIL_NOT_FOUND_MESSAGE =
+  'Nie istnieje konto powiązane z podanym adresem email';
+
+export const PASSWORD_MIN_LENGTH_MESSAGE =
+  'Hasło musi zawierać co najmniej 6 znaków';
+export const PASSWORD_REQUIRED_MESSAGE = 'Hasło jest wymagane';
+export const PASSWORD_INVALID_MESSAGE = 'Hasło jest niepoprawne';
+
 export const formSchema = z.object({
   email: z
     .string()
-    .min(1, { message: 'Email jest wymagany' })
-    .email({ message: 'To nie jest poprawny email' }),
+    .min(1, { message: EMAIL_REQUIRED_MESSAGE })
+    .email({ message: EMAIL_INVALID_MESSAGE }),
   password: z
     .string()
-    .min(6, { message: 'Hasło musi zawierać co najmniej 6 znaków' }),
+    .min(1, { message: PASSWORD_REQUIRED_MESSAGE })
+    .min(6, { message: PASSWORD_MIN_LENGTH_MESSAGE }),
 });
 
 const FORM_DEFAULT_VALUE: FormValue = {
