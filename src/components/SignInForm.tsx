@@ -38,11 +38,16 @@ export default function SignInForm({
     }
   }, [serverErrors]);
 
+  function handleSignIn(formValue: FormValue) {
+    onSignIn(formValue);
+  }
+
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSignIn)}
+        onSubmit={form.handleSubmit(handleSignIn)}
         className='flex flex-col gap-4'
+        data-testid='sign-in-form'
       >
         <FormField
           control={form.control}
@@ -52,7 +57,12 @@ export default function SignInForm({
               <FormLabel>Email</FormLabel>
 
               <FormControl>
-                <Input type='email' placeholder='Twój adres email' {...field} />
+                <Input
+                  data-testid='email-input'
+                  type='email'
+                  placeholder='Twój adres email'
+                  {...field}
+                />
               </FormControl>
 
               <FormMessage />
@@ -69,6 +79,7 @@ export default function SignInForm({
 
               <FormControl>
                 <Input
+                  data-testid='password-input'
                   type='password'
                   placeholder='Hasło do twojego konta'
                   {...field}
@@ -80,7 +91,9 @@ export default function SignInForm({
           )}
         />
 
-        <Button type='submit'>Zaloguj się</Button>
+        <Button data-testid='submit-button' type='submit'>
+          Zaloguj się
+        </Button>
       </form>
     </Form>
   );

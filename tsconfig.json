@@ -25,6 +25,6 @@
       "@pages/*": ["./src/pages/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "tests/components/SignInForm.test.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
