@@ -9,7 +9,7 @@ import {
 import { Link } from 'react-router-dom';
 import SignInForm, {
   FormValue as SignInFormValue,
-} from '../components/SignInForm';
+} from '@components/SignInForm';
 
 export default function SignInPage() {
   function handleSignIn(formValue: SignInFormValue) {

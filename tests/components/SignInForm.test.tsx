@@ -9,7 +9,7 @@ import SignInForm, {
   PASSWORD_MIN_LENGTH_MESSAGE,
   PASSWORD_REQUIRED_MESSAGE,
   FormValue as SignInFormValue,
-} from '../../src/components/SignInForm';
+} from '@components/SignInForm';
 
 const EMAIL_INPUT_ID = 'email-input';
 const PASSWORD_INPUT_ID = 'password-input';

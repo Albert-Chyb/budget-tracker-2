@@ -10,6 +10,7 @@ export default defineConfig({
     alias: {
       '@shadcn': path.resolve(__dirname, '@shadcn'),
       '@pages': path.resolve(__dirname, 'src/pages'),
+      '@components': path.resolve(__dirname, 'src/components')
     },
   },
   test: {
