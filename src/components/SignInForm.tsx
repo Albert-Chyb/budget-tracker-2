@@ -36,7 +36,7 @@ export default function SignInForm({
         message: PASSWORD_INVALID_MESSAGE,
       });
     }
-  }, [serverErrors, form.formState.isSubmitSuccessful]);
+  }, [serverErrors, form.formState.isSubmitSuccessful, form]);
 
   function handleSignIn(formValue: FormValue) {
     onSignIn(formValue);
