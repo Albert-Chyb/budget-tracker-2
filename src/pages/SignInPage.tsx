@@ -1,40 +1,42 @@
-import { Button } from '@shadcn/components/ui/button';
+import SignInForm from '@components/SignInForm';
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '@shadcn/components/ui/card';
 import { Link } from 'react-router-dom';
-import SignInForm, {
-  FormValue as SignInFormValue,
-} from '@components/SignInForm';
+import { SignInFormValue } from '../schemas/forms/signInForm';
 
 export default function SignInPage() {
   function handleSignIn(formValue: SignInFormValue) {
     console.log(formValue);
   }
 
-  const CreateAccountLink = (
-    <Button variant='link' asChild className='m-0 p-0 h-0'>
-      <Link to='/sign-up'>złóż je tutaj</Link>
-    </Button>
-  );
-
   return (
     <Card>
       <CardHeader>
         <CardTitle>Formularz logowania</CardTitle>
         <CardDescription>
-          Ten formularz służy do logowania na istniejące już konto. Jeżeli nie
-          masz jeszcze konta - {CreateAccountLink}.
+          Ten formularz służy do logowania na istniejące już konto.
         </CardDescription>
       </CardHeader>
 
       <CardContent>
         <SignInForm onSignIn={handleSignIn} />
       </CardContent>
+
+      <CardFooter className='justify-center'>
+        <p className='text-sm text-muted-foreground'>
+          Nie masz jeszcze konta?{' '}
+          <Link to='/sign-up' className='text-foreground hover:underline'>
+            Załóż konto
+          </Link>
+          .
+        </p>
+      </CardFooter>
     </Card>
   );
 }

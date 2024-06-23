@@ -11,14 +11,16 @@ import {
 import { Input } from '@shadcn/components/ui/input';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { EMAIL_NOT_FOUND_MESSAGE } from '../schemas/forms/email';
+import { PASSWORD_INVALID_MESSAGE } from '../schemas/forms/password';
+import { SignInFormValue, signInFormSchema } from '../schemas/forms/signInForm';
 
 export default function SignInForm({
   onSignIn,
   serverErrors,
 }: SignInFormProps) {
-  const form = useForm<FormValue>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<SignInFormValue>({
+    resolver: zodResolver(signInFormSchema),
     defaultValues: FORM_DEFAULT_VALUE,
   });
 
@@ -38,7 +40,7 @@ export default function SignInForm({
     }
   }, [serverErrors, form.formState.isSubmitSuccessful, form]);
 
-  function handleSignIn(formValue: FormValue) {
+  function handleSignIn(formValue: SignInFormValue) {
     onSignIn(formValue);
   }
 
@@ -99,33 +101,10 @@ export default function SignInForm({
   );
 }
 
-export const EMAIL_REQUIRED_MESSAGE = 'Email jest wymagany';
-export const EMAIL_INVALID_MESSAGE = 'To nie jest poprawny email';
-export const EMAIL_NOT_FOUND_MESSAGE =
-  'Nie istnieje konto powiązane z podanym adresem email';
-
-export const PASSWORD_MIN_LENGTH_MESSAGE =
-  'Hasło musi zawierać co najmniej 6 znaków';
-export const PASSWORD_REQUIRED_MESSAGE = 'Hasło jest wymagane';
-export const PASSWORD_INVALID_MESSAGE = 'Hasło jest niepoprawne';
-
-export const formSchema = z.object({
-  email: z
-    .string()
-    .min(1, { message: EMAIL_REQUIRED_MESSAGE })
-    .email({ message: EMAIL_INVALID_MESSAGE }),
-  password: z
-    .string()
-    .min(1, { message: PASSWORD_REQUIRED_MESSAGE })
-    .min(6, { message: PASSWORD_MIN_LENGTH_MESSAGE }),
-});
-
-const FORM_DEFAULT_VALUE: FormValue = {
+const FORM_DEFAULT_VALUE: SignInFormValue = {
   email: '',
   password: '',
 };
-
-export type FormValue = z.infer<typeof formSchema>;
 
 export type FormErrors = Partial<{
   /** Shows an error with information that the submitted email does not exist in the database */
@@ -136,6 +115,6 @@ export type FormErrors = Partial<{
 }>;
 
 export type SignInFormProps = {
-  onSignIn: (value: FormValue) => void;
+  onSignIn: (value: SignInFormValue) => void;
   serverErrors?: FormErrors;
 };

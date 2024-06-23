@@ -1,15 +1,18 @@
+import SignInForm from '@components/SignInForm';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
-import SignInForm, {
+import {
   EMAIL_INVALID_MESSAGE,
   EMAIL_NOT_FOUND_MESSAGE,
   EMAIL_REQUIRED_MESSAGE,
+} from '../../src/schemas/forms/email';
+import {
   PASSWORD_INVALID_MESSAGE,
   PASSWORD_MIN_LENGTH_MESSAGE,
   PASSWORD_REQUIRED_MESSAGE,
-  FormValue as SignInFormValue,
-} from '@components/SignInForm';
+} from '../../src/schemas/forms/password';
+import { SignInFormValue } from '../../src/schemas/forms/signInForm';
 
 const EMAIL_INPUT_ID = 'email-input';
 const PASSWORD_INPUT_ID = 'password-input';
