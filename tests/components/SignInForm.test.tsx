@@ -80,9 +80,7 @@ describe('SignInForm', () => {
 
         await user.type(screen.getByTestId(EMAIL_INPUT_ID), 'a@a');
         await user.click(screen.getByTestId(SUBMIT_BTN_ID));
-
-        screen.debug();
-
+        
         const errorMessageEl = screen.getByTestId(EMAIL_MESSAGE_ID);
         expect(errorMessageEl).toBeTruthy();
         expect(errorMessageEl.textContent).toContain(EMAIL_INVALID_MESSAGE);
