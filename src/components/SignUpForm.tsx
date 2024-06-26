@@ -37,7 +37,7 @@ export default function SignUpForm({
   }
 
   useEffect(() => {
-    if (serverErrors?.emailAlreadyInUse) {
+    if (serverErrors.emailAlreadyInUse) {
       form.setError('email', {
         type: 'server',
         message: EMAIL_ALREADY_IN_USE_MESSAGE,
@@ -59,10 +59,15 @@ export default function SignUpForm({
               <FormLabel>Email</FormLabel>
 
               <FormControl>
-                <Input type='email' placeholder='Twój adres email' {...field} />
+                <Input
+                  data-testid='email-input'
+                  type='email'
+                  placeholder='Twój adres email'
+                  {...field}
+                />
               </FormControl>
 
-              <FormMessage />
+              <FormMessage data-testid='email-errors' />
             </FormItem>
           )}
         />
@@ -76,6 +81,7 @@ export default function SignUpForm({
 
               <FormControl>
                 <Input
+                  data-testid='password-input'
                   type='password'
                   placeholder='Hasło do twojego konta'
                   {...field}
@@ -96,6 +102,7 @@ export default function SignUpForm({
 
               <FormControl>
                 <Input
+                  data-testid='confirm-password-input'
                   type='password'
                   placeholder='Wpisz ponownie swoje hasło'
                   {...field}
@@ -107,7 +114,9 @@ export default function SignUpForm({
           )}
         />
 
-        <Button type='submit'>Stwórz konto</Button>
+        <Button data-testid='submit-btn' type='submit'>
+          Stwórz konto
+        </Button>
       </form>
     </Form>
   );
