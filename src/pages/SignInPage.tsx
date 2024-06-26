@@ -1,4 +1,5 @@
-import SignInForm from '@components/SignInForm';
+import SignInForm, { SignInFormServerErrors } from '@components/SignInForm';
+import { SignInFormValue } from '@lib/schemas/forms/signInForm';
 import {
   Card,
   CardContent,
@@ -7,11 +8,20 @@ import {
   CardHeader,
   CardTitle,
 } from '@shadcn/components/ui/card';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { SignInFormValue } from '@lib/schemas/forms/signInForm';
+
+const NO_SERVER_ERRORS: SignInFormServerErrors = {
+  emailNotFound: false,
+  passwordIsInvalid: false,
+};
 
 export default function SignInPage() {
+  const [serverErrors, setServerErrors] =
+    useState<SignInFormServerErrors>(NO_SERVER_ERRORS);
+
   function handleSignIn(formValue: SignInFormValue) {
+    setServerErrors(NO_SERVER_ERRORS);
     console.log(formValue);
   }
 
@@ -25,7 +35,7 @@ export default function SignInPage() {
       </CardHeader>
 
       <CardContent>
-        <SignInForm onSignIn={handleSignIn} />
+        <SignInForm onSignIn={handleSignIn} serverErrors={serverErrors} />
       </CardContent>
 
       <CardFooter className='justify-center'>

@@ -28,20 +28,20 @@ export default function SignInForm({
   });
 
   useEffect(() => {
-    if (form.formState.isSubmitSuccessful && serverErrors?.emailNotFound) {
+    if (serverErrors.emailNotFound) {
       form.setError('email', {
         type: 'server',
         message: EMAIL_NOT_FOUND_MESSAGE,
       });
     }
 
-    if (form.formState.isSubmitSuccessful && serverErrors?.passwordIsInvalid) {
+    if (serverErrors.passwordIsInvalid) {
       form.setError('password', {
         type: 'server',
         message: PASSWORD_INVALID_MESSAGE,
       });
     }
-  }, [serverErrors, form.formState.isSubmitSuccessful, form]);
+  }, [serverErrors, form]);
 
   function handleSignIn(formValue: SignInFormValue) {
     onSignIn(formValue);
@@ -109,15 +109,15 @@ const FORM_DEFAULT_VALUE: SignInFormValue = {
   password: '',
 };
 
-export type FormErrors = Partial<{
+export type SignInFormServerErrors = {
   /** Shows an error with information that the submitted email does not exist in the database */
   emailNotFound: boolean;
 
   /** Shows an error with information that the submitted password is invalid for submitted email */
   passwordIsInvalid: boolean;
-}>;
+};
 
 export type SignInFormProps = {
   onSignIn: (value: SignInFormValue) => void;
-  serverErrors?: FormErrors;
+  serverErrors: SignInFormServerErrors;
 };
