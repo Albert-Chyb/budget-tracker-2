@@ -10,7 +10,17 @@ import {
 } from '@shadcn/components/ui/form';
 import { Input } from '@shadcn/components/ui/input';
 import { useForm } from 'react-hook-form';
-import { SignUpFormValue, signUpFormSchema } from '../schemas/forms/signUpForm';
+import {
+  SignUpFormValue,
+  signUpFormSchema,
+} from '@lib/schemas/forms/signUpForm';
+
+/*
+ * Add function to this form to display email-already-in-use error
+ * Write tests to this form
+ * Write a module with necessary function to authenticate user
+ * Use react router actions to handle forms submits
+ */
 
 export default function SignUpForm({ onSignUp }: SignUpFormProps) {
   const form = useForm<SignUpFormValue>({
@@ -84,9 +94,7 @@ export default function SignUpForm({ onSignUp }: SignUpFormProps) {
           )}
         />
 
-        <Button type='submit'>
-          Stwórz konto
-        </Button>
+        <Button type='submit'>Stwórz konto</Button>
       </form>
     </Form>
   );

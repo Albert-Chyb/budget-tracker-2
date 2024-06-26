@@ -1,4 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { EMAIL_NOT_FOUND_MESSAGE } from '@lib/schemas/forms/email';
+import { PASSWORD_INVALID_MESSAGE } from '@lib/schemas/forms/password';
+import {
+  SignInFormValue,
+  signInFormSchema,
+} from '@lib/schemas/forms/signInForm';
 import { Button } from '@shadcn/components/ui/button';
 import {
   Form,
@@ -11,9 +17,6 @@ import {
 import { Input } from '@shadcn/components/ui/input';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { EMAIL_NOT_FOUND_MESSAGE } from '../schemas/forms/email';
-import { PASSWORD_INVALID_MESSAGE } from '../schemas/forms/password';
-import { SignInFormValue, signInFormSchema } from '../schemas/forms/signInForm';
 
 export default function SignInForm({
   onSignIn,

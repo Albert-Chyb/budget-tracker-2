@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from '@shadcn/components/ui/card';
 import { Link } from 'react-router-dom';
-import { SignUpFormValue } from '../schemas/forms/signUpForm';
+import { SignUpFormValue } from '@lib/schemas/forms/signUpForm';
 
 export default function SignUpPage() {
   function handleSignUp(value: SignUpFormValue) {

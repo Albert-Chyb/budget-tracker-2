@@ -23,7 +23,8 @@
     "paths": {
       "@shadcn/*": ["./@shadcn/*"],
       "@pages/*": ["./src/pages/*"],
-      "@components/*": ["./src/components/*"]
+      "@components/*": ["./src/components/*"],
+      "@lib/*": ["./src/lib/*"]
     }
   },
   "include": ["src", "tests/components/SignInForm.test.tsx"],
