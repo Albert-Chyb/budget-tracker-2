@@ -27,6 +27,6 @@
       "@lib/*": ["./src/lib/*"]
     }
   },
-  "include": ["src", "tests/components/SignInForm.test.tsx"],
+  "include": ["src/**/*", "tests/**/*"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
