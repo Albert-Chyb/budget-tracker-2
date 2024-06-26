@@ -1,4 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { EMAIL_ALREADY_IN_USE_MESSAGE } from '@lib/schemas/forms/email';
+import {
+  SignUpFormValue,
+  signUpFormSchema,
+} from '@lib/schemas/forms/signUpForm';
 import { Button } from '@shadcn/components/ui/button';
 import {
   Form,
@@ -9,20 +14,19 @@ import {
   FormMessage,
 } from '@shadcn/components/ui/form';
 import { Input } from '@shadcn/components/ui/input';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import {
-  SignUpFormValue,
-  signUpFormSchema,
-} from '@lib/schemas/forms/signUpForm';
 
 /*
- * Add function to this form to display email-already-in-use error
  * Write tests to this form
  * Write a module with necessary function to authenticate user
  * Use react router actions to handle forms submits
  */
 
-export default function SignUpForm({ onSignUp }: SignUpFormProps) {
+export default function SignUpForm({
+  onSignUp,
+  serverErrors,
+}: SignUpFormProps) {
   const form = useForm<SignUpFormValue>({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: DEFAULT_VALUE,
@@ -31,6 +35,15 @@ export default function SignUpForm({ onSignUp }: SignUpFormProps) {
   function handleSubmit(value: SignUpFormValue) {
     onSignUp(value);
   }
+
+  useEffect(() => {
+    if (serverErrors?.emailAlreadyInUse) {
+      form.setError('email', {
+        type: 'server',
+        message: EMAIL_ALREADY_IN_USE_MESSAGE,
+      });
+    }
+  }, [form, serverErrors?.emailAlreadyInUse]);
 
   return (
     <Form {...form}>
@@ -106,6 +119,11 @@ const DEFAULT_VALUE: SignUpFormValue = {
   confirmPassword: '',
 };
 
+export type SignUpFormServerErrors = {
+  emailAlreadyInUse: boolean;
+};
+
 export type SignUpFormProps = {
   onSignUp: (formValue: SignUpFormValue) => void;
+  serverErrors: SignUpFormServerErrors;
 };

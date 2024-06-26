@@ -4,6 +4,7 @@ export const EMAIL_REQUIRED_MESSAGE = 'Email jest wymagany';
 export const EMAIL_INVALID_MESSAGE = 'To nie jest poprawny email';
 export const EMAIL_NOT_FOUND_MESSAGE =
   'Nie istnieje konto powiązane z podanym adresem email';
+export const EMAIL_ALREADY_IN_USE_MESSAGE = 'Istnieje już konto z takim adresem email';
 
 export const emailSchema = z
   .string()

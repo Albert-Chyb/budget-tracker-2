@@ -1,4 +1,5 @@
-import SignUpForm from '@components/SignUpForm';
+import SignUpForm, { SignUpFormServerErrors } from '@components/SignUpForm';
+import { SignUpFormValue } from '@lib/schemas/forms/signUpForm';
 import {
   Card,
   CardContent,
@@ -7,12 +8,20 @@ import {
   CardHeader,
   CardTitle,
 } from '@shadcn/components/ui/card';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { SignUpFormValue } from '@lib/schemas/forms/signUpForm';
 
 export default function SignUpPage() {
+  const [serverErrors, setServerErrors] = useState<SignUpFormServerErrors>({
+    emailAlreadyInUse: false,
+  });
+
   function handleSignUp(value: SignUpFormValue) {
-    console.log(value);
+    setServerErrors({
+      emailAlreadyInUse: false,
+    });
+
+    console.log('Creating an account with ' + value);
   }
 
   return (
@@ -25,7 +34,7 @@ export default function SignUpPage() {
       </CardHeader>
 
       <CardContent>
-        <SignUpForm onSignUp={handleSignUp} />
+        <SignUpForm onSignUp={handleSignUp} serverErrors={serverErrors} />
       </CardContent>
 
       <CardFooter className='justify-center'>
