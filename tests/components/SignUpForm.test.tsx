@@ -1,5 +1,10 @@
 import SignUpForm, { SignUpFormServerErrors } from '@components/SignUpForm';
-import { EMAIL_ALREADY_IN_USE_MESSAGE } from '@lib/schemas/forms/email';
+import {
+  EMAIL_ALREADY_IN_USE_MESSAGE,
+  EMAIL_INVALID_MESSAGE,
+  EMAIL_REQUIRED_MESSAGE,
+} from '@lib/schemas/forms/email';
+import { PASSWORD_MIN_LENGTH_MESSAGE, PASSWORD_REQUIRED_MESSAGE } from '@lib/schemas/forms/password';
 import { SignUpFormValue } from '@lib/schemas/forms/signUpForm';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -14,6 +19,7 @@ const EMAIL_INPUT_ID = 'email-input';
 const PASSWORD_INPUT_ID = 'password-input';
 const CONFIRM_PASSWORD_INPUT_ID = 'confirm-password-input';
 const EMAIL_ERROR_MESSAGES_ID = 'email-errors';
+const PASSWORD_ERROR_MESSAGES_ID = 'password-errors';
 
 describe('SignUpForm', () => {
   it('should render sign up form', () => {
@@ -59,5 +65,57 @@ describe('SignUpForm', () => {
 
     expect(errorsEl).toBeTruthy();
     expect(errorsEl.textContent).toContain(EMAIL_ALREADY_IN_USE_MESSAGE);
+  });
+
+  it('should display EMAIL_REQUIRED_MESSAGE if the user submitted the form with an empty email field', async () => {
+    const user = userEvent.setup();
+
+    render(<SignUpForm onSignUp={vi.fn()} serverErrors={NO_SERVER_ERRORS} />);
+
+    await user.clear(screen.getByTestId(EMAIL_INPUT_ID));
+    await user.click(screen.getByTestId(SUBMIT_BTN_ID));
+    const errorsEl = screen.getByTestId(EMAIL_ERROR_MESSAGES_ID);
+
+    expect(errorsEl).toBeTruthy();
+    expect(errorsEl.textContent).toContain(EMAIL_REQUIRED_MESSAGE);
+  });
+
+  it('should display EMAIL_INVALID_MESSAGE if the user submitted form with an invalid email', async () => {
+    const user = userEvent.setup();
+
+    render(<SignUpForm onSignUp={vi.fn()} serverErrors={NO_SERVER_ERRORS} />);
+
+    await user.type(screen.getByTestId(EMAIL_INPUT_ID), 'invalid_email@d');
+    await user.click(screen.getByTestId(SUBMIT_BTN_ID));
+    const errorsEl = screen.getByTestId(EMAIL_ERROR_MESSAGES_ID);
+
+    expect(errorsEl).toBeTruthy();
+    expect(errorsEl.textContent).toContain(EMAIL_INVALID_MESSAGE);
+  });
+
+  it('should display PASSWORD_REQUIRED_MESSAGE if the user submitted form without a password', async () => {
+    const user = userEvent.setup();
+
+    render(<SignUpForm onSignUp={vi.fn()} serverErrors={NO_SERVER_ERRORS} />);
+
+    await user.clear(screen.getByTestId(PASSWORD_INPUT_ID));
+    await user.click(screen.getByTestId(SUBMIT_BTN_ID));
+    const errorsEl = screen.getByTestId(PASSWORD_ERROR_MESSAGES_ID);
+
+    expect(errorsEl).toBeTruthy();
+    expect(errorsEl.textContent).toContain(PASSWORD_REQUIRED_MESSAGE);
+  });
+
+  it('should display PASSWORD_MIN_LENGTH_MESSAGE if the user submitted form with a password less than 6 characters', async () => {
+    const user = userEvent.setup();
+
+    render(<SignUpForm onSignUp={vi.fn()} serverErrors={NO_SERVER_ERRORS} />);
+
+    await user.type(screen.getByTestId(PASSWORD_INPUT_ID), '12345');
+    await user.click(screen.getByTestId(SUBMIT_BTN_ID));
+    const errorsEl = screen.getByTestId(PASSWORD_ERROR_MESSAGES_ID);
+
+    expect(errorsEl).toBeTruthy();
+    expect(errorsEl.textContent).toContain(PASSWORD_MIN_LENGTH_MESSAGE);
   });
 });

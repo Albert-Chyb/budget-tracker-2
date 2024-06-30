@@ -18,7 +18,6 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 /*
- * Write tests to this form
  * Write a module with necessary function to authenticate user
  * Use react router actions to handle forms submits
  */
@@ -88,7 +87,7 @@ export default function SignUpForm({
                 />
               </FormControl>
 
-              <FormMessage />
+              <FormMessage data-testid='password-errors' />
             </FormItem>
           )}
         />
