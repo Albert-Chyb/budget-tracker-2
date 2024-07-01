@@ -24,7 +24,7 @@ import { LoadingButton } from './LoadingButton';
 export default function SignUpForm({
   onSignUp,
   serverErrors,
-  isLoading,
+  isLoading = false,
 }: SignUpFormProps) {
   const form = useForm<SignUpFormValue>({
     resolver: zodResolver(signUpFormSchema),
@@ -138,5 +138,5 @@ export type SignUpFormServerErrors = {
 export type SignUpFormProps = {
   onSignUp: (formValue: SignUpFormValue) => void;
   serverErrors: SignUpFormServerErrors;
-  isLoading: boolean;
+  isLoading?: boolean;
 };
