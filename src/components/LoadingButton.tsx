@@ -8,14 +8,19 @@ export function LoadingButton({
   ...props
 }: LoadingButtonProps) {
   return (
-    <Button disabled={isLoading} {...props}>
-      {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+    <Button disabled={isLoading} {...props} data-testid='loading-button'>
+      {isLoading && (
+        <Loader2
+          className='mr-2 h-4 w-4 animate-spin'
+          data-testid='spinning-circle'
+        />
+      )}
       {children}
     </Button>
   );
 }
 
 export type LoadingButtonProps = PropsWithChildren<{
-  isLoading: boolean;
+  isLoading?: boolean;
 }> &
   ButtonProps;
