@@ -1,4 +1,6 @@
 import SignUpForm, { SignUpFormServerErrors } from '@components/SignUpForm';
+import { signUp } from '@lib/auth/auth-service';
+import { userAlreadyExists } from '@lib/helpers/supabase-errors';
 import { SignUpFormValue } from '@lib/schemas/forms/signUpForm';
 import {
   Card,
@@ -15,13 +17,27 @@ export default function SignUpPage() {
   const [serverErrors, setServerErrors] = useState<SignUpFormServerErrors>({
     emailAlreadyInUse: false,
   });
+  const [isLoading, setIsLoading] = useState(false);
 
-  function handleSignUp(value: SignUpFormValue) {
+  async function handleSignUp({ email, password }: SignUpFormValue) {
     setServerErrors({
       emailAlreadyInUse: false,
     });
 
-    console.log('Creating an account with ' + value);
+    try {
+      setIsLoading(true);
+      await signUp(email, password);
+    } catch (error) {
+      if (userAlreadyExists(error)) {
+        setServerErrors({
+          emailAlreadyInUse: true,
+        });
+      } else {
+        throw error;
+      }
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -34,7 +50,11 @@ export default function SignUpPage() {
       </CardHeader>
 
       <CardContent>
-        <SignUpForm onSignUp={handleSignUp} serverErrors={serverErrors} />
+        <SignUpForm
+          onSignUp={handleSignUp}
+          serverErrors={serverErrors}
+          isLoading={isLoading}
+        />
       </CardContent>
 
       <CardFooter className='justify-center'>

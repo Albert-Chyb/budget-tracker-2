@@ -4,7 +4,6 @@ import {
   SignUpFormValue,
   signUpFormSchema,
 } from '@lib/schemas/forms/signUpForm';
-import { Button } from '@shadcn/components/ui/button';
 import {
   Form,
   FormControl,
@@ -16,15 +15,16 @@ import {
 import { Input } from '@shadcn/components/ui/input';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { LoadingButton } from './LoadingButton';
 
 /*
- * Write a module with necessary function to authenticate user
- * Use react router actions to handle forms submits
+ * Add Angular Route Guards equivalent
  */
 
 export default function SignUpForm({
   onSignUp,
   serverErrors,
+  isLoading,
 }: SignUpFormProps) {
   const form = useForm<SignUpFormValue>({
     resolver: zodResolver(signUpFormSchema),
@@ -113,9 +113,13 @@ export default function SignUpForm({
           )}
         />
 
-        <Button data-testid='submit-btn' type='submit'>
+        <LoadingButton
+          data-testid='submit-btn'
+          type='submit'
+          isLoading={isLoading}
+        >
           Stwórz konto
-        </Button>
+        </LoadingButton>
       </form>
     </Form>
   );
@@ -134,4 +138,5 @@ export type SignUpFormServerErrors = {
 export type SignUpFormProps = {
   onSignUp: (formValue: SignUpFormValue) => void;
   serverErrors: SignUpFormServerErrors;
+  isLoading: boolean;
 };
