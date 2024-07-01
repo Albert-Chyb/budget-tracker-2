@@ -8,7 +8,7 @@ export function LoadingButton({
   ...props
 }: LoadingButtonProps) {
   return (
-    <Button disabled={isLoading} {...props} data-testid='loading-button'>
+    <Button disabled={isLoading} data-testid='loading-button' {...props}>
       {isLoading && (
         <Loader2
           className='mr-2 h-4 w-4 animate-spin'
