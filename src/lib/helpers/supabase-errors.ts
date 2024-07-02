@@ -11,6 +11,6 @@ export function userAlreadyExists(error: unknown): boolean {
     (isAuthApiError(error) && error.code === 'user_already_exists') ||
     (isAuthApiError(error) &&
       error.status === 422 &&
-      error.message === 'User already registered')
+      /user already registered/i.test(error.message))
   );
 }
