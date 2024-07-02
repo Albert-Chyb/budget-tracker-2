@@ -1,11 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { EMAIL_NOT_FOUND_MESSAGE } from '@lib/schemas/forms/email';
-import { PASSWORD_INVALID_MESSAGE } from '@lib/schemas/forms/password';
 import {
+  INVALID_CREDENTIALS_MESSAGE,
   SignInFormValue,
   signInFormSchema,
 } from '@lib/schemas/forms/signInForm';
-import { Button } from '@shadcn/components/ui/button';
 import {
   Form,
   FormControl,
@@ -17,10 +15,13 @@ import {
 import { Input } from '@shadcn/components/ui/input';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import FormRootMessage from './FormRootMessage';
+import { LoadingButton } from './LoadingButton';
 
 export default function SignInForm({
   onSignIn,
   serverErrors,
+  isLoading = false,
 }: SignInFormProps) {
   const form = useForm<SignInFormValue>({
     resolver: zodResolver(signInFormSchema),
@@ -28,17 +29,10 @@ export default function SignInForm({
   });
 
   useEffect(() => {
-    if (serverErrors.emailNotFound) {
-      form.setError('email', {
+    if (serverErrors.invalidCredentials) {
+      form.setError('root', {
         type: 'server',
-        message: EMAIL_NOT_FOUND_MESSAGE,
-      });
-    }
-
-    if (serverErrors.passwordIsInvalid) {
-      form.setError('password', {
-        type: 'server',
-        message: PASSWORD_INVALID_MESSAGE,
+        message: INVALID_CREDENTIALS_MESSAGE,
       });
     }
   }, [serverErrors, form]);
@@ -96,9 +90,15 @@ export default function SignInForm({
           )}
         />
 
-        <Button data-testid='submit-button' type='submit'>
+        <FormRootMessage />
+
+        <LoadingButton
+          data-testid='submit-button'
+          type='submit'
+          isLoading={isLoading}
+        >
           Zaloguj się
-        </Button>
+        </LoadingButton>
       </form>
     </Form>
   );
@@ -110,14 +110,11 @@ const FORM_DEFAULT_VALUE: SignInFormValue = {
 };
 
 export type SignInFormServerErrors = {
-  /** Shows an error with information that the submitted email does not exist in the database */
-  emailNotFound: boolean;
-
-  /** Shows an error with information that the submitted password is invalid for submitted email */
-  passwordIsInvalid: boolean;
+  invalidCredentials: boolean;
 };
 
 export type SignInFormProps = {
   onSignIn: (value: SignInFormValue) => void;
   serverErrors: SignInFormServerErrors;
+  isLoading?: boolean;
 };

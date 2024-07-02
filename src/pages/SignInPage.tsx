@@ -1,4 +1,6 @@
 import SignInForm, { SignInFormServerErrors } from '@components/SignInForm';
+import { signIn } from '@lib/auth/auth-service';
+import { invalidCredentials } from '@lib/helpers/supabase-errors';
 import { SignInFormValue } from '@lib/schemas/forms/signInForm';
 import {
   Card,
@@ -12,17 +14,31 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const NO_SERVER_ERRORS: SignInFormServerErrors = {
-  emailNotFound: false,
-  passwordIsInvalid: false,
+  invalidCredentials: false,
 };
 
 export default function SignInPage() {
+  const [isLoading, setIsLoading] = useState(false);
   const [serverErrors, setServerErrors] =
     useState<SignInFormServerErrors>(NO_SERVER_ERRORS);
 
-  function handleSignIn(formValue: SignInFormValue) {
+  async function handleSignIn({ email, password }: SignInFormValue) {
     setServerErrors(NO_SERVER_ERRORS);
-    console.log(formValue);
+
+    try {
+      setIsLoading(true);
+      await signIn(email, password);
+    } catch (error) {
+      if (invalidCredentials(error)) {
+        setServerErrors({
+          invalidCredentials: true,
+        });
+      } else {
+        throw error;
+      }
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -35,7 +51,11 @@ export default function SignInPage() {
       </CardHeader>
 
       <CardContent>
-        <SignInForm onSignIn={handleSignIn} serverErrors={serverErrors} />
+        <SignInForm
+          onSignIn={handleSignIn}
+          serverErrors={serverErrors}
+          isLoading={isLoading}
+        />
       </CardContent>
 
       <CardFooter className='justify-center'>

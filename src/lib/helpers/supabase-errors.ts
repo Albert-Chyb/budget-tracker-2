@@ -14,3 +14,12 @@ export function userAlreadyExists(error: unknown): boolean {
       /user already registered/i.test(error.message))
   );
 }
+
+export function invalidCredentials(error: unknown) {
+  return (
+    (isAuthApiError(error) && error.code === 'invalid_grant') ||
+    (isAuthApiError(error) &&
+      error.status === 400 &&
+      /invalid login credentials/i.test(error.message))
+  );
+}

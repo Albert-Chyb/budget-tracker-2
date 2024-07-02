@@ -1,11 +1,9 @@
 import SignInForm, { SignInFormServerErrors } from '@components/SignInForm';
 import {
   EMAIL_INVALID_MESSAGE,
-  EMAIL_NOT_FOUND_MESSAGE,
   EMAIL_REQUIRED_MESSAGE,
 } from '@lib/schemas/forms/email';
 import {
-  PASSWORD_INVALID_MESSAGE,
   PASSWORD_MIN_LENGTH_MESSAGE,
   PASSWORD_REQUIRED_MESSAGE,
 } from '@lib/schemas/forms/password';
@@ -21,8 +19,7 @@ const EMAIL_MESSAGE_ID = 'email-error-message';
 const PASSWORD_MESSAGE_ID = 'password-error-message';
 
 const NO_SERVER_ERRORS: SignInFormServerErrors = {
-  passwordIsInvalid: false,
-  emailNotFound: false,
+  invalidCredentials: false,
 };
 
 describe('SignInForm', () => {
@@ -80,23 +77,10 @@ describe('SignInForm', () => {
 
         await user.type(screen.getByTestId(EMAIL_INPUT_ID), 'a@a');
         await user.click(screen.getByTestId(SUBMIT_BTN_ID));
-        
+
         const errorMessageEl = screen.getByTestId(EMAIL_MESSAGE_ID);
         expect(errorMessageEl).toBeTruthy();
         expect(errorMessageEl.textContent).toContain(EMAIL_INVALID_MESSAGE);
-      });
-
-      it('should display EMAIL_NOT_FOUND_MESSAGE message if the serverErrors.emailNotFound property is set to true', async () => {
-        render(
-          <SignInForm
-            onSignIn={vi.fn()}
-            serverErrors={{ emailNotFound: true, passwordIsInvalid: false }}
-          />
-        );
-
-        const errorMsgEl = screen.getByTestId(EMAIL_MESSAGE_ID);
-        expect(errorMsgEl).toBeTruthy();
-        expect(errorMsgEl.textContent).toContain(EMAIL_NOT_FOUND_MESSAGE);
       });
     });
 
@@ -129,19 +113,6 @@ describe('SignInForm', () => {
         expect(errorMessageEl.textContent).toContain(
           PASSWORD_MIN_LENGTH_MESSAGE
         );
-      });
-
-      it('should display PASSWORD_INVALID_MESSAGE message if the serverErrors.passwordIsInvalid property is set to true', async () => {
-        render(
-          <SignInForm
-            onSignIn={vi.fn()}
-            serverErrors={{ passwordIsInvalid: true, emailNotFound: false }}
-          />
-        );
-
-        const errorMsgEl = screen.getByTestId(PASSWORD_MESSAGE_ID);
-        expect(errorMsgEl).toBeTruthy();
-        expect(errorMsgEl.textContent).toContain(PASSWORD_INVALID_MESSAGE);
       });
     });
   });
