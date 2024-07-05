@@ -24,7 +24,8 @@
       "@shadcn/*": ["./@shadcn/*"],
       "@pages/*": ["./src/pages/*"],
       "@components/*": ["./src/components/*"],
-      "@lib/*": ["./src/lib/*"]
+      "@lib/*": ["./src/lib/*"],
+      "@contexts/*": ["./src/contexts/*"]
     }
   },
   "include": ["src/**/*", "tests/**/*"],

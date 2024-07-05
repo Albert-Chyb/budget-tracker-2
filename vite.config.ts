@@ -11,7 +11,8 @@ export default defineConfig({
       '@shadcn': path.resolve(__dirname, '@shadcn'),
       '@pages': path.resolve(__dirname, 'src/pages'),
       '@components': path.resolve(__dirname, 'src/components'),
-      '@lib': path.resolve(__dirname, 'src/lib')
+      '@lib': path.resolve(__dirname, 'src/lib'),
+      '@contexts': path.resolve(__dirname, 'src/contexts'),
     },
   },
   test: {

@@ -1,33 +1,41 @@
+import { signOut } from '@lib/auth/auth-service';
+import { UserContext } from '@contexts/user-context';
 import { Button } from '@shadcn/components/ui/button';
-import { useState } from 'react';
+import { useContext } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
 export default function RootPage() {
-  const [count, setCount] = useState(0);
+  const user = useContext(UserContext);
+
+  function handleSignOutClick() {
+    signOut();
+  }
 
   return (
     <>
-      <Button onClick={() => setCount((oldCount) => oldCount + 1)}>
-        Test {count}
-      </Button>
+      {!user && (
+        <nav>
+          <ul>
+            <li>
+              <Button asChild variant='link'>
+                <Link to='sign-up'>Zarejestruj się</Link>
+              </Button>
+            </li>
+            <li>
+              <Button asChild variant='link'>
+                <Link to='sign-in'>Zaloguj się</Link>
+              </Button>
+            </li>
+          </ul>
+        </nav>
+      )}
 
-      <nav>
-        <ul>
-          <li>
-            <Button asChild variant='link'>
-              <Link to='sign-up'>Zarejestruj się</Link>
-            </Button>
-          </li>
-          <li>
-            <Button asChild variant='link'>
-              <Link to='sign-in'>Zaloguj się</Link>
-            </Button>
-          </li>
-        </ul>
-      </nav>
+      {user && <Button onClick={handleSignOutClick}>Wyloguj się</Button>}
 
       <main className='container'>
         <Outlet />
+
+        <pre>{JSON.stringify(user, undefined, '\t')}</pre>
       </main>
     </>
   );

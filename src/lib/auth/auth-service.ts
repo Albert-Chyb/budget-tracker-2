@@ -1,10 +1,10 @@
 import { getSupabase } from '@lib/supabase/init';
-import { User } from '@supabase/supabase-js';
+import { AuthChangeEvent, Session, User } from '@supabase/supabase-js';
 
 export async function signUp(email: string, password: string) {
   const supabase = getSupabase();
   const { data, error } = await supabase.auth.signUp({ email, password });
-  
+
   if (error) {
     throw error;
   }
@@ -33,4 +33,35 @@ export async function signOut() {
   if (error) {
     throw error;
   }
+}
+
+export function onAuthChange(
+  cb: (eventName: AuthChangeEvent, session: Session | null) => void
+) {
+  const supabase = getSupabase();
+
+  const {
+    data: { subscription },
+  } = supabase.auth.onAuthStateChange(cb);
+
+  return subscription.unsubscribe;
+}
+
+/**
+ * Creates a stream that emits a value every time the user object changes.
+ * @returns A function that allows registering listeners to the stream
+ */
+export function onUserChange() {
+  let prevUserId: string | null = null;
+
+  return (cb: (user: User | null, eventName: AuthChangeEvent) => void) => {
+    return onAuthChange((eventName, session) => {
+      const currentUserId: string | null = session?.user.id ?? null;
+
+      if (prevUserId !== currentUserId || eventName === 'USER_UPDATED') {
+        prevUserId = currentUserId;
+        cb(session?.user ?? null, eventName);
+      }
+    });
+  };
 }
