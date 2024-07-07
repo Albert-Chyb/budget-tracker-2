@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { emailSchema } from './email';
-import { passwordSchema } from './password';
+import { emailSchema } from './email-field';
+import { passwordSchema } from './password-field';
 
 export const INVALID_CREDENTIALS_MESSAGE = 'Email lub hasło jest niepoprawne';
 

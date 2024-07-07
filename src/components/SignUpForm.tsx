@@ -1,9 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { EMAIL_ALREADY_IN_USE_MESSAGE } from '@lib/schemas/forms/email';
+import { EMAIL_ALREADY_IN_USE_MESSAGE } from '@lib/form-resolvers/email-field';
 import {
   SignUpFormValue,
   signUpFormSchema,
-} from '@lib/schemas/forms/signUpForm';
+} from '@lib/form-resolvers/sign-up-form';
 import {
   Form,
   FormControl,

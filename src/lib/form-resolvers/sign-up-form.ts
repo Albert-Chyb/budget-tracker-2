@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { emailSchema } from './email';
-import { passwordSchema } from './password';
+import { emailSchema } from './email-field';
+import { passwordSchema } from './password-field';
 
 export const PASSWORDS_DOES_NOT_MATCH_MESSAGE = 'Hasła nie są identyczne';
 

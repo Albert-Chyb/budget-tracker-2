@@ -3,7 +3,7 @@ import {
   INVALID_CREDENTIALS_MESSAGE,
   SignInFormValue,
   signInFormSchema,
-} from '@lib/schemas/forms/signInForm';
+} from '@lib/form-resolvers/sign-in-form';
 import {
   Form,
   FormControl,

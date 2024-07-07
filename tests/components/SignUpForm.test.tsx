@@ -3,9 +3,12 @@ import {
   EMAIL_ALREADY_IN_USE_MESSAGE,
   EMAIL_INVALID_MESSAGE,
   EMAIL_REQUIRED_MESSAGE,
-} from '@lib/schemas/forms/email';
-import { PASSWORD_MIN_LENGTH_MESSAGE, PASSWORD_REQUIRED_MESSAGE } from '@lib/schemas/forms/password';
-import { SignUpFormValue } from '@lib/schemas/forms/signUpForm';
+} from '@lib/form-resolvers/email';
+import {
+  PASSWORD_MIN_LENGTH_MESSAGE,
+  PASSWORD_REQUIRED_MESSAGE,
+} from '@lib/form-resolvers/password-field';
+import { SignUpFormValue } from '@lib/form-resolvers/sign-up-form';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
