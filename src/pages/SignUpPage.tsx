@@ -1,5 +1,5 @@
 import SignUpForm, { SignUpFormServerErrors } from '@components/SignUpForm';
-import { signUp } from '@lib/auth/auth-service';
+import { signUp } from '@lib/auth/signUp';
 import { userAlreadyExists } from '@lib/helpers/supabase-errors';
 import { SignUpFormValue } from '@lib/schemas/forms/signUpForm';
 import {

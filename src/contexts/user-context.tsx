@@ -1,4 +1,4 @@
-import { onUserChange } from '@lib/auth/auth-service';
+import { onUserChange } from '@lib/auth/onUserChange';
 import { User } from '@supabase/supabase-js';
 import { createContext, PropsWithChildren, useEffect, useState } from 'react';
 

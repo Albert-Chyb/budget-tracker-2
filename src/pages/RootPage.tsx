@@ -1,5 +1,5 @@
-import { signOut } from '@lib/auth/auth-service';
 import { UserContext } from '@contexts/user-context';
+import { signOut } from '@lib/auth/signOut';
 import { Button } from '@shadcn/components/ui/button';
 import { useContext } from 'react';
 import { Link, Outlet } from 'react-router-dom';

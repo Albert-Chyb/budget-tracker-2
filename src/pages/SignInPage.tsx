@@ -1,5 +1,5 @@
 import SignInForm, { SignInFormServerErrors } from '@components/SignInForm';
-import { signIn } from '@lib/auth/auth-service';
+import { signIn } from '@lib/auth/signIn';
 import { invalidCredentials } from '@lib/helpers/supabase-errors';
 import { SignInFormValue } from '@lib/schemas/forms/signInForm';
 import {
