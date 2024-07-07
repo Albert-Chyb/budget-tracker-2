@@ -3,15 +3,26 @@ import {
   userAlreadyExists,
 } from '@lib/helpers/supabase-errors';
 import { AuthApiError } from '@supabase/supabase-js';
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('userAlreadyExists', () => {
+  beforeEach(() => {
+    vi.mock('@supabase/supabase-js', async () => {
+      const originalModule = await vi.importActual('@supabase/supabase-js');
+
+      return {
+        ...originalModule,
+        isAuthApiError: vi.fn().mockReturnValue(true),
+      };
+    });
+  });
+
   it('should recognize the error if the code is present', () => {
-    const error = new AuthApiError(
-      'User already registered',
-      422,
-      'user_already_exists'
-    );
+    const error = {
+      message: 'User already registered',
+      code: 'user_already_exists',
+      status: 422,
+    } as AuthApiError;
 
     const result = userAlreadyExists(error);
 
@@ -19,7 +30,11 @@ describe('userAlreadyExists', () => {
   });
 
   it('should recognize the error if the code is undefined', () => {
-    const error = new AuthApiError('User already registered', 422, undefined);
+    const error = {
+      message: 'User already registered',
+      status: 422,
+      code: undefined,
+    } as AuthApiError;
 
     const result = userAlreadyExists(error);
 
@@ -29,11 +44,11 @@ describe('userAlreadyExists', () => {
 
 describe('invalidCredentials', () => {
   it('should recognize the error if the code is present', () => {
-    const error = new AuthApiError(
-      'Invalid login credentials',
-      400,
-      'invalid_grant'
-    );
+    const error = {
+      message: 'Invalid login credentials',
+      status: 400,
+      code: 'invalid_grant',
+    } as AuthApiError;
 
     const result = invalidCredentials(error);
 
@@ -41,7 +56,11 @@ describe('invalidCredentials', () => {
   });
 
   it('should recognize the error if the code is not present', () => {
-    const error = new AuthApiError('Invalid login credentials', 400, undefined);
+    const error = {
+      message: 'Invalid login credentials',
+      status: 400,
+      code: undefined,
+    } as AuthApiError;
 
     const result = invalidCredentials(error);
 
