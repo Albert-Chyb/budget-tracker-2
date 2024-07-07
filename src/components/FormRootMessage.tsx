@@ -11,10 +11,10 @@ export default function FormRootMessage() {
 
   return (
     errors.root && (
-      <Alert variant='destructive'>
+      <Alert variant='destructive' data-testid='error-alert'>
         <AlertCircle className='h-4 w-4' />
         <AlertTitle>Błąd</AlertTitle>
-        <AlertDescription>{errors.root.message}</AlertDescription>
+        <AlertDescription data-testid='error-alert-message'>{errors.root.message}</AlertDescription>
       </Alert>
     )
   );
