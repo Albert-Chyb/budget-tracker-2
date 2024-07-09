@@ -1,7 +1,7 @@
 import SignInForm, { SignInFormServerErrors } from '@components/SignInForm';
 import { signIn } from '@lib/auth/signIn';
+import { SignInFormValue } from '@lib/form-resolvers/sign-in-form';
 import { invalidCredentials } from '@lib/helpers/supabase-errors';
-import { SignInFormValue } from '@lib/schemas/form-resolvers/signInForm';
 import {
   Card,
   CardContent,
