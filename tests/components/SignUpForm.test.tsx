@@ -3,7 +3,7 @@ import {
   EMAIL_ALREADY_IN_USE_MESSAGE,
   EMAIL_INVALID_MESSAGE,
   EMAIL_REQUIRED_MESSAGE,
-} from '@lib/form-resolvers/email';
+} from '@lib/form-resolvers/email-field';
 import {
   PASSWORD_MIN_LENGTH_MESSAGE,
   PASSWORD_REQUIRED_MESSAGE,
