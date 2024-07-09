@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from '@shadcn/components/ui/card';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const NO_SERVER_ERRORS: SignInFormServerErrors = {
   invalidCredentials: false,
@@ -21,6 +21,7 @@ export default function SignInPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [serverErrors, setServerErrors] =
     useState<SignInFormServerErrors>(NO_SERVER_ERRORS);
+  const navigate = useNavigate();
 
   async function handleSignIn({ email, password }: SignInFormValue) {
     setServerErrors(NO_SERVER_ERRORS);
@@ -28,6 +29,7 @@ export default function SignInPage() {
     try {
       setIsLoading(true);
       await signIn(email, password);
+      navigate('/');
     } catch (error) {
       if (invalidCredentials(error)) {
         setServerErrors({

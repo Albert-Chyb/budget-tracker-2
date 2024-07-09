@@ -11,13 +11,14 @@ import {
   CardTitle,
 } from '@shadcn/components/ui/card';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function SignUpPage() {
   const [serverErrors, setServerErrors] = useState<SignUpFormServerErrors>({
     emailAlreadyInUse: false,
   });
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   async function handleSignUp({ email, password }: SignUpFormValue) {
     setServerErrors({
@@ -27,6 +28,7 @@ export default function SignUpPage() {
     try {
       setIsLoading(true);
       await signUp(email, password);
+      navigate('/');
     } catch (error) {
       if (userAlreadyExists(error)) {
         setServerErrors({
