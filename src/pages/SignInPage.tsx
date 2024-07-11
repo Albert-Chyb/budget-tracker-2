@@ -13,7 +13,7 @@ import {
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-const NO_SERVER_ERRORS: SignInFormServerErrors = {
+export const NO_SERVER_ERRORS: SignInFormServerErrors = {
   invalidCredentials: false,
 };
 
@@ -24,9 +24,8 @@ export default function SignInPage() {
   const navigate = useNavigate();
 
   async function handleSignIn({ email, password }: SignInFormValue) {
-    setServerErrors(NO_SERVER_ERRORS);
-
     try {
+      setServerErrors(NO_SERVER_ERRORS);
       setIsLoading(true);
       await signIn(email, password);
       navigate('/');

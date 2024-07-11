@@ -13,19 +13,20 @@ import {
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+export const NO_SERVER_ERRORS: SignUpFormServerErrors = {
+  emailAlreadyInUse: false,
+};
+
 export default function SignUpPage() {
-  const [serverErrors, setServerErrors] = useState<SignUpFormServerErrors>({
-    emailAlreadyInUse: false,
-  });
+  const [serverErrors, setServerErrors] = useState(NO_SERVER_ERRORS);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   async function handleSignUp({ email, password }: SignUpFormValue) {
-    setServerErrors({
-      emailAlreadyInUse: false,
-    });
-
     try {
+      setServerErrors({
+        emailAlreadyInUse: false,
+      });
       setIsLoading(true);
       await signUp(email, password);
       navigate('/');
