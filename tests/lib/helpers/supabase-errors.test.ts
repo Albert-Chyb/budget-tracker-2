@@ -3,20 +3,18 @@ import {
   userAlreadyExists,
 } from '@lib/helpers/supabase-errors';
 import { AuthApiError } from '@supabase/supabase-js';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+
+vi.mock('@supabase/supabase-js', async () => {
+  const originalModule = await vi.importActual('@supabase/supabase-js');
+
+  return {
+    ...originalModule,
+    isAuthApiError: vi.fn().mockReturnValue(true),
+  };
+});
 
 describe('userAlreadyExists', () => {
-  beforeEach(() => {
-    vi.mock('@supabase/supabase-js', async () => {
-      const originalModule = await vi.importActual('@supabase/supabase-js');
-
-      return {
-        ...originalModule,
-        isAuthApiError: vi.fn().mockReturnValue(true),
-      };
-    });
-  });
-
   it('should recognize the error if the code is present', () => {
     const error = {
       message: 'User already registered',
