@@ -3,9 +3,6 @@ import { render, screen } from '@testing-library/react';
 import { useFormState, UseFormStateReturn } from 'react-hook-form';
 import { describe, expect, it, vi } from 'vitest';
 
-const ERROR_ALERT_ID = 'error-alert';
-const ERROR_ALERT_MSG_ID = 'error-alert-message';
-
 vi.mock('react-hook-form', () => {
   return {
     useFormState: vi.fn().mockReturnValue({
@@ -24,16 +21,16 @@ describe('FormRootMessageComponent', () => {
     const mockedFormState = { errors } as UseFormStateReturn<object>;
 
     vi.mocked(useFormState).mockReturnValue(mockedFormState);
-    render(<FormRootMessage />);
+    const { container } = render(<FormRootMessage />);
 
-    expect(screen.queryByTestId(ERROR_ALERT_ID)).not.toBeInTheDocument();
-    expect(FormRootMessage()).toBe(undefined);
+    expect(container.querySelector('*')).toBeNull();
   });
 
   it('should display the error message if an error is present', async () => {
+    const message = vi.hoisted(() => 'Some error message !');
     const errors = {
       root: {
-        message: 'ABC',
+        message,
         type: 'testing-error',
       },
     };
@@ -42,6 +39,6 @@ describe('FormRootMessageComponent', () => {
     vi.mocked(useFormState).mockReturnValue(mockedFormState);
     render(<FormRootMessage />);
 
-    expect(screen.getByTestId(ERROR_ALERT_MSG_ID).textContent).toContain('ABC');
+    expect(screen.queryByText(message)).toBeInTheDocument();
   });
 });
