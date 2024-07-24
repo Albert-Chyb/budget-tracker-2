@@ -26,6 +26,11 @@ export default function RootPage() {
                 <Link to='sign-in'>Zaloguj się</Link>
               </Button>
             </li>
+            <li>
+              <Button asChild variant='link'>
+                <Link to='reset-password'>Zresetuj hasło</Link>
+              </Button>
+            </li>
           </ul>
         </nav>
       )}
