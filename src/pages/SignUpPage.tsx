@@ -60,14 +60,30 @@ export default function SignUpPage() {
         />
       </CardContent>
 
-      <CardFooter className='justify-center'>
-        <p className='text-sm text-muted-foreground'>
-          Masz już konto ?{' '}
-          <Link to='/sign-in' className='text-foreground hover:underline'>
-            Zaloguj się
-          </Link>
-          .
-        </p>
+      <CardFooter className='justify-center text-center'>
+        <ul>
+          <li>
+            <p className='text-muted-foreground'>
+              Masz już konto ?{' '}
+              <Link to='/sign-in' className='text-foreground hover:underline'>
+                Zaloguj się
+              </Link>
+              .
+            </p>
+          </li>
+          <li>
+            <p className='text-muted-foreground'>
+              Nie pamiętasz hasła?{' '}
+              <Link
+                to='/reset-password'
+                className='text-foreground hover:underline'
+              >
+                Zresetuj hasło
+              </Link>
+              .
+            </p>
+          </li>
+        </ul>
       </CardFooter>
     </Card>
   );
