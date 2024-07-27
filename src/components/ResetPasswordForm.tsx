@@ -1,15 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
-    resetPasswordFormSchema,
-    ResetPasswordFormValue,
+  resetPasswordFormSchema,
+  ResetPasswordFormValue,
 } from '@lib/form-resolvers/reset-password-form';
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from '@shadcn/components/ui/form';
 import { Input } from '@shadcn/components/ui/input';
 import { useForm } from 'react-hook-form';
@@ -17,7 +17,7 @@ import { LoadingButton } from './LoadingButton';
 
 export default function ResetPasswordForm({
   onResetPassword,
-  isLoading = false
+  isLoading = false,
 }: ResetPasswordFormProps) {
   const form = useForm<ResetPasswordFormValue>({
     resolver: zodResolver(resetPasswordFormSchema),
@@ -57,7 +57,11 @@ export default function ResetPasswordForm({
           )}
         />
 
-        <LoadingButton type='submit' isLoading={isLoading}>
+        <LoadingButton
+          type='submit'
+          isLoading={isLoading}
+          data-testid='submit-btn'
+        >
           Zresetuj hasło
         </LoadingButton>
       </form>
