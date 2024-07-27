@@ -62,7 +62,6 @@ describe('email field', () => {
 
     await user.clear(screen.getByTestId('input'));
     await user.click(screen.getByTestId('submit-btn'));
-    screen.debug();
 
     expect(screen.getByTestId('input-errors').textContent).toContain(
       EMAIL_REQUIRED_MESSAGE
@@ -76,7 +75,6 @@ describe('email field', () => {
 
     await user.type(screen.getByTestId('input'), 'a@com');
     await user.click(screen.getByTestId('submit-btn'));
-    screen.debug();
 
     expect(screen.getByTestId('input-errors').textContent).toContain(
       EMAIL_INVALID_MESSAGE
