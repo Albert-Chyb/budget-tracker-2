@@ -18,6 +18,11 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: './tests/setup.ts',
+    coverage: {
+      include: ['src/**/*'],
+      enabled: true,
+      reporter: 'html',
+    },
   },
   server: {
     port: 5522,
