@@ -1,3 +1,4 @@
+import { AuthRouteGuard } from '@lib/routes/auth-route-guard';
 import ErrorPage from '@pages/ErrorPage';
 import NotFoundPage from '@pages/NotFoundPage';
 import { ResetPasswordPage } from '@pages/ResetPasswordPage';
@@ -14,15 +15,36 @@ export const router = createBrowserRouter([
     children: [
       {
         path: 'sign-up',
-        element: <SignUpPage />,
+        element: (
+          <AuthRouteGuard
+            redirectTo='/'
+            canAccess={({ isSignOut }) => isSignOut}
+          >
+            <SignUpPage />
+          </AuthRouteGuard>
+        ),
       },
       {
         path: 'sign-in',
-        element: <SignInPage />,
+        element: (
+          <AuthRouteGuard
+            redirectTo='/'
+            canAccess={({ isSignOut }) => isSignOut}
+          >
+            <SignInPage />
+          </AuthRouteGuard>
+        ),
       },
       {
         path: 'reset-password',
-        element: <ResetPasswordPage />,
+        element: (
+          <AuthRouteGuard
+            redirectTo='/'
+            canAccess={({ isSignOut }) => isSignOut}
+          >
+            <ResetPasswordPage />
+          </AuthRouteGuard>
+        ),
       },
       {
         path: '*',
