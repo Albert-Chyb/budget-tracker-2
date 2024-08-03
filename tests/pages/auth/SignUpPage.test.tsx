@@ -1,11 +1,11 @@
 import {
   SignUpFormProps,
   SignUpFormServerErrors,
-} from '@components/SignUpForm';
+} from '@/components/auth/SignUpForm';
+import SignUpPage, { NO_SERVER_ERRORS } from '@/pages/auth/SignUpPage';
 import { signUp } from '@lib/auth/signUp';
 import { SignUpFormValue } from '@lib/form-resolvers/sign-up-form';
 import { userAlreadyExists } from '@lib/helpers/supabase-errors';
-import SignUpPage, { NO_SERVER_ERRORS } from '@pages/SignUpPage';
 import { User } from '@supabase/supabase-js';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
@@ -33,8 +33,8 @@ vi.mock('@lib/helpers/supabase-errors', () => ({
   userAlreadyExists: vi.fn().mockReturnValue(false),
 }));
 
-vi.mock('@components/SignUpForm', async () => ({
-  ...(await vi.importActual('@components/SignUpForm')),
+vi.mock('@components/auth/SignUpForm', async () => ({
+  ...(await vi.importActual('@components/auth/SignUpForm')),
   default: (props: SignUpFormProps) => (
     <div
       data-is-loading={props.isLoading}
@@ -45,7 +45,7 @@ vi.mock('@components/SignUpForm', async () => ({
   ),
 }));
 
-describe('SignInPage', () => {
+describe('SignUpPage', () => {
   let renderSignUpPage: () => void;
 
   let callHandleSignUp: () => void;
@@ -62,7 +62,7 @@ describe('SignInPage', () => {
 
       callHandleSignUp = () => {
         const signUpFormMock = screen.getByTestId('sign-up-form');
-        
+
         fireEvent.click(signUpFormMock);
       };
 

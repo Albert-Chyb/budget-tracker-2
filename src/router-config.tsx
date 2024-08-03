@@ -1,10 +1,10 @@
+import { ResetPasswordPage } from '@/pages/auth/ResetPasswordPage';
+import SignUpPage from '@/pages/auth/SignUpPage';
 import { AuthRouteGuard } from '@lib/routes/auth-route-guard';
 import ErrorPage from '@pages/ErrorPage';
 import NotFoundPage from '@pages/NotFoundPage';
-import { ResetPasswordPage } from '@pages/ResetPasswordPage';
 import RootPage from '@pages/RootPage';
-import SignInPage from '@pages/SignInPage';
-import SignUpPage from '@pages/SignUpPage';
+import SignInPage from '@pages/auth/SignInPage';
 import { createBrowserRouter } from 'react-router-dom';
 
 export const router = createBrowserRouter([

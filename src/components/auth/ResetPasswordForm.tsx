@@ -5,15 +5,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from '@components/ui/form';
+import { Input } from '@components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   resetPasswordFormSchema,
   ResetPasswordFormValue,
 } from '@lib/form-resolvers/reset-password-form';
 import { useForm } from 'react-hook-form';
-import { LoadingButton } from './LoadingButton';
+import { LoadingButton } from '../LoadingButton';
 
 export default function ResetPasswordForm({
   onResetPassword,

@@ -15,8 +15,8 @@ import {
 } from '@lib/form-resolvers/sign-in-form';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import FormRootMessage from './FormRootMessage';
-import { LoadingButton } from './LoadingButton';
+import FormRootMessage from '../FormRootMessage';
+import { LoadingButton } from '../LoadingButton';
 
 export default function SignInForm({
   onSignIn,

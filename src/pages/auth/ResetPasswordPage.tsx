@@ -15,7 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import ResetPasswordForm from '@components/ResetPasswordForm';
+import ResetPasswordForm from '@components/auth/ResetPasswordForm';
 import { resetPassword } from '@lib/auth/reset-password';
 import { ResetPasswordFormValue } from '@lib/form-resolvers/reset-password-form';
 import { useState } from 'react';

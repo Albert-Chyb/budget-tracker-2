@@ -15,7 +15,7 @@ import {
 } from '@lib/form-resolvers/sign-up-form';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { LoadingButton } from './LoadingButton';
+import { LoadingButton } from '../LoadingButton';
 
 /*
  * Add Angular Route Guards equivalent
