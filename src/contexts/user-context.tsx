@@ -8,8 +8,7 @@ export function UserProvider({ children }: UserContextProps) {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const userChangesStream = onUserChange();
-    const unsubscribe = userChangesStream((user) => setUser(user));
+    const unsubscribe = onUserChange((user) => setUser(user));
 
     return () => unsubscribe();
   }, []);
