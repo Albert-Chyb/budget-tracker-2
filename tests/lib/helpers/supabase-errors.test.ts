@@ -1,7 +1,7 @@
 import {
   invalidCredentials,
   userAlreadyExists,
-} from '@lib/helpers/supabase-errors';
+} from '@/lib/helpers/supabase-errors';
 import { AuthApiError } from '@supabase/supabase-js';
 import { describe, expect, it, vi } from 'vitest';
 

@@ -1,4 +1,4 @@
-import { getSupabase } from '@lib/supabase/init';
+import { getSupabase } from '@/lib/supabase/init';
 
 export async function resetPassword(email: string) {
   const supabase = getSupabase();

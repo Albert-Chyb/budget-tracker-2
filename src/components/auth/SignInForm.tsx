@@ -7,12 +7,12 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
 import {
   INVALID_CREDENTIALS_MESSAGE,
   SignInFormValue,
   signInFormSchema,
-} from '@lib/form-resolvers/sign-in-form';
+} from '@/lib/form-resolvers/sign-in-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import FormRootMessage from '../FormRootMessage';

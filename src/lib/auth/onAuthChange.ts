@@ -1,4 +1,4 @@
-import { getSupabase } from '@lib/supabase/init';
+import { getSupabase } from '@/lib/supabase/init';
 import { AuthChangeEvent, Session } from '@supabase/supabase-js';
 
 /**

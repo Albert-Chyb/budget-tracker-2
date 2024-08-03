@@ -2,10 +2,10 @@ import {
   SignUpFormProps,
   SignUpFormServerErrors,
 } from '@/components/auth/SignUpForm';
+import { signUp } from '@/lib/auth/signUp';
+import { SignUpFormValue } from '@/lib/form-resolvers/sign-up-form';
+import { userAlreadyExists } from '@/lib/helpers/supabase-errors';
 import SignUpPage, { NO_SERVER_ERRORS } from '@/pages/auth/SignUpPage';
-import { signUp } from '@lib/auth/signUp';
-import { SignUpFormValue } from '@lib/form-resolvers/sign-up-form';
-import { userAlreadyExists } from '@lib/helpers/supabase-errors';
 import { User } from '@supabase/supabase-js';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
@@ -20,7 +20,7 @@ const SIGN_UP_FORM_VALUE: SignUpFormValue = {
 // Function that is returned from the useNavigate() hook
 const navigateFunctionMock = vi.fn();
 
-vi.mock('@lib/auth/signUp', () => ({
+vi.mock('@/lib/auth/signUp', () => ({
   signUp: vi.fn(),
 }));
 
@@ -29,12 +29,12 @@ vi.mock('react-router-dom', async () => ({
   useNavigate: () => navigateFunctionMock,
 }));
 
-vi.mock('@lib/helpers/supabase-errors', () => ({
+vi.mock('@/lib/helpers/supabase-errors', () => ({
   userAlreadyExists: vi.fn().mockReturnValue(false),
 }));
 
-vi.mock('@components/auth/SignUpForm', async () => ({
-  ...(await vi.importActual('@components/auth/SignUpForm')),
+vi.mock('@/components/auth/SignUpForm', async () => ({
+  ...(await vi.importActual('@/components/auth/SignUpForm')),
   default: (props: SignUpFormProps) => (
     <div
       data-is-loading={props.isLoading}

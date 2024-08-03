@@ -1,3 +1,4 @@
+import ResetPasswordForm from '@/components/auth/ResetPasswordForm';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -15,9 +16,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import ResetPasswordForm from '@components/auth/ResetPasswordForm';
-import { resetPassword } from '@lib/auth/reset-password';
-import { ResetPasswordFormValue } from '@lib/form-resolvers/reset-password-form';
+import { resetPassword } from '@/lib/auth/reset-password';
+import { ResetPasswordFormValue } from '@/lib/form-resolvers/reset-password-form';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 

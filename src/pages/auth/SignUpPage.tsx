@@ -9,9 +9,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { signUp } from '@lib/auth/signUp';
-import { SignUpFormValue } from '@lib/form-resolvers/sign-up-form';
-import { userAlreadyExists } from '@lib/helpers/supabase-errors';
+import { signUp } from '@/lib/auth/signUp';
+import { SignUpFormValue } from '@/lib/form-resolvers/sign-up-form';
+import { userAlreadyExists } from '@/lib/helpers/supabase-errors';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 

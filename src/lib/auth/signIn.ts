@@ -1,4 +1,4 @@
-import { getSupabase } from '@lib/supabase/init';
+import { getSupabase } from '@/lib/supabase/init';
 
 /**
  * Signs in the user with email and password

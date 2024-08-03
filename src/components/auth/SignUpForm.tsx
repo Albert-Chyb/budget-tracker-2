@@ -7,12 +7,12 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { EMAIL_ALREADY_IN_USE_MESSAGE } from '@lib/form-resolvers/email-field';
+import { EMAIL_ALREADY_IN_USE_MESSAGE } from '@/lib/form-resolvers/email-field';
 import {
   SignUpFormValue,
   signUpFormSchema,
-} from '@lib/form-resolvers/sign-up-form';
+} from '@/lib/form-resolvers/sign-up-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { LoadingButton } from '../LoadingButton';

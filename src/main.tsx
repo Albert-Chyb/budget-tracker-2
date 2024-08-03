@@ -1,5 +1,5 @@
-import { UserProvider } from '@contexts/user-context.tsx';
-import { initSupabase } from '@lib/supabase/init.ts';
+import { UserProvider } from '@/contexts/user-context.tsx';
+import { initSupabase } from '@/lib/supabase/init.ts';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';

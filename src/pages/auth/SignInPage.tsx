@@ -9,9 +9,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { signIn } from '@lib/auth/signIn';
-import { SignInFormValue } from '@lib/form-resolvers/sign-in-form';
-import { invalidCredentials } from '@lib/helpers/supabase-errors';
+import { signIn } from '@/lib/auth/signIn';
+import { SignInFormValue } from '@/lib/form-resolvers/sign-in-form';
+import { invalidCredentials } from '@/lib/helpers/supabase-errors';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 

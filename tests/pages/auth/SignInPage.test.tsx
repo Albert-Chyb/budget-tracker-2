@@ -2,10 +2,10 @@ import {
   SignInFormProps,
   SignInFormServerErrors,
 } from '@/components/auth/SignInForm';
-import { signIn } from '@lib/auth/signIn';
-import { SignInFormValue } from '@lib/form-resolvers/sign-in-form';
-import { invalidCredentials } from '@lib/helpers/supabase-errors';
-import SignInPage, { NO_SERVER_ERRORS } from '@pages/auth/SignInPage';
+import { signIn } from '@/lib/auth/signIn';
+import { SignInFormValue } from '@/lib/form-resolvers/sign-in-form';
+import { invalidCredentials } from '@/lib/helpers/supabase-errors';
+import SignInPage, { NO_SERVER_ERRORS } from '@/pages/auth/SignInPage';
 import { User } from '@supabase/supabase-js';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
@@ -19,11 +19,11 @@ const SIGN_IN_FORM_VALUE: SignInFormValue = {
 // Function that is returned from the useNavigate() hook
 const navigateFunctionMock = vi.fn();
 
-vi.mock('@lib/auth/signIn', () => ({
+vi.mock('@/lib/auth/signIn', () => ({
   signIn: vi.fn(),
 }));
 
-vi.mock('@components/auth/SignInForm', () => ({
+vi.mock('@/components/auth/SignInForm', () => ({
   default: (props: SignInFormProps) => (
     <div
       data-server-errors={JSON.stringify(props.serverErrors)}
@@ -34,7 +34,7 @@ vi.mock('@components/auth/SignInForm', () => ({
   ),
 }));
 
-vi.mock('@lib/helpers/supabase-errors', () => ({
+vi.mock('@/lib/helpers/supabase-errors', () => ({
   invalidCredentials: vi.fn(),
 }));
 

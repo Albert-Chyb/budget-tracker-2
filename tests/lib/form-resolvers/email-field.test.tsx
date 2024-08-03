@@ -6,12 +6,12 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
 import {
   EMAIL_INVALID_MESSAGE,
   EMAIL_REQUIRED_MESSAGE,
   emailSchema,
-} from '@lib/form-resolvers/email-field';
+} from '@/lib/form-resolvers/email-field';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useForm } from 'react-hook-form';

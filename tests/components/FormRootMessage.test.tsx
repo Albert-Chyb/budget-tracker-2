@@ -1,4 +1,4 @@
-import FormRootMessage from '@components/FormRootMessage';
+import FormRootMessage from '@/components/FormRootMessage';
 import { render, screen } from '@testing-library/react';
 import { useFormState, UseFormStateReturn } from 'react-hook-form';
 import { describe, expect, it, vi } from 'vitest';

@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
-import { UserContext } from '@contexts/user-context';
-import { signOut } from '@lib/auth/signOut';
+import { UserContext } from '@/contexts/user-context';
+import { signOut } from '@/lib/auth/signOut';
 import { useContext } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 

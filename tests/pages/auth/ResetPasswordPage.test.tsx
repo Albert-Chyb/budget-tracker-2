@@ -1,7 +1,7 @@
-import { ResetPasswordPage } from '@pages/auth/ResetPasswordPage';
-import { ResetPasswordFormProps } from '@components/auth/ResetPasswordForm';
-import { resetPassword } from '@lib/auth/reset-password';
-import { ResetPasswordFormValue } from '@lib/form-resolvers/reset-password-form';
+import { ResetPasswordFormProps } from '@/components/auth/ResetPasswordForm';
+import { resetPassword } from '@/lib/auth/reset-password';
+import { ResetPasswordFormValue } from '@/lib/form-resolvers/reset-password-form';
+import { ResetPasswordPage } from '@/pages/auth/ResetPasswordPage';
 import { DialogProps } from '@radix-ui/react-dialog';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
@@ -11,15 +11,15 @@ const RESET_PASSWORD_FORM_VALUE: ResetPasswordFormValue = {
   email: 'a@a.com',
 };
 
-vi.mock('@components/ui/dialog', async () => ({
-  ...(await vi.importActual('@components/ui/dialog')),
+vi.mock('@/components/ui/dialog', async () => ({
+  ...(await vi.importActual('@/components/ui/dialog')),
   Dialog: (props: DialogProps) => (
     <div data-testid='dialog' data-is-opened={props.open ?? false}></div>
   ),
 }));
 
-vi.mock('@components/auth/ResetPasswordForm', async () => ({
-  ...(await vi.importActual('@components/auth/ResetPasswordForm')),
+vi.mock('@/components/auth/ResetPasswordForm', async () => ({
+  ...(await vi.importActual('@/components/auth/ResetPasswordForm')),
   default: (props: ResetPasswordFormProps) => (
     <div
       data-is-loading={props.isLoading ?? false}
@@ -29,8 +29,8 @@ vi.mock('@components/auth/ResetPasswordForm', async () => ({
   ),
 }));
 
-vi.mock('@lib/auth/reset-password', async () => ({
-  ...(await vi.importActual('@lib/auth/reset-password')),
+vi.mock('@/lib/auth/reset-password', async () => ({
+  ...(await vi.importActual('@/lib/auth/reset-password')),
   resetPassword: vi.fn(),
 }));
 

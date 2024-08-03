@@ -1,8 +1,8 @@
-import { UserContext } from '@contexts/user-context';
+import { UserContext } from '@/contexts/user-context';
 import {
   AuthRouteGuard,
   AuthRouteGuardProps,
-} from '@lib/routes/auth-route-guard';
+} from '@/lib/routes/auth-route-guard';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';

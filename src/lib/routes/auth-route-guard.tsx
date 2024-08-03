@@ -1,4 +1,4 @@
-import { UserContext } from '@contexts/user-context';
+import { UserContext } from '@/contexts/user-context';
 import { User } from '@supabase/supabase-js';
 import { PropsWithChildren, useContext, useEffect } from 'react';
 import { To, useNavigate } from 'react-router-dom';

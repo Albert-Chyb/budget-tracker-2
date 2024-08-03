@@ -4,12 +4,12 @@ import SignInForm, {
 import {
   EMAIL_INVALID_MESSAGE,
   EMAIL_REQUIRED_MESSAGE,
-} from '@lib/form-resolvers/email-field';
+} from '@/lib/form-resolvers/email-field';
 import {
   PASSWORD_MIN_LENGTH_MESSAGE,
   PASSWORD_REQUIRED_MESSAGE,
-} from '@lib/form-resolvers/password-field';
-import { SignInFormValue } from '@lib/form-resolvers/sign-in-form';
+} from '@/lib/form-resolvers/password-field';
+import { SignInFormValue } from '@/lib/form-resolvers/sign-in-form';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
