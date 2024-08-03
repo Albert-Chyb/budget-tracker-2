@@ -1,5 +1,5 @@
 import { AuthChangeEvent, User } from '@supabase/supabase-js';
-import { onAuthChange } from './onAuthChange';
+import { onAuthChange } from './on-auth-change';
 
 let prevUserId: string | null = null;
 

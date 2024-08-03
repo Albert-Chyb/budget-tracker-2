@@ -2,7 +2,7 @@ import {
   SignUpFormProps,
   SignUpFormServerErrors,
 } from '@/components/auth/SignUpForm';
-import { signUp } from '@/lib/auth/signUp';
+import { signUp } from '@/lib/auth/sign-up';
 import { SignUpFormValue } from '@/lib/form-resolvers/sign-up-form';
 import { userAlreadyExists } from '@/lib/helpers/supabase-errors';
 import SignUpPage, { NO_SERVER_ERRORS } from '@/pages/auth/SignUpPage';
@@ -20,7 +20,7 @@ const SIGN_UP_FORM_VALUE: SignUpFormValue = {
 // Function that is returned from the useNavigate() hook
 const navigateFunctionMock = vi.fn();
 
-vi.mock('@/lib/auth/signUp', () => ({
+vi.mock('@/lib/auth/sign-up', () => ({
   signUp: vi.fn(),
 }));
 

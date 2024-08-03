@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { signUp } from '@/lib/auth/signUp';
+import { signUp } from '@/lib/auth/sign-up';
 import { SignUpFormValue } from '@/lib/form-resolvers/sign-up-form';
 import { userAlreadyExists } from '@/lib/helpers/supabase-errors';
 import { useState } from 'react';

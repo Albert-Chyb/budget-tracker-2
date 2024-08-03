@@ -2,7 +2,7 @@ import {
   SignInFormProps,
   SignInFormServerErrors,
 } from '@/components/auth/SignInForm';
-import { signIn } from '@/lib/auth/signIn';
+import { signIn } from '@/lib/auth/sign-in';
 import { SignInFormValue } from '@/lib/form-resolvers/sign-in-form';
 import { invalidCredentials } from '@/lib/helpers/supabase-errors';
 import SignInPage, { NO_SERVER_ERRORS } from '@/pages/auth/SignInPage';
@@ -19,7 +19,7 @@ const SIGN_IN_FORM_VALUE: SignInFormValue = {
 // Function that is returned from the useNavigate() hook
 const navigateFunctionMock = vi.fn();
 
-vi.mock('@/lib/auth/signIn', () => ({
+vi.mock('@/lib/auth/sign-in', () => ({
   signIn: vi.fn(),
 }));
 
