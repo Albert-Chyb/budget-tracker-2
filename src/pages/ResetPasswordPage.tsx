@@ -1,7 +1,4 @@
-import ResetPasswordForm from '@components/ResetPasswordForm';
-import { resetPassword } from '@lib/auth/reset-password';
-import { ResetPasswordFormValue } from '@lib/form-resolvers/reset-password-form';
-import { Button } from '@shadcn/components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -9,7 +6,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@shadcn/components/ui/card';
+} from '@/components/ui/card';
 import {
   Dialog,
   DialogClose,
@@ -17,7 +14,10 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@shadcn/components/ui/dialog';
+} from '@/components/ui/dialog';
+import ResetPasswordForm from '@components/ResetPasswordForm';
+import { resetPassword } from '@lib/auth/reset-password';
+import { ResetPasswordFormValue } from '@lib/form-resolvers/reset-password-form';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 

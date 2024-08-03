@@ -1,9 +1,3 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  INVALID_CREDENTIALS_MESSAGE,
-  SignInFormValue,
-  signInFormSchema,
-} from '@lib/form-resolvers/sign-in-form';
 import {
   Form,
   FormControl,
@@ -11,8 +5,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@shadcn/components/ui/form';
-import { Input } from '@shadcn/components/ui/input';
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  INVALID_CREDENTIALS_MESSAGE,
+  SignInFormValue,
+  signInFormSchema,
+} from '@lib/form-resolvers/sign-in-form';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import FormRootMessage from './FormRootMessage';

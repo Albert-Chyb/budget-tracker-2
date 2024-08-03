@@ -11,8 +11,8 @@ const RESET_PASSWORD_FORM_VALUE: ResetPasswordFormValue = {
   email: 'a@a.com',
 };
 
-vi.mock('@shadcn/components/ui/dialog', async () => ({
-  ...(await vi.importActual('@shadcn/components/ui/dialog')),
+vi.mock('@/components/ui/dialog', async () => ({
+  ...(await vi.importActual('@/components/ui/dialog')),
   Dialog: (props: DialogProps) => (
     <div data-testid='dialog' data-is-opened={props.open ?? false}></div>
   ),

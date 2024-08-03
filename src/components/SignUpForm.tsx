@@ -1,9 +1,3 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { EMAIL_ALREADY_IN_USE_MESSAGE } from '@lib/form-resolvers/email-field';
-import {
-  SignUpFormValue,
-  signUpFormSchema,
-} from '@lib/form-resolvers/sign-up-form';
 import {
   Form,
   FormControl,
@@ -11,8 +5,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@shadcn/components/ui/form';
-import { Input } from '@shadcn/components/ui/input';
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { EMAIL_ALREADY_IN_USE_MESSAGE } from '@lib/form-resolvers/email-field';
+import {
+  SignUpFormValue,
+  signUpFormSchema,
+} from '@lib/form-resolvers/sign-up-form';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { LoadingButton } from './LoadingButton';

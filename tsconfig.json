@@ -21,7 +21,7 @@
     "noFallthroughCasesInSwitch": true,
 
     "paths": {
-      "@shadcn/*": ["./@shadcn/*"],
+      "@/*": ["./src/*"],
       "@pages/*": ["./src/pages/*"],
       "@components/*": ["./src/components/*"],
       "@lib/*": ["./src/lib/*"],

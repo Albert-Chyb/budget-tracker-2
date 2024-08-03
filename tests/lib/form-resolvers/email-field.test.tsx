@@ -1,17 +1,17 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  EMAIL_INVALID_MESSAGE,
-  EMAIL_REQUIRED_MESSAGE,
-  emailSchema,
-} from '@lib/form-resolvers/email-field';
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@shadcn/components/ui/form';
-import { Input } from '@shadcn/components/ui/input';
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  EMAIL_INVALID_MESSAGE,
+  EMAIL_REQUIRED_MESSAGE,
+  emailSchema,
+} from '@lib/form-resolvers/email-field';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useForm } from 'react-hook-form';

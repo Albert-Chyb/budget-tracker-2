@@ -1,7 +1,3 @@
-import SignInForm, { SignInFormServerErrors } from '@components/SignInForm';
-import { signIn } from '@lib/auth/signIn';
-import { SignInFormValue } from '@lib/form-resolvers/sign-in-form';
-import { invalidCredentials } from '@lib/helpers/supabase-errors';
 import {
   Card,
   CardContent,
@@ -9,7 +5,11 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@shadcn/components/ui/card';
+} from '@/components/ui/card';
+import SignInForm, { SignInFormServerErrors } from '@components/SignInForm';
+import { signIn } from '@lib/auth/signIn';
+import { SignInFormValue } from '@lib/form-resolvers/sign-in-form';
+import { invalidCredentials } from '@lib/helpers/supabase-errors';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 

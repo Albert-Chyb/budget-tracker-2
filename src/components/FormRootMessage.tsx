@@ -1,8 +1,4 @@
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-} from '@shadcn/components/ui/alert';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
 import { useFormState } from 'react-hook-form';
 

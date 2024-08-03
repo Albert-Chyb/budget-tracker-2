@@ -1,7 +1,3 @@
-import SignUpForm, { SignUpFormServerErrors } from '@components/SignUpForm';
-import { signUp } from '@lib/auth/signUp';
-import { SignUpFormValue } from '@lib/form-resolvers/sign-up-form';
-import { userAlreadyExists } from '@lib/helpers/supabase-errors';
 import {
   Card,
   CardContent,
@@ -9,7 +5,11 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@shadcn/components/ui/card';
+} from '@/components/ui/card';
+import SignUpForm, { SignUpFormServerErrors } from '@components/SignUpForm';
+import { signUp } from '@lib/auth/signUp';
+import { SignUpFormValue } from '@lib/form-resolvers/sign-up-form';
+import { userAlreadyExists } from '@lib/helpers/supabase-errors';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
