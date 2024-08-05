@@ -8,7 +8,7 @@ export function AuthRouteGuard({
   redirectTo,
   canAccess,
 }: AuthRouteGuardProps) {
-  const user = useContext(UserContext);
+  const { user, isInitialized } = useContext(UserContext);
   const navigate = useNavigate();
 
   const canAccessResult = canAccess({
@@ -18,10 +18,10 @@ export function AuthRouteGuard({
   });
 
   useEffect(() => {
-    if (!canAccessResult) {
+    if (isInitialized && !canAccessResult) {
       navigate(redirectTo, { replace: true });
     }
-  }, [canAccessResult, navigate, redirectTo]);
+  }, [canAccessResult, navigate, redirectTo, isInitialized]);
 
   return canAccessResult ? children : null;
 }

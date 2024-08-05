@@ -7,7 +7,7 @@ import { NavigationMenu, NavigationMenuList } from '../ui/navigation-menu';
 import HeaderNavigationItem from './header-navigation-item';
 
 export function Header() {
-  const user = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   async function handleSignOut() {
     await signOut();

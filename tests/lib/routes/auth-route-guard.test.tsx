@@ -20,7 +20,7 @@ describe('AuthRouteGuard', () => {
   beforeEach(() => {
     renderProtectedPage = (props: AuthRouteGuardProps) =>
       render(
-        <UserContext.Provider value={null}>
+        <UserContext.Provider value={{ user: null, isInitialized: true }}>
           <AuthRouteGuard {...props}>
             <div data-testid='protected-page'></div>
           </AuthRouteGuard>
