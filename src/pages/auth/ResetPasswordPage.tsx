@@ -1,5 +1,6 @@
+import ResetPasswordConfirmationDialog from '@/components/auth/reset-password-confirmation-dialog';
 import ResetPasswordForm from '@/components/auth/ResetPasswordForm';
-import { Button } from '@/components/ui/button';
+
 import {
   Card,
   CardContent,
@@ -8,15 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+
 import { resetPassword } from '@/lib/auth/reset-password';
 import { ResetPasswordFormValue } from '@/lib/form-resolvers/reset-password-form';
 import { useState } from 'react';
@@ -77,27 +70,10 @@ export function ResetPasswordPage() {
         </CardFooter>
       </Card>
 
-      <Dialog open={isDialogOpened} onOpenChange={setIsDialogOpened}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Sprawdź swoją skrzynkę e-mail</DialogTitle>
-          </DialogHeader>
-
-          <DialogDescription>
-            Na podany adres email została wysłana wiadomość umożliwiająca
-            odzyskanie hasła. Sprawdź swoją skrzynkę pocztową oraz postępuj
-            zgodnie z instrukcjami zawartymi w wiadomości.
-          </DialogDescription>
-
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button type='button' variant='secondary'>
-                Zamknij
-              </Button>
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <ResetPasswordConfirmationDialog
+        isOpened={isDialogOpened}
+        onOpenChange={setIsDialogOpened}
+      />
     </>
   );
 }
