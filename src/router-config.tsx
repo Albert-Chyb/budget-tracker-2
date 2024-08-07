@@ -6,6 +6,7 @@ import { ResetPasswordPage } from '@/pages/auth/ResetPasswordPage';
 import SignInPage from '@/pages/auth/SignInPage';
 import SignUpPage from '@/pages/auth/SignUpPage';
 import { createBrowserRouter } from 'react-router-dom';
+import ChangePasswordPage from './pages/auth/change-password-page';
 
 export const router = createBrowserRouter([
   {
@@ -43,6 +44,17 @@ export const router = createBrowserRouter([
             canAccess={({ isSignOut }) => isSignOut}
           >
             <ResetPasswordPage />
+          </AuthRouteGuard>
+        ),
+      },
+      {
+        path: 'change-password',
+        element: (
+          <AuthRouteGuard
+            redirectTo='/sign-in'
+            canAccess={({ isSignIn }) => isSignIn}
+          >
+            <ChangePasswordPage />
           </AuthRouteGuard>
         ),
       },
