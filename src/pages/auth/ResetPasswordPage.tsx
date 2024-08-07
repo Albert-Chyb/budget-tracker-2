@@ -12,6 +12,7 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -82,11 +83,11 @@ export function ResetPasswordPage() {
             <DialogTitle>Sprawdź swoją skrzynkę e-mail</DialogTitle>
           </DialogHeader>
 
-          <p>
+          <DialogDescription>
             Na podany adres email została wysłana wiadomość umożliwiająca
             odzyskanie hasła. Sprawdź swoją skrzynkę pocztową oraz postępuj
             zgodnie z instrukcjami zawartymi w wiadomości.
-          </p>
+          </DialogDescription>
 
           <DialogFooter>
             <DialogClose asChild>
