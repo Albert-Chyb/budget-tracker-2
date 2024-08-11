@@ -20,7 +20,7 @@ export function Header() {
         <h1 className='font-bold text-lg'>Monitor budżetu</h1>
       </Link>
 
-      <div className='ml-auto flex'>
+      <div className='ml-auto flex gap-x-2'>
         {!user && (
           <NavigationMenu>
             <NavigationMenuList>
