@@ -8,6 +8,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '../ui/alert-dialog';
+import { Button } from '../ui/button';
 
 export default function SignOutAlertDialog({
   onConfirm,
@@ -18,7 +19,9 @@ export default function SignOutAlertDialog({
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger>Wyloguj się</AlertDialogTrigger>
+      <AlertDialogTrigger asChild>
+        <Button variant='ghost'>Wyloguj się</Button>
+      </AlertDialogTrigger>
 
       <AlertDialogContent>
         <AlertDialogTitle>Czy na pewno chcesz się wylogować?</AlertDialogTitle>
