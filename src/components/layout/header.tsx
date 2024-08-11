@@ -3,6 +3,7 @@ import { signOut } from '@/lib/auth/sign-out';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import SignOutAlertDialog from '../auth/sign-out-alert-dialog';
+import ThemeSwitcher from '../theme-switcher';
 import { NavigationMenu, NavigationMenuList } from '../ui/navigation-menu';
 import HeaderNavigationItem from './header-navigation-item';
 
@@ -19,7 +20,7 @@ export function Header() {
         <h1 className='font-bold text-lg'>Monitor budżetu</h1>
       </Link>
 
-      <div className='ml-auto'>
+      <div className='ml-auto flex'>
         {!user && (
           <NavigationMenu>
             <NavigationMenuList>
@@ -31,6 +32,8 @@ export function Header() {
         )}
 
         {user && <SignOutAlertDialog onConfirm={handleSignOut} />}
+
+        <ThemeSwitcher />
       </div>
     </header>
   );
