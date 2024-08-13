@@ -8,7 +8,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
 
       <main
         className={
-          'mt-[number:calc(var(--header-height)+var(--main-content-top-spacing))] container'
+          'mt-[calc(var(--header-height)+var(--main-content-top-spacing))] container'
         }
       >
         {children}
