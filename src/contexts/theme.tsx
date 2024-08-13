@@ -5,7 +5,7 @@ import { z } from 'zod';
 /**
  * The default theme for the application.
  */
-const DEFAULT_THEME: Theme = 'dark';
+const DEFAULT_THEME: Theme = 'device-theme-sync';
 
 /**
  * React context for managing the application's theme and syncing it with the device's theme.
