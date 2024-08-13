@@ -1,6 +1,6 @@
 import { Theme, ThemeContext } from '@/contexts/theme';
 import { Monitor, Moon, Sun, SunMoon } from 'lucide-react';
-import { useContext } from 'react';
+import { useContext, useRef } from 'react';
 import { Button } from './ui/button';
 import {
   DropdownMenu,
@@ -38,17 +38,24 @@ const THEME_OPTIONS: ThemeOption[] = [
 
 export default function ThemeSwitcher() {
   const theme = useContext(ThemeContext);
+  const menuLabelRef = useRef<HTMLDivElement>(null);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant='ghost' size='icon'>
+        <Button
+          variant='ghost'
+          size='icon'
+          aria-label='Dostępne motywy aplikacji'
+        >
           <SunMoon />
         </Button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent>
-        <DropdownMenuLabel>Motyw aplikacji</DropdownMenuLabel>
+        <DropdownMenuLabel ref={menuLabelRef}>
+          Motyw aplikacji
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
 
         <DropdownMenuRadioGroup
