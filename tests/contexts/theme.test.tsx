@@ -89,7 +89,7 @@ describe('ThemeProvider', () => {
     );
   });
 
-  it('should previous theme`s CSS class when changing to a new theme', async () => {
+  it('should remove previous theme`s CSS class when changing to a new theme', async () => {
     renderThemeProvider('dark');
     changeTheme('light');
 
