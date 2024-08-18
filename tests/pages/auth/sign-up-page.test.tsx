@@ -1,11 +1,11 @@
 import {
   SignUpFormProps,
   SignUpFormServerErrors,
-} from '@/components/auth/SignUpForm';
+} from '@/components/auth/sign-up-form';
 import { signUp } from '@/lib/auth/sign-up';
 import { SignUpFormValue } from '@/lib/form-resolvers/sign-up-form';
 import { userAlreadyExists } from '@/lib/helpers/supabase-errors';
-import SignUpPage, { NO_SERVER_ERRORS } from '@/pages/auth/SignUpPage';
+import SignUpPage, { NO_SERVER_ERRORS } from '@/pages/auth/sign-up-page';
 import { User } from '@supabase/supabase-js';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
@@ -33,8 +33,8 @@ vi.mock('@/lib/helpers/supabase-errors', () => ({
   userAlreadyExists: vi.fn().mockReturnValue(false),
 }));
 
-vi.mock('@/components/auth/SignUpForm', async () => ({
-  ...(await vi.importActual('@/components/auth/SignUpForm')),
+vi.mock('@/components/auth/sign-up-form', async () => ({
+  ...(await vi.importActual('@/components/auth/sign-up-form')),
   default: (props: SignUpFormProps) => (
     <div
       data-is-loading={props.isLoading}

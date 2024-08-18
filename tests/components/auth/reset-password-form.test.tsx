@@ -1,6 +1,6 @@
 import ResetPasswordForm, {
   ResetPasswordFormProps,
-} from '@/components/auth/ResetPasswordForm';
+} from '@/components/auth/reset-password-form';
 import { ResetPasswordFormValue } from '@/lib/form-resolvers/reset-password-form';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';

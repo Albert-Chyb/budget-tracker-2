@@ -1,7 +1,7 @@
-import { ResetPasswordFormProps } from '@/components/auth/ResetPasswordForm';
+import { ResetPasswordFormProps } from '@/components/auth/reset-password-form';
 import { resetPassword } from '@/lib/auth/reset-password';
 import { ResetPasswordFormValue } from '@/lib/form-resolvers/reset-password-form';
-import { ResetPasswordPage } from '@/pages/auth/ResetPasswordPage';
+import { ResetPasswordPage } from '@/pages/auth/reset-password-page';
 import { DialogProps } from '@radix-ui/react-dialog';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
@@ -18,8 +18,8 @@ vi.mock('@/components/ui/dialog', async () => ({
   ),
 }));
 
-vi.mock('@/components/auth/ResetPasswordForm', async () => ({
-  ...(await vi.importActual('@/components/auth/ResetPasswordForm')),
+vi.mock('@/components/auth/reset-password-form', async () => ({
+  ...(await vi.importActual('@/components/auth/reset-password-form')),
   default: (props: ResetPasswordFormProps) => (
     <div
       data-is-loading={props.isLoading ?? false}

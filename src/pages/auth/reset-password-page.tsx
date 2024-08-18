@@ -1,5 +1,5 @@
 import ResetPasswordConfirmationDialog from '@/components/auth/reset-password-confirmation-dialog';
-import ResetPasswordForm from '@/components/auth/ResetPasswordForm';
+import ResetPasswordForm from '@/components/auth/reset-password-form';
 
 import {
   Card,

@@ -15,7 +15,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { LoadingButton } from '../LoadingButton';
+import { LoadingButton } from '../loading-button';
 
 /*
  * Add Angular Route Guards equivalent

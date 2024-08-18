@@ -1,10 +1,10 @@
 import { AuthRouteGuard } from '@/lib/routes/auth-route-guard';
-import ErrorPage from '@/pages/ErrorPage';
-import NotFoundPage from '@/pages/NotFoundPage';
-import RootPage from '@/pages/RootPage';
-import { ResetPasswordPage } from '@/pages/auth/ResetPasswordPage';
-import SignInPage from '@/pages/auth/SignInPage';
-import SignUpPage from '@/pages/auth/SignUpPage';
+import { ResetPasswordPage } from '@/pages/auth/reset-password-page';
+import SignInPage from '@/pages/auth/sign-in-page';
+import SignUpPage from '@/pages/auth/sign-up-page';
+import ErrorPage from '@/pages/error-page';
+import NotFoundPage from '@/pages/not-found-page';
+import RootPage from '@/pages/root-page';
 import { createBrowserRouter } from 'react-router-dom';
 import ChangePasswordPage from './pages/auth/change-password-page';
 

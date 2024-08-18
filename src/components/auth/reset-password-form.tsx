@@ -13,7 +13,7 @@ import {
 } from '@/lib/form-resolvers/reset-password-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { LoadingButton } from '../LoadingButton';
+import { LoadingButton } from '../loading-button';
 
 export default function ResetPasswordForm({
   onResetPassword,

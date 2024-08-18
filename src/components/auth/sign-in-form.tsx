@@ -15,8 +15,8 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import FormRootMessage from '../FormRootMessage';
-import { LoadingButton } from '../LoadingButton';
+import FormRootMessage from '../form-root-message';
+import { LoadingButton } from '../loading-button';
 
 export default function SignInForm({
   onSignIn,

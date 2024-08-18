@@ -1,6 +1,6 @@
-import SignUpForm, {
-  SignUpFormServerErrors,
-} from '@/components/auth/SignUpForm';
+import SignInForm, {
+  SignInFormServerErrors,
+} from '@/components/auth/sign-in-form';
 import {
   Card,
   CardContent,
@@ -9,33 +9,32 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { signUp } from '@/lib/auth/sign-up';
-import { SignUpFormValue } from '@/lib/form-resolvers/sign-up-form';
-import { userAlreadyExists } from '@/lib/helpers/supabase-errors';
+import { signIn } from '@/lib/auth/sign-in';
+import { SignInFormValue } from '@/lib/form-resolvers/sign-in-form';
+import { invalidCredentials } from '@/lib/helpers/supabase-errors';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-export const NO_SERVER_ERRORS: SignUpFormServerErrors = {
-  emailAlreadyInUse: false,
+export const NO_SERVER_ERRORS: SignInFormServerErrors = {
+  invalidCredentials: false,
 };
 
-export default function SignUpPage() {
-  const [serverErrors, setServerErrors] = useState(NO_SERVER_ERRORS);
+export default function SignInPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [serverErrors, setServerErrors] =
+    useState<SignInFormServerErrors>(NO_SERVER_ERRORS);
   const navigate = useNavigate();
 
-  async function handleSignUp({ email, password }: SignUpFormValue) {
+  async function handleSignIn({ email, password }: SignInFormValue) {
     try {
-      setServerErrors({
-        emailAlreadyInUse: false,
-      });
+      setServerErrors(NO_SERVER_ERRORS);
       setIsLoading(true);
-      await signUp(email, password);
+      await signIn(email, password);
       navigate('/');
     } catch (error) {
-      if (userAlreadyExists(error)) {
+      if (invalidCredentials(error)) {
         setServerErrors({
-          emailAlreadyInUse: true,
+          invalidCredentials: true,
         });
       } else {
         throw error;
@@ -48,15 +47,15 @@ export default function SignUpPage() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Zarejestruj się</CardTitle>
+        <CardTitle>Formularz logowania</CardTitle>
         <CardDescription>
-          Wypełnij poniższe pola, aby założyć konto.
+          Ten formularz służy do logowania na istniejące już konto.
         </CardDescription>
       </CardHeader>
 
       <CardContent>
-        <SignUpForm
-          onSignUp={handleSignUp}
+        <SignInForm
+          onSignIn={handleSignIn}
           serverErrors={serverErrors}
           isLoading={isLoading}
         />
@@ -66,9 +65,9 @@ export default function SignUpPage() {
         <ul>
           <li>
             <p className='text-muted-foreground'>
-              Masz już konto ?{' '}
-              <Link to='/sign-in' className='text-foreground hover:underline'>
-                Zaloguj się
+              Nie masz jeszcze konta?{' '}
+              <Link to='/sign-up' className='text-foreground hover:underline'>
+                Załóż konto
               </Link>
               .
             </p>

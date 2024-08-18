@@ -1,6 +1,6 @@
 import SignUpForm, {
   SignUpFormServerErrors,
-} from '@/components/auth/SignUpForm';
+} from '@/components/auth/sign-up-form';
 import {
   EMAIL_ALREADY_IN_USE_MESSAGE,
   EMAIL_INVALID_MESSAGE,

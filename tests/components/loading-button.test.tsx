@@ -1,4 +1,4 @@
-import { LoadingButton } from '@/components/LoadingButton';
+import { LoadingButton } from '@/components/loading-button';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 

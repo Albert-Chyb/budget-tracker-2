@@ -1,11 +1,11 @@
 import {
   SignInFormProps,
   SignInFormServerErrors,
-} from '@/components/auth/SignInForm';
+} from '@/components/auth/sign-in-form';
 import { signIn } from '@/lib/auth/sign-in';
 import { SignInFormValue } from '@/lib/form-resolvers/sign-in-form';
 import { invalidCredentials } from '@/lib/helpers/supabase-errors';
-import SignInPage, { NO_SERVER_ERRORS } from '@/pages/auth/SignInPage';
+import SignInPage, { NO_SERVER_ERRORS } from '@/pages/auth/sign-in-page';
 import { User } from '@supabase/supabase-js';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
@@ -23,7 +23,7 @@ vi.mock('@/lib/auth/sign-in', () => ({
   signIn: vi.fn(),
 }));
 
-vi.mock('@/components/auth/SignInForm', () => ({
+vi.mock('@/components/auth/sign-in-form', () => ({
   default: (props: SignInFormProps) => (
     <div
       data-server-errors={JSON.stringify(props.serverErrors)}

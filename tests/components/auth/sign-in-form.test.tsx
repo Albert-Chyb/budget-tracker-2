@@ -1,6 +1,6 @@
 import SignInForm, {
   SignInFormServerErrors,
-} from '@/components/auth/SignInForm';
+} from '@/components/auth/sign-in-form';
 import {
   EMAIL_INVALID_MESSAGE,
   EMAIL_REQUIRED_MESSAGE,

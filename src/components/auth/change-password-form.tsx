@@ -1,4 +1,4 @@
-import { LoadingButton } from '@/components/LoadingButton';
+import { LoadingButton } from '@/components/loading-button';
 import {
   Form,
   FormControl,
