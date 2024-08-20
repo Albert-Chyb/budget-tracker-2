@@ -17,10 +17,6 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { LoadingButton } from '../loading-button';
 
-/*
- * Add Angular Route Guards equivalent
- */
-
 export default function SignUpForm({
   onSignUp,
   serverErrors,
