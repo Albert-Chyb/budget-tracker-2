@@ -1,6 +1,6 @@
 import { UserContext } from '@/contexts/user-context';
 import { User } from '@supabase/supabase-js';
-import { PropsWithChildren, useContext, useEffect } from 'react';
+import { PropsWithChildren, useContext, useEffect, useMemo } from 'react';
 import { To, useNavigate } from 'react-router-dom';
 
 export function AuthRouteGuard({
@@ -11,11 +11,15 @@ export function AuthRouteGuard({
   const { user, isInitialized } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const canAccessResult = canAccess({
-    user,
-    isSignIn: user !== null,
-    isSignOut: user === null,
-  });
+  const canAccessResult = useMemo(
+    () =>
+      canAccess({
+        user,
+        isSignIn: user !== null,
+        isSignOut: user === null,
+      }),
+    [canAccess, user]
+  );
 
   useEffect(() => {
     if (isInitialized && !canAccessResult) {
