@@ -5,6 +5,7 @@ import SignUpPage from '@/pages/auth/sign-up-page';
 import ErrorPage from '@/pages/error-page';
 import NotFoundPage from '@/pages/not-found-page';
 import RootPage from '@/pages/root-page';
+import CategoriesPage from '@/pages/transactions/categories-page';
 import { createBrowserRouter } from 'react-router-dom';
 import ChangePasswordPage from './pages/auth/change-password-page';
 
@@ -55,6 +56,17 @@ export const router = createBrowserRouter([
             canAccess={({ isSignIn }) => isSignIn}
           >
             <ChangePasswordPage />
+          </AuthRouteGuard>
+        ),
+      },
+      {
+        path: 'categories',
+        element: (
+          <AuthRouteGuard
+            redirectTo='/sign-in'
+            canAccess={({ isSignIn }) => isSignIn}
+          >
+            <CategoriesPage />
           </AuthRouteGuard>
         ),
       },
