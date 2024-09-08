@@ -8,6 +8,7 @@ import RootPage from '@/pages/root-page';
 import CategoriesPage from '@/pages/transactions/categories-page';
 import { createBrowserRouter } from 'react-router-dom';
 import ChangePasswordPage from './pages/auth/change-password-page';
+import CategoryPage from './pages/transactions/category-page';
 
 export const router = createBrowserRouter([
   {
@@ -69,6 +70,16 @@ export const router = createBrowserRouter([
             <CategoriesPage />
           </AuthRouteGuard>
         ),
+        children: [
+          {
+            path: 'create',
+            element: <CategoryPage />,
+          },
+          {
+            path: ':id/edit',
+            element: <CategoryPage />,
+          },
+        ],
       },
       {
         path: '*',
