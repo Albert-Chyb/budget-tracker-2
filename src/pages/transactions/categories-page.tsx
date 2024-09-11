@@ -7,37 +7,37 @@ const DUMMY_CATEGORIES: TCategory[] = [
   {
     id: 1,
     name: 'Paliwo',
-    colorId: '255255255',
+    colorId: 3,
     type: 'expense',
   },
   {
     id: 2,
     name: 'Codzienne zakupy',
-    colorId: '123123123',
+    colorId: 3,
     type: 'expense',
   },
   {
     id: 3,
     name: 'Elektronika',
-    colorId: '321321312',
+    colorId: 3,
     type: 'expense',
   },
   {
     id: 4,
     name: 'Kosmetyki',
-    colorId: '255255255',
+    colorId: 3,
     type: 'expense',
   },
   {
     id: 5,
     name: 'Kieszonkowe',
-    colorId: '123123123',
+    colorId: 3,
     type: 'income',
   },
   {
     id: 6,
     name: 'Inne',
-    colorId: '321321312',
+    colorId: 3,
     type: 'expense',
   },
 ];

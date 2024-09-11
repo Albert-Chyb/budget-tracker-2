@@ -5,7 +5,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { TCategoryColor } from '@/lib/db-schemas/category-color';
+import { Tables } from '@/lib/db/database.types';
 import { ControllerRenderPropsWithValue } from '@/lib/types/controller-render-props-with-value';
 import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -56,7 +56,7 @@ export default function CategoryColorSelect<
 
         <SelectContent>
           {colors.map((color) => (
-            <SelectItem key={color.id} value={String(color.id)}>
+            <SelectItem key={color.colorId} value={String(color.colorId)}>
               {color.name}
             </SelectItem>
           ))}
@@ -77,12 +77,14 @@ export default function CategoryColorSelect<
   );
 }
 
-export type CategoryColorSelectValue = TCategoryColor['id'] | undefined;
+export type CategoryColorSelectValue =
+  | Tables<'categories_colors'>['colorId']
+  | undefined;
 export type CategoryColorSelectProps<
   TFields extends FieldValues,
   TFieldPath extends Path<TFields>
 > = {
-  colors: TCategoryColor[];
+  colors: Tables<'categories_colors'>[];
   field: ControllerRenderPropsWithValue<
     TFields,
     TFieldPath,

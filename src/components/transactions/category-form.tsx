@@ -7,7 +7,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { TCategory } from '@/lib/db-schemas/category';
-import { TCategoryColor } from '@/lib/db-schemas/category-color';
+import { Tables } from '@/lib/db/database.types';
 import {
   categoryFormErrorMap,
   categoryFormSchema,
@@ -21,25 +21,7 @@ import { Input } from '../ui/input';
 import CategoryColorSelect from './category-color-select';
 import CategoryTypeRadio from './category-type-radio';
 
-const DUMMY_COLORS: TCategoryColor[] = [
-  {
-    id: 1,
-    rgb: '255255255',
-    name: 'Pomarańczowy',
-  },
-  {
-    id: 2,
-    rgb: '255255255',
-    name: 'Niebieski',
-  },
-  {
-    id: 3,
-    rgb: '255255255',
-    name: 'Zielony',
-  },
-];
-
-export default function CategoryForm({ category }: CategoryFormProps) {
+export default function CategoryForm({ category, colors }: CategoryFormProps) {
   const form = useForm({
     resolver: zodResolver(categoryFormSchema, {
       errorMap: categoryFormErrorMap,
@@ -83,7 +65,7 @@ export default function CategoryForm({ category }: CategoryFormProps) {
               <FormLabel>Kolor</FormLabel>
 
               <FormControl>
-                <CategoryColorSelect field={field} colors={DUMMY_COLORS} />
+                <CategoryColorSelect field={field} colors={colors} />
               </FormControl>
 
               <FormMessage />
@@ -119,4 +101,5 @@ export default function CategoryForm({ category }: CategoryFormProps) {
 
 export type CategoryFormProps = {
   category?: TCategory;
+  colors: Tables<'categories_colors'>[];
 };

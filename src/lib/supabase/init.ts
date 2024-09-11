@@ -1,22 +1,19 @@
 import { SupabaseClient, createClient } from '@supabase/supabase-js';
+import { Database } from '../db/database.types';
 
-let client: SupabaseClient | null = null;
+let client: SupabaseClient<Database> | null = null;
 
 export function initSupabase(): void {
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
   const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
 
-  if(client === null) {
+  if (client === null) {
     client = createClient(supabaseUrl, supabaseKey);
-  } else {
-    throw new Error('Cannot initialize supabase more than once.');
   }
 }
 
-export function getSupabase(): SupabaseClient {
-  if (client === null) {
-    throw new Error('The supabase client was not initialized. Did you forget to call initSupabase() ?');
-  }
+export function getSupabase(): SupabaseClient<Database> {
+  initSupabase();
 
-  return client;
+  return client as SupabaseClient<Database>;
 }
