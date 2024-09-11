@@ -21,7 +21,7 @@ export default function CmsSection({
       </header>
 
       <ScrollArea className='h-[calc(var(--remaining-viewport-height)-theme(height.14))]'>
-        {children}
+        <div className='px-1'>{children}</div>
       </ScrollArea>
     </section>
   );
