@@ -92,8 +92,6 @@ export default function CategoryForm({ category, colors }: CategoryFormProps) {
         <Button type='submit' className='w-full'>
           Zapisz
         </Button>
-
-        <pre>{JSON.stringify(form.getValues(), null, '\t')}</pre>
       </form>
     </Form>
   );
