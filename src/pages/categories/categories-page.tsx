@@ -1,6 +1,6 @@
+import Category from '@/components/categories/category';
 import CmsContainer from '@/components/cms/cms-container';
 import CmsListItem from '@/components/cms/cms-list-item';
-import Category from '@/components/transactions/category';
 import { TCategory } from '@/lib/db-schemas/category';
 
 const DUMMY_CATEGORIES: TCategory[] = [
@@ -60,7 +60,7 @@ export default function CategoriesPage() {
 
   return (
     <CmsContainer
-      listTitle='Kategoria'
+      listTitle='Lista kategorii'
       editingAreaTitle='Kategoria transakcji'
       newItemLink='create'
       addBtnDescription='Dodaj nową kategorię'

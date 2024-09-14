@@ -2,14 +2,14 @@ import { AuthRouteGuard } from '@/lib/routes/auth-route-guard';
 import { ResetPasswordPage } from '@/pages/auth/reset-password-page';
 import SignInPage from '@/pages/auth/sign-in-page';
 import SignUpPage from '@/pages/auth/sign-up-page';
+import CategoriesPage from '@/pages/categories/categories-page';
 import ErrorPage from '@/pages/error-page';
 import NotFoundPage from '@/pages/not-found-page';
 import RootPage from '@/pages/root-page';
-import CategoriesPage from '@/pages/transactions/categories-page';
 import { createBrowserRouter } from 'react-router-dom';
 import { categoryPageLoader as createCategoryPageLoader } from './loaders/categories-page-loader';
 import ChangePasswordPage from './pages/auth/change-password-page';
-import CategoryPage from './pages/transactions/category-page';
+import CategoryPage from './pages/categories/category-page';
 
 export const router = createBrowserRouter([
   {

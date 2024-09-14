@@ -1,4 +1,4 @@
-import CategoryForm from '@/components/transactions/category-form';
+import CategoryForm from '@/components/categories/category-form';
 import { CategoriesPageLoaderData } from '@/loaders/categories-page-loader';
 import { useLoaderData, useNavigation } from 'react-router-dom';
 
@@ -9,7 +9,11 @@ export default function CategoryPage() {
 
   return (
     <>
-      {!isLoading ? <CategoryForm colors={categoriesColors} /> : 'Pobieram dane'}
+      {!isLoading ? (
+        <CategoryForm colors={categoriesColors} />
+      ) : (
+        'Pobieram dane'
+      )}
     </>
   );
 }
