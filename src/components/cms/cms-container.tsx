@@ -55,7 +55,7 @@ export default function CmsContainer({
   return (
     <div className='lg:grid lg:grid-cols-3 space-x-8'>
       <CmsSection
-        renderHeaderContent={() => (
+        header={
           <>
             <TypographyH2 className='p-0'>{listTitle}</TypographyH2>
 
@@ -70,7 +70,7 @@ export default function CmsContainer({
               </Link>
             </Button>
           </>
-        )}
+        }
       >
         <CmsList>{children}</CmsList>
       </CmsSection>

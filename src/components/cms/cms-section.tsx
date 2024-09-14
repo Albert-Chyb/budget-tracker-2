@@ -6,18 +6,12 @@ export default function CmsSection({
   children,
   title,
   className,
-  renderHeaderContent,
+  header = <TypographyH2 className='p-0'>{title}</TypographyH2>,
 }: CmsSectionProps) {
-  let headerContent = <TypographyH2 className='p-0'>{title}</TypographyH2>;
-
-  if (renderHeaderContent) {
-    headerContent = renderHeaderContent();
-  }
-
   return (
     <section className={className}>
       <header className='h-14 flex justify-between items-center'>
-        {headerContent}
+        {header}
       </header>
 
       <ScrollArea className='h-[calc(var(--remaining-viewport-height)-theme(height.14))]'>
@@ -30,5 +24,5 @@ export default function CmsSection({
 export type CmsSectionProps = PropsWithChildren<{
   title?: string;
   className?: string;
-  renderHeaderContent?: () => JSX.Element;
+  header?: JSX.Element;
 }>;
