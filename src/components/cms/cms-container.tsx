@@ -40,12 +40,12 @@ export default function CmsContainer({
   ) : (
     <Drawer open={!!outlet} onOpenChange={handleDrawerOpen}>
       <DrawerContent>
-        <DrawerHeader>
+        <DrawerHeader className='px-[var(--screen-edge-spacing)]'>
           <DrawerTitle>{editingAreaTitle}</DrawerTitle>
           <DrawerDescription>{editingAreaDescription}</DrawerDescription>
         </DrawerHeader>
 
-        <div className='mx-4'>
+        <div className='mx-[var(--screen-edge-spacing)]'>
           <Outlet />
         </div>
       </DrawerContent>

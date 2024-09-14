@@ -108,9 +108,17 @@
     /* An extra space between header and main content to put more breathing room between them */
     --main-content-top-spacing: theme('spacing.2');
 
+    /* 
+      The remaining height of the viewport after accounting for the header and 
+      additional top spacing. Useful for dynamically setting the height of elements that need to fill 
+      the rest of the viewport below the header.
+    */
     --remaining-viewport-height: calc(
       100vh - (var(--header-height) + var(--main-content-top-spacing))
     );
+
+    /* Defines the spacing between content and the screen's edge */
+    --screen-edge-spacing: theme('spacing.8');
 
     /* Compensation for the header */
     scroll-padding-top: calc(
@@ -124,5 +132,11 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@media (max-width: theme('screens.md')) {
+  :root {
+    --screen-edge-spacing: theme('spacing.4');
   }
 }

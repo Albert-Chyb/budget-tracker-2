@@ -15,7 +15,7 @@ export function Header() {
   }
 
   return (
-    <header className='h-[var(--header-height)] p-6 flex items-center fixed top-0 left-0 right-0 backdrop-blur-lg border-b-2'>
+    <header className='h-[var(--header-height)] px-[var(--screen-edge-spacing)] flex items-center fixed top-0 left-0 right-0 backdrop-blur-lg border-b-2'>
       <Link to='/' className='mr-6'>
         <h1 className='font-bold text-lg'>Monitor budżetu</h1>
       </Link>
