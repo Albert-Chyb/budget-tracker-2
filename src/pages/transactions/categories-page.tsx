@@ -61,9 +61,11 @@ export default function CategoriesPage() {
   return (
     <CmsContainer
       listTitle='Kategoria'
-      editingAreaTitle='Edytuj kategorie'
+      editingAreaTitle='Kategoria transakcji'
       newItemLink='create'
       addBtnDescription='Dodaj nową kategorię'
+      cmsLink='/categories'
+      editingAreaDescription='Po wypełnieniu formularza kliknij przycisk Zapisz, aby kontynuować'
     >
       {categoriesListItems}
     </CmsContainer>

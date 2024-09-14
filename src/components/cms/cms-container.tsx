@@ -1,7 +1,15 @@
+import { useMediaQuery } from '@uidotdev/usehooks';
 import { Plus } from 'lucide-react';
 import { PropsWithChildren } from 'react';
-import { Link, Outlet, To } from 'react-router-dom';
+import { Link, Outlet, To, useNavigate, useOutlet } from 'react-router-dom';
 import { Button } from '../ui/button';
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+} from '../ui/drawer';
 import { TypographyH2 } from '../ui/typography';
 import CmsList from './cms-list';
 import CmsSection from './cms-section';
@@ -12,9 +20,40 @@ export default function CmsContainer({
   children,
   newItemLink: newItemTo,
   addBtnDescription,
+  editingAreaDescription,
+  cmsLink,
 }: CmsContainerProps) {
+  const outlet = useOutlet();
+  const isDesktop = useMediaQuery(`(min-width: 1024px)`);
+  const navigate = useNavigate();
+
+  function handleDrawerOpen(isOpen: boolean) {
+    if (!isOpen) {
+      navigate(cmsLink);
+    }
+  }
+
+  const editingSection = isDesktop ? (
+    <CmsSection title={editingAreaTitle} className='col-span-2'>
+      <Outlet />
+    </CmsSection>
+  ) : (
+    <Drawer open={!!outlet} onOpenChange={handleDrawerOpen}>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>{editingAreaTitle}</DrawerTitle>
+          <DrawerDescription>{editingAreaDescription}</DrawerDescription>
+        </DrawerHeader>
+
+        <div className='mx-4'>
+          <Outlet />
+        </div>
+      </DrawerContent>
+    </Drawer>
+  );
+
   return (
-    <div className='grid grid-cols-3 space-x-8'>
+    <div className='lg:grid lg:grid-cols-3 space-x-8'>
       <CmsSection
         renderHeaderContent={() => (
           <>
@@ -36,9 +75,7 @@ export default function CmsContainer({
         <CmsList>{children}</CmsList>
       </CmsSection>
 
-      <CmsSection title={editingAreaTitle} className='col-span-2'>
-        <Outlet />
-      </CmsSection>
+      {editingSection}
     </div>
   );
 }
@@ -46,6 +83,8 @@ export default function CmsContainer({
 export type CmsContainerProps = PropsWithChildren<{
   listTitle: string;
   editingAreaTitle: string;
+  editingAreaDescription: string;
   newItemLink: To;
+  cmsLink: To;
   addBtnDescription: string;
 }>;
