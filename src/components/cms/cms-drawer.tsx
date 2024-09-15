@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { ComponentPropsWithoutRef, PropsWithChildren } from 'react';
 import {
   Drawer,
   DrawerContent,
@@ -10,13 +10,12 @@ import {
 export default function CmsDrawer({
   title,
   description,
-  open,
-  onOpenChange,
   children,
+  ...props
 }: CmsDrawerProps) {
   return (
-    <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent onTransitionEnd={() => console.log('Animation ended')}>
+    <Drawer {...props}>
+      <DrawerContent>
         <DrawerHeader className='px-[var(--screen-edge-spacing)]'>
           <DrawerTitle>{title}</DrawerTitle>
           <DrawerDescription>{description}</DrawerDescription>
@@ -31,6 +30,5 @@ export default function CmsDrawer({
 export type CmsDrawerProps = PropsWithChildren<{
   title: string;
   description: string;
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}>;
+}> &
+  ComponentPropsWithoutRef<typeof Drawer>;

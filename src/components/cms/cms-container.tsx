@@ -1,7 +1,8 @@
+import { useDrawerWithOutlet } from '@/hooks/drawer-with-outlet';
 import { useMediaQuery } from '@uidotdev/usehooks';
 import { Plus } from 'lucide-react';
 import { PropsWithChildren } from 'react';
-import { Link, Outlet, To, useNavigate, useOutlet } from 'react-router-dom';
+import { Link, Outlet, To } from 'react-router-dom';
 import { Button } from '../ui/button';
 import { TypographyH2 } from '../ui/typography';
 import CmsDrawer from './cms-drawer';
@@ -17,15 +18,8 @@ export default function CmsContainer({
   editingAreaDescription,
   cmsLink,
 }: CmsContainerProps) {
-  const outlet = useOutlet();
   const isDesktop = useMediaQuery(`(min-width: 1024px)`);
-  const navigate = useNavigate();
-
-  function handleDrawerOpen(isOpen: boolean) {
-    if (!isOpen) {
-      navigate(cmsLink);
-    }
-  }
+  const drawer = useDrawerWithOutlet(500, cmsLink);
 
   const editingSection = isDesktop ? (
     <CmsSection title={editingAreaTitle} className='col-span-2'>
@@ -33,8 +27,9 @@ export default function CmsContainer({
     </CmsSection>
   ) : (
     <CmsDrawer
-      open={!!outlet}
-      onOpenChange={handleDrawerOpen}
+      open={drawer.open}
+      onOpenChange={drawer.onOpenChange}
+      onClose={drawer.onClose}
       title={editingAreaTitle}
       description={editingAreaDescription}
     >
