@@ -15,7 +15,6 @@ export function useDrawerWithOutlet(delay = 0, link: To) {
 
   const handleClose = () => {
     clearTimeout(timerIdRef.current);
-    setIsOpen(false);
 
     timerIdRef.current = setTimeout(() => {
       navigate(link);
