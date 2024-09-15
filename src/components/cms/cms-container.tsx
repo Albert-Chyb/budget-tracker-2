@@ -3,14 +3,8 @@ import { Plus } from 'lucide-react';
 import { PropsWithChildren } from 'react';
 import { Link, Outlet, To, useNavigate, useOutlet } from 'react-router-dom';
 import { Button } from '../ui/button';
-import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-} from '../ui/drawer';
 import { TypographyH2 } from '../ui/typography';
+import CmsDrawer from './cms-drawer';
 import CmsList from './cms-list';
 import CmsSection from './cms-section';
 
@@ -38,18 +32,14 @@ export default function CmsContainer({
       <Outlet />
     </CmsSection>
   ) : (
-    <Drawer open={!!outlet} onOpenChange={handleDrawerOpen}>
-      <DrawerContent>
-        <DrawerHeader className='px-[var(--screen-edge-spacing)]'>
-          <DrawerTitle>{editingAreaTitle}</DrawerTitle>
-          <DrawerDescription>{editingAreaDescription}</DrawerDescription>
-        </DrawerHeader>
-
-        <div className='mx-[var(--screen-edge-spacing)]'>
-          <Outlet />
-        </div>
-      </DrawerContent>
-    </Drawer>
+    <CmsDrawer
+      open={!!outlet}
+      onOpenChange={handleDrawerOpen}
+      title={editingAreaTitle}
+      description={editingAreaDescription}
+    >
+      <Outlet />
+    </CmsDrawer>
   );
 
   return (
