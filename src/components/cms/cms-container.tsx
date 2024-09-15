@@ -55,6 +55,7 @@ export default function CmsContainer({
   return (
     <div className='lg:grid lg:grid-cols-3 space-x-8'>
       <CmsSection
+        withScrollArea={isDesktop}
         header={
           <>
             <TypographyH2 className='p-0'>{listTitle}</TypographyH2>

@@ -7,6 +7,7 @@ export default function CmsSection({
   title,
   className,
   header = <TypographyH2 className='p-0'>{title}</TypographyH2>,
+  withScrollArea = true,
 }: CmsSectionProps) {
   return (
     <section className={className}>
@@ -14,9 +15,13 @@ export default function CmsSection({
         {header}
       </header>
 
-      <ScrollArea className='h-[calc(var(--remaining-viewport-height)-theme(height.14))]'>
-        <div className='px-1'>{children}</div>
-      </ScrollArea>
+      {withScrollArea ? (
+        <ScrollArea className='h-[calc(var(--remaining-viewport-height)-theme(height.14))]'>
+          <div className='px-1'>{children}</div>
+        </ScrollArea>
+      ) : (
+        <>{children}</>
+      )}
     </section>
   );
 }
@@ -25,4 +30,5 @@ export type CmsSectionProps = PropsWithChildren<{
   title?: string;
   className?: string;
   header?: JSX.Element;
+  withScrollArea?: boolean;
 }>;
