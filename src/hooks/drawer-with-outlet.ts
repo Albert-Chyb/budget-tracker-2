@@ -1,13 +1,14 @@
 import { Drawer } from '@/components/ui/drawer';
 import { ComponentPropsWithoutRef, useEffect, useRef, useState } from 'react';
-import { To, useNavigate, useOutlet } from 'react-router-dom';
+import { To, useMatch, useNavigate, useOutlet } from 'react-router-dom';
 
 export function useDrawerWithOutlet(delay = 0, link: To) {
-  const [isOpen, setIsOpen] = useState(false);
   const outlet = useOutlet();
-  const navigate = useNavigate();
   const hasChildRoute = !!outlet;
+  const [isOpen, setIsOpen] = useState(hasChildRoute);
+  const navigate = useNavigate();
   const timerIdRef = useRef<NodeJS.Timeout>();
+  const isOnCmsPage = useMatch(<string>link);
 
   useEffect(() => {
     setIsOpen(hasChildRoute);
@@ -16,9 +17,11 @@ export function useDrawerWithOutlet(delay = 0, link: To) {
   const handleClose = () => {
     clearTimeout(timerIdRef.current);
 
-    timerIdRef.current = setTimeout(() => {
-      navigate(link);
-    }, delay);
+    if (!isOnCmsPage) {
+      timerIdRef.current = setTimeout(() => {
+        navigate(link);
+      }, delay);
+    }
   };
 
   useEffect(() => () => clearTimeout(timerIdRef.current), []);
