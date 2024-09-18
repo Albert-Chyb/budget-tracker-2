@@ -1,6 +1,4 @@
 import Category from '@/components/categories/category';
-import CmsContainer from '@/components/cms/cms-container';
-import CmsListItem from '@/components/cms/cms-list-item';
 import { TCategory } from '@/lib/db-schemas/category';
 
 const DUMMY_CATEGORIES: TCategory[] = [
@@ -43,31 +41,9 @@ const DUMMY_CATEGORIES: TCategory[] = [
 ];
 
 export default function CategoriesPage() {
-  function handleCategoryDelete(id: number) {
-    console.log('Deleted category: ', id);
-  }
-
   const categoriesListItems = DUMMY_CATEGORIES.map((category) => (
-    <CmsListItem
-      key={category.id}
-      deleteBtnText='Usuń kategorię'
-      onDelete={() => handleCategoryDelete(category.id)}
-      to={`${category.id}/edit`}
-    >
-      <Category category={category} />
-    </CmsListItem>
+    <Category key={category.id} category={category} />
   ));
 
-  return (
-    <CmsContainer
-      listTitle='Lista kategorii'
-      editingAreaTitle='Kategoria transakcji'
-      newItemLink='create'
-      addBtnDescription='Dodaj nową kategorię'
-      cmsLink='/categories'
-      editingAreaDescription='Po wypełnieniu formularza kliknij przycisk Zapisz, aby kontynuować'
-    >
-      {categoriesListItems}
-    </CmsContainer>
-  );
+  return categoriesListItems;
 }
