@@ -21,7 +21,11 @@ import { Input } from '../ui/input';
 import CategoryColorSelect from './category-color-select';
 import CategoryTypeRadio from './category-type-radio';
 
-export default function CategoryForm({ category, colors }: CategoryFormProps) {
+export default function CategoryForm({
+  category,
+  colors,
+  onSubmit,
+}: CategoryFormProps) {
   const form = useForm({
     resolver: zodResolver(categoryFormSchema, {
       errorMap: categoryFormErrorMap,
@@ -30,7 +34,7 @@ export default function CategoryForm({ category, colors }: CategoryFormProps) {
   });
 
   function handleSubmit(formValue: CategoryFormValue) {
-    console.log(formValue);
+    onSubmit(formValue);
   }
 
   return (
@@ -100,4 +104,5 @@ export default function CategoryForm({ category, colors }: CategoryFormProps) {
 export type CategoryFormProps = {
   category?: TCategory;
   colors: Tables<'categories_colors'>[];
+  onSubmit: (value: CategoryFormValue) => void;
 };

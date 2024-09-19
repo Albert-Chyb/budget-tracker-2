@@ -7,9 +7,8 @@ import ErrorPage from '@/pages/error-page';
 import NotFoundPage from '@/pages/not-found-page';
 import RootPage from '@/pages/root-page';
 import { createBrowserRouter } from 'react-router-dom';
-import { categoryPageLoader as createCategoryPageLoader } from './loaders/categories-page-loader';
+import { categoriesPageLoader } from './loaders/categories-page-loader';
 import ChangePasswordPage from './pages/auth/change-password-page';
-import CategoryPage from './pages/categories/category-page';
 
 export const router = createBrowserRouter([
   {
@@ -63,6 +62,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'categories',
+        loader: categoriesPageLoader,
         element: (
           <AuthRouteGuard
             redirectTo='/sign-in'
@@ -71,18 +71,6 @@ export const router = createBrowserRouter([
             <CategoriesPage />
           </AuthRouteGuard>
         ),
-        children: [
-          {
-            loader: createCategoryPageLoader,
-            path: 'create',
-            element: <CategoryPage />,
-          },
-          {
-            loader: createCategoryPageLoader,
-            path: ':id/edit',
-            element: <CategoryPage />,
-          },
-        ],
       },
       {
         path: '*',
