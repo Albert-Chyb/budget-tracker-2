@@ -10,9 +10,9 @@ import {
   CardTitle,
 } from '../ui/card';
 import { CMSDesktop } from './cms-desktop';
-import { CMSEditorTriggerProps } from './cms-editor-trigger-props';
+import CMSEditorTrigger from './cms-editor-trigger';
+import { CMSEditorTriggerProps } from './cms-editor-trigger';
 import { CMSMobile } from './cms-mobile';
-import CMSMobileEditAreaTrigger from './cms-mobile-editor-trigger';
 import { CMSMobileItemProps } from './cms-mobile-item';
 
 export default function CMS(props: CMSProps) {
@@ -28,7 +28,7 @@ export default function CMS(props: CMSProps) {
         </CardHeader>
 
         <div className='shrink-0'>
-          <CMSMobileEditAreaTrigger
+          <CMSEditorTrigger
             editElement={createArea.editElement}
             title={createArea.title}
             description={createArea.description}
@@ -36,7 +36,7 @@ export default function CMS(props: CMSProps) {
             <Button size='icon' variant='ghost'>
               <Plus className='size-6' />
             </Button>
-          </CMSMobileEditAreaTrigger>
+          </CMSEditorTrigger>
         </div>
       </div>
 

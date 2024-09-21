@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
 import { Button } from '../ui/button';
-import { CMSEditorTriggerProps } from './cms-editor-trigger-props';
-import CMSMobileEditAreaTrigger from './cms-mobile-editor-trigger';
+import CMSEditorTrigger from './cms-editor-trigger';
+import { CMSEditorTriggerProps } from './cms-editor-trigger';
 
 export default function CMSMobileItem(props: CMSMobileItemProps) {
   const { children, editElement, title, description, onDelete } = props;
@@ -12,7 +12,7 @@ export default function CMSMobileItem(props: CMSMobileItemProps) {
 
   return (
     <li className='border-2 rounded-sm'>
-      <CMSMobileEditAreaTrigger
+      <CMSEditorTrigger
         title={title}
         description={description}
         editElement={editElement}
@@ -20,7 +20,7 @@ export default function CMSMobileItem(props: CMSMobileItemProps) {
         <Button variant='ghost' className='rounded-none w-full'>
           {children}
         </Button>
-      </CMSMobileEditAreaTrigger>
+      </CMSEditorTrigger>
 
       <div className='px-2 pb-2'>
         <Button
