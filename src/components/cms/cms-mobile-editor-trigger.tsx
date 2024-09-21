@@ -7,7 +7,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '../ui/drawer';
-import { CMSEditAreaTriggerProps } from './cms-edit-area-trigger-props';
+import { CMSEditorTriggerProps } from './cms-editor-trigger-props';
 
 export default function CMSMobileEditAreaTrigger(
   props: CMSMobileEditAreaTriggerProps
@@ -35,4 +35,4 @@ export default function CMSMobileEditAreaTrigger(
 }
 
 export type CMSMobileEditAreaTriggerProps =
-  PropsWithChildren<CMSEditAreaTriggerProps>;
+  PropsWithChildren<CMSEditorTriggerProps>;

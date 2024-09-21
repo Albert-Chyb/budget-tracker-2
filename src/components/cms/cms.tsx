@@ -10,9 +10,9 @@ import {
   CardTitle,
 } from '../ui/card';
 import { CMSDesktop } from './cms-desktop';
-import { CMSEditAreaTriggerProps } from './cms-edit-area-trigger-props';
+import { CMSEditorTriggerProps } from './cms-editor-trigger-props';
 import { CMSMobile } from './cms-mobile';
-import CMSMobileEditAreaTrigger from './cms-mobile-edit-area-trigger';
+import CMSMobileEditAreaTrigger from './cms-mobile-editor-trigger';
 import { CMSMobileItemProps } from './cms-mobile-item';
 
 export default function CMS(props: CMSProps) {
@@ -50,7 +50,7 @@ export default function CMS(props: CMSProps) {
 export type CMSProps = {
   title: string;
   description: string;
-  createArea: CMSEditAreaTriggerProps;
+  createArea: CMSEditorTriggerProps;
   mobileItems: ReactElement<
     CMSMobileItemProps,
     JSXElementConstructor<CMSMobileItemProps>

@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 
-export type CMSEditAreaTriggerProps = {
+export type CMSEditorTriggerProps = {
   title: string;
   description: string;
   editElement: ReactElement;

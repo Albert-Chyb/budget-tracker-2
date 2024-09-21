@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
 import { Button } from '../ui/button';
-import { CMSEditAreaTriggerProps } from './cms-edit-area-trigger-props';
-import CMSMobileEditAreaTrigger from './cms-mobile-edit-area-trigger';
+import { CMSEditorTriggerProps } from './cms-editor-trigger-props';
+import CMSMobileEditAreaTrigger from './cms-mobile-editor-trigger';
 
 export default function CMSMobileItem(props: CMSMobileItemProps) {
   const { children, editElement, title, description, onDelete } = props;
@@ -39,4 +39,4 @@ export default function CMSMobileItem(props: CMSMobileItemProps) {
 export type CMSMobileItemProps = PropsWithChildren<{
   onDelete: () => void;
 }> &
-  CMSEditAreaTriggerProps;
+  CMSEditorTriggerProps;
