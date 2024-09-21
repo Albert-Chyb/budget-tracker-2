@@ -1,7 +1,7 @@
 import Category from '@/components/categories/category';
 import CategoryForm from '@/components/categories/category-form';
 import CMS from '@/components/cms/cms';
-import CMSMobileItem from '@/components/cms/cms-mobile-item';
+import CMSMobileItem from '@/components/cms/mobile/cms-mobile-item';
 import { TCategory } from '@/lib/db-schemas/category';
 import { CategoryFormValue } from '@/lib/form-resolvers/category-form';
 import { CategoriesPageLoaderData } from '@/loaders/categories-page-loader';

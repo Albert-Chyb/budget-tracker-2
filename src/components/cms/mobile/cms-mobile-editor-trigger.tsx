@@ -6,8 +6,8 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from '../ui/drawer';
-import { CMSEditorTriggerProps } from './cms-editor-trigger';
+} from '@/components/ui/drawer';
+import { CMSEditorTriggerProps } from '../cms-editor-trigger';
 
 export default function CMSMobileEditorTrigger(
   props: CMSMobileEditAreaTriggerProps

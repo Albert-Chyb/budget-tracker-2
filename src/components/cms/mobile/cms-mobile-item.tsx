@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
-import { Button } from '../ui/button';
-import CMSEditorTrigger from './cms-editor-trigger';
-import { CMSEditorTriggerProps } from './cms-editor-trigger';
+import { Button } from '@/components/ui/button';
+import CMSEditorTrigger from '../cms-editor-trigger';
+import { CMSEditorTriggerProps } from '../cms-editor-trigger';
 
 export default function CMSMobileItem(props: CMSMobileItemProps) {
   const { children, editElement, title, description, onDelete } = props;

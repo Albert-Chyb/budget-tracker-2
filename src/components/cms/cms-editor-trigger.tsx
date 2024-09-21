@@ -1,6 +1,6 @@
 import { useMediaQuery } from '@uidotdev/usehooks';
 import { PropsWithChildren, ReactElement } from 'react';
-import CMSMobileEditorTrigger from './cms-mobile-editor-trigger';
+import CMSMobileEditorTrigger from './mobile/cms-mobile-editor-trigger';
 
 export default function CMSEditorTrigger(props: CMSEditorTriggerProps) {
   const { title, description, editElement, children } = props;

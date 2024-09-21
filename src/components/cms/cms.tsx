@@ -9,11 +9,10 @@ import {
   CardHeader,
   CardTitle,
 } from '../ui/card';
-import { CMSDesktop } from './cms-desktop';
-import CMSEditorTrigger from './cms-editor-trigger';
-import { CMSEditorTriggerProps } from './cms-editor-trigger';
-import { CMSMobile } from './cms-mobile';
-import { CMSMobileItemProps } from './cms-mobile-item';
+import CMSEditorTrigger, { CMSEditorTriggerProps } from './cms-editor-trigger';
+import { CMSDesktop } from './desktop/cms-desktop';
+import { CMSMobile } from './mobile/cms-mobile';
+import { CMSMobileItemProps } from './mobile/cms-mobile-item';
 
 export default function CMS(props: CMSProps) {
   const { title, description, mobileItems, createArea } = props;
