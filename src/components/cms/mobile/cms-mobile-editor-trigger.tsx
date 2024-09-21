@@ -10,7 +10,7 @@ import {
 import { CMSEditorTriggerProps } from '../cms-editor-trigger';
 
 export default function CMSMobileEditorTrigger(
-  props: CMSMobileEditAreaTriggerProps
+  props: CMSMobileEditorTriggerProps
 ) {
   const { children, title, description, editElement } = props;
 
@@ -34,5 +34,5 @@ export default function CMSMobileEditorTrigger(
   );
 }
 
-export type CMSMobileEditAreaTriggerProps =
+export type CMSMobileEditorTriggerProps =
   PropsWithChildren<CMSEditorTriggerProps>;
