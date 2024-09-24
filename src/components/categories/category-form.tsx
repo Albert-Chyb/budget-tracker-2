@@ -100,11 +100,7 @@ export default function CategoryForm({
           )}
         />
 
-        <Button
-          type='submit'
-          className='w-full'
-          disabled={!form.formState.isValid}
-        >
+        <Button type='submit' className='w-full'>
           Zapisz
         </Button>
       </form>
