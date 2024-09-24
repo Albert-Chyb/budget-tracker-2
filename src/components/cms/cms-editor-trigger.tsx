@@ -1,10 +1,9 @@
-import { useMediaQuery } from '@uidotdev/usehooks';
-import { PropsWithChildren, ReactElement } from 'react';
+import { PropsWithChildren, ReactElement, useContext } from 'react';
+import { CMSContext } from './cms-context';
 import CMSMobileEditorTrigger from './mobile/cms-mobile-editor-trigger';
 
 export default function CMSEditorTrigger(props: CMSEditorTriggerProps) {
-  // TODO: Create context for CMS component and put this information in it.
-  const isMobile = useMediaQuery('(max-width: 768px)');
+  const { isMobile } = useContext(CMSContext);
 
   return isMobile ? <CMSMobileEditorTrigger {...props} /> : '';
 }

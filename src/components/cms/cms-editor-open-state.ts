@@ -1,36 +1,17 @@
-import { useSearchParams } from 'react-router-dom';
+import { useCMSEditorController } from './cms-editor-controller';
 
-export const CMS_EDITOR_OPEN_STATE_QUERY_PARAM_KEY = 'cms-open-editor-id';
+export function useCMSEditorOpenState(id: string) {
+  const { open, close, current } = useCMSEditorController();
 
-export function useCMSEditorOpenState(id: CMSEditorOpenStateId) {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  function handleOpenChange(open: boolean) {
-    if (!open) {
-      setSearchParams(
-        (params) => {
-          params.delete(CMS_EDITOR_OPEN_STATE_QUERY_PARAM_KEY);
-
-          return params;
-        },
-        { replace: true }
-      );
+  function handleOpenChange(isOpened: boolean) {
+    if (isOpened) {
+      open(id);
     } else {
-      setSearchParams(
-        (params) => {
-          params.set(CMS_EDITOR_OPEN_STATE_QUERY_PARAM_KEY, id);
-
-          return params;
-        },
-        { replace: true }
-      );
+      close();
     }
   }
 
-  const isOpened: boolean =
-    searchParams.get(CMS_EDITOR_OPEN_STATE_QUERY_PARAM_KEY) === id;
+  const isOpened: boolean = current === id;
 
   return [isOpened, handleOpenChange] as const;
 }
-
-export type CMSEditorOpenStateId = string | 'editor';

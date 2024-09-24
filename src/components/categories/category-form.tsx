@@ -26,6 +26,7 @@ export default function CategoryForm({
   category,
   colors,
   method,
+  onSubmit,
 }: CategoryFormProps) {
   const submit = useSubmit();
 
@@ -38,6 +39,7 @@ export default function CategoryForm({
 
   function handleSubmit(formValue: CategoryFormValue) {
     submit(formValue, { method });
+    onSubmit(formValue);
   }
 
   return (
@@ -112,4 +114,5 @@ export type CategoryFormProps = {
   category?: TCategory;
   colors: Tables<'categories_colors'>[];
   method: 'post' | 'put';
+  onSubmit: (value: CategoryFormValue) => void;
 };
