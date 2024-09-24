@@ -1,14 +1,11 @@
-import { PropsWithChildren } from 'react';
 import { Button } from '@/components/ui/button';
-import CMSEditorTrigger from '../cms-editor-trigger';
-import { CMSEditorTriggerProps } from '../cms-editor-trigger';
+import { useFetcher } from 'react-router-dom';
+import CMSEditorTrigger, { CMSEditorTriggerProps } from '../cms-editor-trigger';
 
 export default function CMSMobileItem(props: CMSMobileItemProps) {
-  const { children, editElement, title, description, onDelete } = props;
-
-  function handleDeleteClick() {
-    onDelete();
-  }
+  const fetcher = useFetcher();
+  const { children, editElement, title, description } = props;
+  const key = 2;
 
   return (
     <li className='border-2 rounded-sm'>
@@ -23,20 +20,16 @@ export default function CMSMobileItem(props: CMSMobileItemProps) {
       </CMSEditorTrigger>
 
       <div className='px-2 pb-2'>
-        <Button
-          onClick={handleDeleteClick}
-          type='button'
-          variant='destructive'
-          className='w-full'
-        >
-          Usuń
-        </Button>
+        <fetcher.Form method='delete'>
+          <input type='text' name='id' value={key} readOnly hidden />
+
+          <Button type='submit' variant='destructive' className='w-full'>
+            Usuń
+          </Button>
+        </fetcher.Form>
       </div>
     </li>
   );
 }
 
-export type CMSMobileItemProps = PropsWithChildren<{
-  onDelete: () => void;
-}> &
-  CMSEditorTriggerProps;
+export type CMSMobileItemProps = CMSEditorTriggerProps;
