@@ -15,6 +15,7 @@ export default function CategoriesPage() {
   const mobileCategoriesItems = categories.map((category) => (
     <CMSMobileItem
       key={category.id}
+      id={String(category.id)}
       editorContentElement={
         <CategoryForm
           colors={categoriesColors}
@@ -35,6 +36,7 @@ export default function CategoriesPage() {
       description={CATEGORIES_PAGE_DESCRIPTION}
       mobileItems={mobileCategoriesItems}
       newItemEditor={{
+        id: 'editor',
         editorContentElement: (
           <CategoryForm colors={categoriesColors} method='post' />
         ),

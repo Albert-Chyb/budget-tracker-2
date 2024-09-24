@@ -4,12 +4,11 @@ import CMSEditorTrigger, { CMSEditorTriggerProps } from '../cms-editor-trigger';
 
 export default function CMSMobileItem(props: CMSMobileItemProps) {
   const fetcher = useFetcher();
-  const { children, ...editorProps } = props;
-  const key = 2;
+  const { children, id, ...editorProps } = props;
 
   return (
     <li className='border-2 rounded-sm'>
-      <CMSEditorTrigger {...editorProps}>
+      <CMSEditorTrigger id={id} {...editorProps}>
         <Button variant='ghost' className='rounded-none w-full'>
           {children}
         </Button>
@@ -17,7 +16,7 @@ export default function CMSMobileItem(props: CMSMobileItemProps) {
 
       <div className='px-2 pb-2'>
         <fetcher.Form method='delete'>
-          <input type='text' name='id' value={key} readOnly hidden />
+          <input type='text' name='id' value={id} readOnly hidden />
 
           <Button type='submit' variant='destructive' className='w-full'>
             Usuń

@@ -13,4 +13,5 @@ export type CMSEditorTriggerProps = PropsWithChildren<{
   title: string;
   description: string;
   editorContentElement: ReactElement;
+  id: string;
 }>;
