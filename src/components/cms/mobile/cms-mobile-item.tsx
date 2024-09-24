@@ -4,16 +4,12 @@ import CMSEditorTrigger, { CMSEditorTriggerProps } from '../cms-editor-trigger';
 
 export default function CMSMobileItem(props: CMSMobileItemProps) {
   const fetcher = useFetcher();
-  const { children, editElement, title, description } = props;
+  const { children, ...editorProps } = props;
   const key = 2;
 
   return (
     <li className='border-2 rounded-sm'>
-      <CMSEditorTrigger
-        title={title}
-        description={description}
-        editElement={editElement}
-      >
+      <CMSEditorTrigger {...editorProps}>
         <Button variant='ghost' className='rounded-none w-full'>
           {children}
         </Button>

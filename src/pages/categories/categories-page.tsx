@@ -15,7 +15,7 @@ export default function CategoriesPage() {
   const mobileCategoriesItems = categories.map((category) => (
     <CMSMobileItem
       key={category.id}
-      editElement={
+      editorContentElement={
         <CategoryForm
           colors={categoriesColors}
           category={category}
@@ -34,8 +34,10 @@ export default function CategoriesPage() {
       title={CATEGORIES_PAGE_TITLE}
       description={CATEGORIES_PAGE_DESCRIPTION}
       mobileItems={mobileCategoriesItems}
-      createArea={{
-        editElement: <CategoryForm colors={categoriesColors} method='post' />,
+      newItemEditor={{
+        editorContentElement: (
+          <CategoryForm colors={categoriesColors} method='post' />
+        ),
         title: 'Nowa kategoria',
         description:
           'Po wypełnieniu formularza naciśnij przycisk Zapisz, aby stworzyć nową kategorię.',

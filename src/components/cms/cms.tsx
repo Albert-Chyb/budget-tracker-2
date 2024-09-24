@@ -15,7 +15,7 @@ import { CMSMobile } from './mobile/cms-mobile';
 import { CMSMobileItemProps } from './mobile/cms-mobile-item';
 
 export default function CMS(props: CMSProps) {
-  const { title, description, mobileItems, createArea } = props;
+  const { title, description, mobileItems, newItemEditor } = props;
   const isMobile = useMediaQuery('(max-width: 768px)');
 
   return (
@@ -27,11 +27,7 @@ export default function CMS(props: CMSProps) {
         </CardHeader>
 
         <div className='shrink-0'>
-          <CMSEditorTrigger
-            editElement={createArea.editElement}
-            title={createArea.title}
-            description={createArea.description}
-          >
+          <CMSEditorTrigger {...newItemEditor}>
             <Button size='icon' variant='ghost'>
               <Plus className='size-6' />
             </Button>
@@ -49,7 +45,7 @@ export default function CMS(props: CMSProps) {
 export type CMSProps = {
   title: string;
   description: string;
-  createArea: CMSEditorTriggerProps;
+  newItemEditor: CMSEditorTriggerProps;
   mobileItems: ReactElement<
     CMSMobileItemProps,
     JSXElementConstructor<CMSMobileItemProps>

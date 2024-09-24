@@ -1,4 +1,3 @@
-import { PropsWithChildren } from 'react';
 import {
   Drawer,
   DrawerContent,
@@ -7,12 +6,13 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
+import { PropsWithChildren } from 'react';
 import { CMSEditorTriggerProps } from '../cms-editor-trigger';
 
 export default function CMSMobileEditorTrigger(
   props: CMSMobileEditorTriggerProps
 ) {
-  const { children, title, description, editElement } = props;
+  const { children, title, description, editorContentElement } = props;
 
   return (
     <Drawer>
@@ -27,7 +27,7 @@ export default function CMSMobileEditorTrigger(
         </DrawerHeader>
 
         <div className='mx-[var(--screen-edge-spacing)] space-y-2'>
-          {editElement}
+          {editorContentElement}
         </div>
       </DrawerContent>
     </Drawer>
