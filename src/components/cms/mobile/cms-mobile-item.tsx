@@ -1,3 +1,4 @@
+import { LoadingButton } from '@/components/loading-button';
 import { Button } from '@/components/ui/button';
 import { useFetcher } from 'react-router-dom';
 import CMSEditorTrigger, { CMSEditorTriggerProps } from '../cms-editor-trigger';
@@ -18,9 +19,14 @@ export default function CMSMobileItem(props: CMSMobileItemProps) {
         <fetcher.Form method='delete'>
           <input type='text' name='id' value={id} readOnly hidden />
 
-          <Button type='submit' variant='destructive' className='w-full'>
+          <LoadingButton
+            type='submit'
+            variant='destructive'
+            className='w-full'
+            isLoading={fetcher.state === 'submitting'}
+          >
             Usuń
-          </Button>
+          </LoadingButton>
         </fetcher.Form>
       </div>
     </li>
