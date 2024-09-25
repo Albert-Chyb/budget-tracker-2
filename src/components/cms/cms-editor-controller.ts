@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 export const CMS_EDITOR_OPEN_STATE_QUERY_PARAM_KEY = 'cms-open-editor-id';
@@ -5,8 +6,8 @@ export const CMS_EDITOR_OPEN_STATE_QUERY_PARAM_KEY = 'cms-open-editor-id';
 export function useCMSEditorController() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  return {
-    open(id: string) {
+  const open = useCallback(
+    (id: string) => {
       setSearchParams(
         (params) => {
           params.set(CMS_EDITOR_OPEN_STATE_QUERY_PARAM_KEY, id);
@@ -16,18 +17,25 @@ export function useCMSEditorController() {
         { replace: true }
       );
     },
+    [setSearchParams]
+  );
 
-    close() {
-      setSearchParams(
-        (params) => {
-          params.delete(CMS_EDITOR_OPEN_STATE_QUERY_PARAM_KEY);
+  const close = useCallback(() => {
+    setSearchParams(
+      (params) => {
+        params.delete(CMS_EDITOR_OPEN_STATE_QUERY_PARAM_KEY);
 
-          return params;
-        },
-        { replace: true }
-      );
-    },
+        return params;
+      },
+      { replace: true }
+    );
+  }, [setSearchParams]);
 
-    current: searchParams.get(CMS_EDITOR_OPEN_STATE_QUERY_PARAM_KEY),
+  const current = searchParams.get(CMS_EDITOR_OPEN_STATE_QUERY_PARAM_KEY);
+
+  return {
+    open,
+    close,
+    current,
   };
 }
