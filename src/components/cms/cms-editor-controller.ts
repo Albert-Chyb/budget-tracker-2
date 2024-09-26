@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 export const CMS_EDITOR_OPEN_STATE_QUERY_PARAM_KEY = 'cms-open-editor-id';
@@ -33,9 +33,14 @@ export function useCMSEditorController() {
 
   const current = searchParams.get(CMS_EDITOR_OPEN_STATE_QUERY_PARAM_KEY);
 
-  return {
-    open,
-    close,
-    current,
-  };
+  const controller = useMemo(
+    () => ({
+      open,
+      close,
+      current,
+    }),
+    [close, current, open]
+  );
+
+  return controller;
 }

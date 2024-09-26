@@ -9,22 +9,16 @@ import {
   CardTitle,
 } from '../ui/card';
 import { CMSContext, CMSContextProvider } from './cms-context';
-import { useCMSEditorController } from './cms-editor-controller';
 import CMSEditorTrigger, { CMSEditorTriggerProps } from './cms-editor-trigger';
 import { CMSDesktop } from './desktop/cms-desktop';
 import { CMSMobile } from './mobile/cms-mobile';
 import { CMSMobileItemProps } from './mobile/cms-mobile-item';
 
 export default function CMS(props: CMSProps) {
-  const editor = useCMSEditorController();
   const { title, description, mobileItems, newItemEditor } = props;
 
-  function handleSubmit() {
-    editor.close();
-  }
-
   return (
-    <CMSContextProvider onSubmit={handleSubmit}>
+    <CMSContextProvider>
       <CMSContext.Consumer>
         {({ isMobile }) => (
           <Card>

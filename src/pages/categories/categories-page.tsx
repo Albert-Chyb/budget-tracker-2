@@ -19,12 +19,13 @@ export default function CategoriesPage() {
       id={String(category.id)}
       editorContentElement={
         <CMSContext.Consumer>
-          {({ onSubmit }) => (
+          {({ submit, isSubmitting }) => (
             <CategoryForm
               colors={categoriesColors}
               category={category}
               method='put'
-              onSubmit={onSubmit}
+              onSubmit={(_value, target) => submit(target)}
+              isLoading={isSubmitting}
             />
           )}
         </CMSContext.Consumer>
@@ -45,11 +46,12 @@ export default function CategoriesPage() {
         id: 'editor',
         editorContentElement: (
           <CMSContext.Consumer>
-            {({ onSubmit }) => (
+            {({ submit, isSubmitting }) => (
               <CategoryForm
                 colors={categoriesColors}
                 method='post'
-                onSubmit={onSubmit}
+                onSubmit={(_value, target) => submit(target)}
+                isLoading={isSubmitting}
               />
             )}
           </CMSContext.Consumer>

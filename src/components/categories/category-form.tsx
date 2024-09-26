@@ -15,9 +15,9 @@ import {
   createCategoryFormValue,
 } from '@/lib/form-resolvers/category-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSubmit } from 'react-router-dom';
-import { Button } from '../ui/button';
+import { LoadingButton } from '../loading-button';
 import { Input } from '../ui/input';
 import CategoryColorSelect from './category-color-select';
 import CategoryTypeRadio from './category-type-radio';
@@ -27,24 +27,24 @@ export default function CategoryForm({
   colors,
   method,
   onSubmit,
+  isLoading,
 }: CategoryFormProps) {
-  const submit = useSubmit();
-
   const form = useForm({
     resolver: zodResolver(categoryFormSchema, {
       errorMap: categoryFormErrorMap,
     }),
     defaultValues: category ?? createCategoryFormValue(),
   });
+  const formRef = useRef<HTMLFormElement>(null);
 
   function handleSubmit(formValue: CategoryFormValue) {
-    submit(formValue, { method });
-    onSubmit(formValue);
+    onSubmit(formValue, formRef.current);
   }
 
   return (
     <Form {...form}>
       <form
+        ref={formRef}
         onSubmit={form.handleSubmit(handleSubmit)}
         className='space-y-4'
         method={method}
@@ -102,17 +102,18 @@ export default function CategoryForm({
           )}
         />
 
-        <Button type='submit' className='w-full'>
+        <LoadingButton type='submit' className='w-full' isLoading={isLoading}>
           Zapisz
-        </Button>
+        </LoadingButton>
       </form>
     </Form>
   );
 }
 
 export type CategoryFormProps = {
+  isLoading: boolean;
   category?: TCategory;
   colors: Tables<'categories_colors'>[];
   method: 'post' | 'put';
-  onSubmit: (value: CategoryFormValue) => void;
+  onSubmit: (value: CategoryFormValue, target: HTMLFormElement | null) => void;
 };
