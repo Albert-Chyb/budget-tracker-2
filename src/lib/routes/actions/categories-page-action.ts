@@ -10,7 +10,7 @@ export const categoriesPageAction = (async ({ request }) => {
 
   console.log('Categories page action', formValue);
   // TODO: Remove this line once the action is integrated with backend
-  await wait(300);
+  await wait(1_000);
 
   if (request.method === 'DELETE') {
     console.log(`Deleted category with id ${formValue.id}`);

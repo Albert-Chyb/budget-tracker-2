@@ -7,17 +7,27 @@ import {
   DrawerTrigger,
 } from '@/components/ui/drawer';
 import { PropsWithChildren } from 'react';
-import { useCMSEditorOpenState } from '../cms-editor-open-state';
 import { CMSEditorTriggerProps } from '../cms-editor-trigger';
 
 export default function CMSMobileEditorTrigger(
   props: CMSMobileEditorTriggerProps
 ) {
-  const { children, title, description, editorContentElement, id } = props;
-  const [isOpened, setIsOpened] = useCMSEditorOpenState(id);
+  const {
+    children,
+    title,
+    description,
+    editorContentElement,
+    isOpened,
+    handleOpenChange,
+    dismissible,
+  } = props;
 
   return (
-    <Drawer open={isOpened} onOpenChange={setIsOpened}>
+    <Drawer
+      open={isOpened}
+      onOpenChange={handleOpenChange}
+      dismissible={dismissible}
+    >
       <DrawerTrigger className='block w-full p-2' asChild>
         {children}
       </DrawerTrigger>
@@ -37,4 +47,8 @@ export default function CMSMobileEditorTrigger(
 }
 
 export type CMSMobileEditorTriggerProps =
-  PropsWithChildren<CMSEditorTriggerProps>;
+  PropsWithChildren<CMSEditorTriggerProps> & {
+    isOpened: boolean;
+    handleOpenChange: (open: boolean) => void;
+    dismissible: boolean;
+  };
