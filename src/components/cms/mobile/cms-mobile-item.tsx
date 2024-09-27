@@ -10,7 +10,11 @@ export default function CMSMobileItem(props: CMSMobileItemProps) {
   return (
     <li className='border-2 rounded-sm'>
       <CMSEditorTrigger id={id} {...editorProps}>
-        <Button variant='ghost' className='rounded-none w-full'>
+        <Button
+          variant='ghost'
+          className='rounded-none w-full'
+          disabled={fetcher.state === 'submitting'}
+        >
           {children}
         </Button>
       </CMSEditorTrigger>
