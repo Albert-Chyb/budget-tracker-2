@@ -1,37 +1,21 @@
+import { useSessionStorage } from '@uidotdev/usehooks';
 import { useCallback, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
 
 export const CMS_EDITOR_OPEN_STATE_QUERY_PARAM_KEY = 'cms-open-editor-id';
 
 export function useCMSEditorController() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [current, setCurrent] = useSessionStorage('opened-editor', '');
 
   const open = useCallback(
     (id: string) => {
-      setSearchParams(
-        (params) => {
-          params.set(CMS_EDITOR_OPEN_STATE_QUERY_PARAM_KEY, id);
-
-          return params;
-        },
-        { replace: true }
-      );
+      setCurrent(id);
     },
-    [setSearchParams]
+    [setCurrent]
   );
 
   const close = useCallback(() => {
-    setSearchParams(
-      (params) => {
-        params.delete(CMS_EDITOR_OPEN_STATE_QUERY_PARAM_KEY);
-
-        return params;
-      },
-      { replace: true }
-    );
-  }, [setSearchParams]);
-
-  const current = searchParams.get(CMS_EDITOR_OPEN_STATE_QUERY_PARAM_KEY);
+    setCurrent('');
+  }, [setCurrent]);
 
   const controller = useMemo(
     () => ({
