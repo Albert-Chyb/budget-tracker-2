@@ -4,31 +4,29 @@ import CMS from '@/components/cms/cms';
 import { CMSContext } from '@/components/cms/cms-context';
 import CMSMobileItem from '@/components/cms/mobile/cms-mobile-item';
 import { CategoriesPageLoaderData } from '@/loaders/categories-page-loader';
-import { useLoaderData } from 'react-router-dom';
+import { useContext } from 'react';
+import { useAsyncValue } from 'react-router-dom';
 
 const CATEGORIES_PAGE_TITLE = 'Kategorie';
 const CATEGORIES_PAGE_DESCRIPTION = 'Zarządzaj swoimi kategoriami transakcji';
 
 export default function CategoriesPage() {
+  const { submit, isSubmitting } = useContext(CMSContext);
   const { categoriesColors, categories } =
-    useLoaderData() as CategoriesPageLoaderData;
+    useAsyncValue() as CategoriesPageLoaderData;
 
   const mobileCategoriesItems = categories.map((category) => (
     <CMSMobileItem
       key={category.id}
       id={String(category.id)}
       editorContentElement={
-        <CMSContext.Consumer>
-          {({ submit, isSubmitting }) => (
-            <CategoryForm
-              colors={categoriesColors}
-              category={category}
-              method='put'
-              onSubmit={(_value, target) => submit(target)}
-              isLoading={isSubmitting}
-            />
-          )}
-        </CMSContext.Consumer>
+        <CategoryForm
+          colors={categoriesColors}
+          category={category}
+          method='put'
+          onSubmit={(_value, target) => submit(target)}
+          isLoading={isSubmitting}
+        />
       }
       title={category.name}
       description='Po zakończeniu edycji naciśnij przycisk Zapisz, aby zapisać zmiany.'
@@ -45,16 +43,12 @@ export default function CategoriesPage() {
       newItemEditor={{
         id: 'editor',
         editorContentElement: (
-          <CMSContext.Consumer>
-            {({ submit, isSubmitting }) => (
-              <CategoryForm
-                colors={categoriesColors}
-                method='post'
-                onSubmit={(_value, target) => submit(target)}
-                isLoading={isSubmitting}
-              />
-            )}
-          </CMSContext.Consumer>
+          <CategoryForm
+            colors={categoriesColors}
+            method='post'
+            onSubmit={(_value, target) => submit(target)}
+            isLoading={isSubmitting}
+          />
         ),
         title: 'Nowa kategoria',
         description:

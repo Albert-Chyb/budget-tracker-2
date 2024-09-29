@@ -7,6 +7,7 @@ import ErrorPage from '@/pages/error-page';
 import NotFoundPage from '@/pages/not-found-page';
 import RootPage from '@/pages/root-page';
 import { createBrowserRouter } from 'react-router-dom';
+import { CMSContextProvider } from './components/cms/cms-context';
 import { categoriesPageAction } from './lib/routes/actions/categories-page-action';
 import { categoriesPageLoader } from './loaders/categories-page-loader';
 import ChangePasswordPage from './pages/auth/change-password-page';
@@ -70,7 +71,9 @@ export const router = createBrowserRouter([
             redirectTo='/sign-in'
             canAccess={({ isSignIn }) => isSignIn}
           >
-            <CategoriesPage />
+            <CMSContextProvider>
+              <CategoriesPage />
+            </CMSContextProvider>
           </AuthRouteGuard>
         ),
       },
