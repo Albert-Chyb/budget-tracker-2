@@ -25,7 +25,7 @@ export default function CategoryColorSelect<
   }, [field, selectValue]);
 
   function handleClear() {
-    setSelectValue(undefined);
+    setSelectValue(null);
   }
 
   function handleSelectValueChange(colorId: string) {
@@ -79,7 +79,7 @@ export default function CategoryColorSelect<
 
 export type CategoryColorSelectValue =
   | Tables<'categories_colors'>['colorId']
-  | undefined;
+  | null;
 export type CategoryColorSelectProps<
   TFields extends FieldValues,
   TFieldPath extends Path<TFields>

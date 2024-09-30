@@ -30,14 +30,17 @@ export const categoryFormErrorMap: z.ZodErrorMap = (error, context) => {
   return { message: context.defaultError };
 };
 
-export const categoryFormSchema = categorySchema.omit({ id: true });
+export const categoryFormSchema = categorySchema.omit({
+  id: true,
+  ownerId: true,
+});
 
 export type CategoryFormValue = z.infer<typeof categoryFormSchema>;
 
 export function createCategoryFormValue(): CategoryFormValue {
   return {
     name: '',
-    colorId: undefined,
+    colorId: null,
     type: 'expense',
   };
 }

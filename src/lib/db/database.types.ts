@@ -52,6 +52,45 @@ export type Database = {
         }
         Relationships: []
       }
+      transactions_categories: {
+        Row: {
+          colorId: number | null
+          id: number
+          name: string
+          ownerId: string
+          type: Database["public"]["Enums"]["category_type"]
+        }
+        Insert: {
+          colorId?: number | null
+          id?: number
+          name: string
+          ownerId: string
+          type: Database["public"]["Enums"]["category_type"]
+        }
+        Update: {
+          colorId?: number | null
+          id?: number
+          name?: string
+          ownerId?: string
+          type?: Database["public"]["Enums"]["category_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_categories_colorId_fkey"
+            columns: ["colorId"]
+            isOneToOne: false
+            referencedRelation: "categories_colors"
+            referencedColumns: ["colorId"]
+          },
+          {
+            foreignKeyName: "transactions_categories_ownerId_fkey"
+            columns: ["ownerId"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -60,7 +99,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      category_type: "income" | "expense"
     }
     CompositeTypes: {
       [_ in never]: never
