@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query';
 import { getSupabase } from '../supabase/init';
 
 export async function getCategoriesColors() {
@@ -11,4 +12,11 @@ export async function getCategoriesColors() {
   }
 
   return data;
+}
+
+export function useCategoriesColorsQuery() {
+  return useQuery({
+    queryKey: ['categories-colors'],
+    queryFn: () => getCategoriesColors(),
+  });
 }

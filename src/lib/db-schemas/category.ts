@@ -7,7 +7,6 @@ export const categorySchema = z.object({
   name: z.string().min(3).max(32),
   colorId: z.number().int().positive().nullable(),
   type: categoryTypeSchema,
-  ownerId: z.string(),
 });
 
 export type TCategory = z.infer<typeof categorySchema>;

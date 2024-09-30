@@ -13,10 +13,21 @@ import CMSEditorTrigger, { CMSEditorTriggerProps } from './cms-editor-trigger';
 import { CMSDesktop } from './desktop/cms-desktop';
 import { CMSMobile } from './mobile/cms-mobile';
 import { CMSMobileItemProps } from './mobile/cms-mobile-item';
+import CMSMobileLoadingSkeleton from './mobile/cms-mobile-loading-skeleton';
 
 export default function CMS(props: CMSProps) {
   const { isMobile } = useContext(CMSContext);
-  const { title, description, mobileItems, newItemEditor } = props;
+  const {
+    title,
+    description,
+    mobileItems,
+    newItemEditor,
+    showLoadingSkeleton,
+  } = props;
+
+  if (showLoadingSkeleton) {
+    return isMobile ? <CMSMobileLoadingSkeleton /> : 'Pobieram dane ...';
+  }
 
   return (
     <Card>
@@ -43,6 +54,7 @@ export default function CMS(props: CMSProps) {
 }
 
 export type CMSProps = {
+  showLoadingSkeleton: boolean;
   title: string;
   description: string;
   newItemEditor: CMSEditorTriggerProps;

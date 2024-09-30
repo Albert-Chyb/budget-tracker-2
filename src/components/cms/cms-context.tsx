@@ -1,10 +1,8 @@
 import { useFetcherWithLifecycle } from '@/hooks/fetcher-with-lifecycle';
 import { useMediaQuery } from '@uidotdev/usehooks';
-import { createContext, PropsWithChildren, Suspense, useCallback } from 'react';
-import { Await, useLoaderData } from 'react-router-dom';
+import { createContext, PropsWithChildren, useCallback } from 'react';
 import { SubmitTarget } from 'react-router-dom/dist/dom';
 import { useCMSEditorController } from './cms-editor-controller';
-import CMSMobileLoadingSkeleton from './mobile/cms-mobile-loading-skeleton';
 
 type CMSContextValue = {
   isMobile: boolean;
@@ -23,10 +21,6 @@ const CMS_CONTEXT_VALUE: CMSContextValue = {
 export const CMSContext = createContext<CMSContextValue>(CMS_CONTEXT_VALUE);
 
 export function CMSContextProvider(props: CMSContextProps) {
-  const { data } = useLoaderData() as {
-    data: Promise<Record<string, unknown>>;
-  };
-
   const editor = useCMSEditorController();
   const fetcher = useFetcherWithLifecycle({
     afterSubmit() {
@@ -53,9 +47,7 @@ export function CMSContextProvider(props: CMSContextProps) {
         isSubmitting: fetcher.state === 'submitting',
       }}
     >
-      <Suspense fallback={<CMSMobileLoadingSkeleton />}>
-        <Await resolve={data}>{children}</Await>
-      </Suspense>
+      {children}
     </CMSContext.Provider>
   );
 }

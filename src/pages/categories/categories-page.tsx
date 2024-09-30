@@ -3,18 +3,22 @@ import CategoryForm from '@/components/categories/category-form';
 import CMS from '@/components/cms/cms';
 import { CMSContext } from '@/components/cms/cms-context';
 import CMSMobileItem from '@/components/cms/mobile/cms-mobile-item';
-import { CategoriesPageLoaderData } from '@/loaders/categories-page-loader';
+import { useCategoriesQuery } from '@/lib/db/categories';
+import { useCategoriesColorsQuery } from '@/lib/db/categories-colors';
 import { useContext } from 'react';
-import { useAsyncValue } from 'react-router-dom';
 
 const CATEGORIES_PAGE_TITLE = 'Kategorie';
 const CATEGORIES_PAGE_DESCRIPTION = 'Zarządzaj swoimi kategoriami transakcji';
 
 export default function CategoriesPage() {
+  const categoriesColorsQuery = useCategoriesColorsQuery();
+  const categoriesQuery = useCategoriesQuery();
   const { submit, isSubmitting } = useContext(CMSContext);
-  const { categoriesColors, categories } =
-    useAsyncValue() as CategoriesPageLoaderData;
 
+  const categoriesColors = categoriesColorsQuery.data ?? [];
+  const categories = categoriesQuery.data ?? [];
+  const isLoading =
+    categoriesColorsQuery.isLoading || categoriesQuery.isLoading;
   const mobileCategoriesItems = categories.map((category) => (
     <CMSMobileItem
       key={category.id}
@@ -37,6 +41,7 @@ export default function CategoriesPage() {
 
   return (
     <CMS
+      showLoadingSkeleton={isLoading}
       title={CATEGORIES_PAGE_TITLE}
       description={CATEGORIES_PAGE_DESCRIPTION}
       mobileItems={mobileCategoriesItems}
