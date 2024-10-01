@@ -32,7 +32,6 @@ export const categoryFormErrorMap: z.ZodErrorMap = (error, context) => {
 
 export const categoryFormSchema = categorySchema.omit({
   id: true,
-  ownerId: true,
 });
 
 export type CategoryFormValue = z.infer<typeof categoryFormSchema>;
