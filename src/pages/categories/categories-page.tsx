@@ -30,23 +30,26 @@ function CMSCategoryMobileItem(props: {
 
   return (
     <CMSMobileItem
-      id={String(category.id)}
+      editor={{
+        id: String(category.id),
+        title: category.name,
+        description:
+          'Po zakończeniu edycji naciśnij przycisk Zapisz, aby zapisać zmiany.',
+        content: (
+          <CategoryForm
+            colors={colors}
+            category={category}
+            onSubmit={(value) =>
+              cmsContext.handleEditorMutation(
+                updateCategory({ id: category.id, category: value })
+              )
+            }
+            isLoading={isUpdatePending}
+          />
+        ),
+      }}
       isBeingDeleted={isDeletePending}
       onDelete={() => deleteCategory({ id: category.id })}
-      editorContentElement={
-        <CategoryForm
-          colors={colors}
-          category={category}
-          onSubmit={(value) =>
-            cmsContext.handleEditorMutation(
-              updateCategory({ id: category.id, category: value })
-            )
-          }
-          isLoading={isUpdatePending}
-        />
-      }
-      title={category.name}
-      description='Po zakończeniu edycji naciśnij przycisk Zapisz, aby zapisać zmiany.'
     >
       <Category category={category} />
     </CMSMobileItem>
@@ -99,7 +102,7 @@ export default function CategoriesPage() {
       mobileItems={mobileCategoriesItems}
       newItemEditor={{
         id: 'editor',
-        editorContentElement: (
+        content: (
           <CategoryForm
             colors={categoriesColors}
             onSubmit={(value) =>

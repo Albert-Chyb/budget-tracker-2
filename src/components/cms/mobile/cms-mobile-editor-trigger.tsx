@@ -16,7 +16,7 @@ export default function CMSMobileEditorTrigger(
     children,
     title,
     description,
-    editorContentElement,
+    content,
     isOpened,
     handleOpenChange,
     dismissible,
@@ -39,7 +39,7 @@ export default function CMSMobileEditorTrigger(
         </DrawerHeader>
 
         <div className='mx-[var(--screen-edge-spacing)] space-y-2'>
-          {editorContentElement}
+          {content}
         </div>
       </DrawerContent>
     </Drawer>

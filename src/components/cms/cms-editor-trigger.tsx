@@ -31,6 +31,6 @@ export default function CMSEditorTrigger(props: CMSEditorTriggerProps) {
 export type CMSEditorTriggerProps = PropsWithChildren<{
   title: string;
   description: string;
-  editorContentElement: ReactElement;
+  content: ReactElement;
   id: string;
 }>;

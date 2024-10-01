@@ -1,13 +1,14 @@
 import { LoadingButton } from '@/components/loading-button';
 import { Button } from '@/components/ui/button';
+import { PropsWithChildren } from 'react';
 import CMSEditorTrigger, { CMSEditorTriggerProps } from '../cms-editor-trigger';
 
 export default function CMSMobileItem(props: CMSMobileItemProps) {
-  const { children, isBeingDeleted, onDelete, ...editorProps } = props;
+  const { children, isBeingDeleted, onDelete, editor } = props;
 
   return (
     <li className='border-2 rounded-sm'>
-      <CMSEditorTrigger {...editorProps}>
+      <CMSEditorTrigger {...editor}>
         <Button
           variant='ghost'
           className='rounded-none w-full'
@@ -32,7 +33,8 @@ export default function CMSMobileItem(props: CMSMobileItemProps) {
   );
 }
 
-export type CMSMobileItemProps = CMSEditorTriggerProps & {
+export type CMSMobileItemProps = PropsWithChildren<{
+  editor: CMSEditorTriggerProps;
   isBeingDeleted: boolean;
   onDelete: () => void;
-};
+}>;
