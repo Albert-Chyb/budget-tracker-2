@@ -9,5 +9,11 @@ export const categorySchema = z.object({
   type: categoryTypeSchema,
 });
 
+export const createCategorySchema = categorySchema.omit({ id: true });
+export const updateCategorySchema = categorySchema.omit({ id: true }).partial();
+
 export type TCategory = z.infer<typeof categorySchema>;
+export type TCreateCategory = z.infer<typeof createCategorySchema>;
+export type TUpdateCategory = z.infer<typeof updateCategorySchema>;
+
 export type TCategoryType = z.infer<typeof categoryTypeSchema>;

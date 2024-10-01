@@ -25,7 +25,6 @@ import CategoryTypeRadio from './category-type-radio';
 export default function CategoryForm({
   category,
   colors,
-  method,
   onSubmit,
   isLoading,
 }: CategoryFormProps) {
@@ -47,7 +46,6 @@ export default function CategoryForm({
         ref={formRef}
         onSubmit={form.handleSubmit(handleSubmit)}
         className='space-y-4'
-        method={method}
       >
         <FormField
           control={form.control}
@@ -114,6 +112,5 @@ export type CategoryFormProps = {
   isLoading: boolean;
   category?: TCategory;
   colors: Tables<'categories_colors'>[];
-  method: 'post' | 'put';
   onSubmit: (value: CategoryFormValue, target: HTMLFormElement | null) => void;
 };

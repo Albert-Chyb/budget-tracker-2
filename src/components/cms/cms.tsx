@@ -17,15 +17,9 @@ import CMSMobileLoadingSkeleton from './mobile/cms-mobile-loading-skeleton';
 
 export default function CMS(props: CMSProps) {
   const { isMobile } = useContext(CMSContext);
-  const {
-    title,
-    description,
-    mobileItems,
-    newItemEditor,
-    showLoadingSkeleton,
-  } = props;
+  const { title, description, mobileItems, newItemEditor, isLoading } = props;
 
-  if (showLoadingSkeleton) {
+  if (isLoading) {
     return isMobile ? <CMSMobileLoadingSkeleton /> : 'Pobieram dane ...';
   }
 
@@ -54,7 +48,7 @@ export default function CMS(props: CMSProps) {
 }
 
 export type CMSProps = {
-  showLoadingSkeleton: boolean;
+  isLoading: boolean;
   title: string;
   description: string;
   newItemEditor: CMSEditorTriggerProps;

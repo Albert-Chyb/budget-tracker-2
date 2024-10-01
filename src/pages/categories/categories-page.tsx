@@ -3,33 +3,46 @@ import CategoryForm from '@/components/categories/category-form';
 import CMS from '@/components/cms/cms';
 import { CMSContext } from '@/components/cms/cms-context';
 import CMSMobileItem from '@/components/cms/mobile/cms-mobile-item';
-import { useCategoriesQuery } from '@/lib/db/categories';
+import { TCategory } from '@/lib/db-schemas/category';
+import {
+  useCategoriesQuery,
+  useCategoryCreateMutation,
+  useCategoryDeleteMutation,
+  useCategoryUpdateMutation,
+} from '@/lib/db/categories';
 import { useCategoriesColorsQuery } from '@/lib/db/categories-colors';
+import { Tables } from '@/lib/db/database.types';
 import { useContext } from 'react';
 
 const CATEGORIES_PAGE_TITLE = 'Kategorie';
 const CATEGORIES_PAGE_DESCRIPTION = 'Zarządzaj swoimi kategoriami transakcji';
 
-export default function CategoriesPage() {
-  const categoriesColorsQuery = useCategoriesColorsQuery();
-  const categoriesQuery = useCategoriesQuery();
-  const { submit, isSubmitting } = useContext(CMSContext);
+function CMSCategoryMobileItem(props: {
+  category: TCategory;
+  colors: Tables<'categories_colors'>[];
+}) {
+  const cmsContext = useContext(CMSContext);
+  const { category, colors } = props;
+  const { mutate: deleteCategory, isPending: isDeletePending } =
+    useCategoryDeleteMutation();
+  const { mutateAsync: updateCategory, isPending: isUpdatePending } =
+    useCategoryUpdateMutation();
 
-  const categoriesColors = categoriesColorsQuery.data ?? [];
-  const categories = categoriesQuery.data ?? [];
-  const isLoading =
-    categoriesColorsQuery.isLoading || categoriesQuery.isLoading;
-  const mobileCategoriesItems = categories.map((category) => (
+  return (
     <CMSMobileItem
-      key={category.id}
       id={String(category.id)}
+      isBeingDeleted={isDeletePending}
+      onDelete={() => deleteCategory({ id: category.id })}
       editorContentElement={
         <CategoryForm
-          colors={categoriesColors}
+          colors={colors}
           category={category}
-          method='put'
-          onSubmit={(_value, target) => submit(target)}
-          isLoading={isSubmitting}
+          onSubmit={(value) =>
+            cmsContext.handleEditorMutation(
+              updateCategory({ id: category.id, category: value })
+            )
+          }
+          isLoading={isUpdatePending}
         />
       }
       title={category.name}
@@ -37,11 +50,50 @@ export default function CategoriesPage() {
     >
       <Category category={category} />
     </CMSMobileItem>
+  );
+}
+
+function useCategoriesCMSQuery(): {
+  isLoading: boolean;
+  data: {
+    categories: TCategory[];
+    categoriesColors: Tables<'categories_colors'>[];
+  };
+} {
+  const { isLoading: isColorsLoading, data: categoriesColors } =
+    useCategoriesColorsQuery();
+  const { isLoading: isCategoriesLoading, data: categories } =
+    useCategoriesQuery();
+
+  return {
+    isLoading: isColorsLoading || isCategoriesLoading,
+    data: {
+      categoriesColors: categoriesColors ?? [],
+      categories: categories ?? [],
+    },
+  };
+}
+
+export default function CategoriesPage() {
+  const cmsContext = useContext(CMSContext);
+  const {
+    isLoading,
+    data: { categories, categoriesColors },
+  } = useCategoriesCMSQuery();
+  const { mutateAsync: createCategory, isPending: isCreatePending } =
+    useCategoryCreateMutation();
+
+  const mobileCategoriesItems = categories.map((category) => (
+    <CMSCategoryMobileItem
+      category={category}
+      colors={categoriesColors}
+      key={category.id}
+    />
   ));
 
   return (
     <CMS
-      showLoadingSkeleton={isLoading}
+      isLoading={isLoading}
       title={CATEGORIES_PAGE_TITLE}
       description={CATEGORIES_PAGE_DESCRIPTION}
       mobileItems={mobileCategoriesItems}
@@ -50,9 +102,12 @@ export default function CategoriesPage() {
         editorContentElement: (
           <CategoryForm
             colors={categoriesColors}
-            method='post'
-            onSubmit={(_value, target) => submit(target)}
-            isLoading={isSubmitting}
+            onSubmit={(value) =>
+              cmsContext.handleEditorMutation(
+                createCategory({ category: value })
+              )
+            }
+            isLoading={isCreatePending}
           />
         ),
         title: 'Nowa kategoria',
