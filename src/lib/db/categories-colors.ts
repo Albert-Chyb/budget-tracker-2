@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
+import { categoryColorsSchema } from '../db-schemas/category-colors';
 import { getSupabase } from '../supabase/init';
 
 export async function getCategoriesColors() {
   const supabase = getSupabase();
-  const { data, error } = await supabase
+  const { data: colors, error } = await supabase
     .from('categories_colors')
     .select('colorId, name, rgb');
 
@@ -11,7 +12,7 @@ export async function getCategoriesColors() {
     throw error;
   }
 
-  return data;
+  return colors.map((color) => categoryColorsSchema.parse(color));
 }
 
 export function useCategoriesColorsQuery() {

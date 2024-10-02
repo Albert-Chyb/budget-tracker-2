@@ -4,6 +4,7 @@ import CMS from '@/components/cms/cms';
 import { CMSContext } from '@/components/cms/cms-context';
 import CMSMobileItem from '@/components/cms/mobile/cms-mobile-item';
 import { TCategory } from '@/lib/db-schemas/category';
+import { TCategoryColor } from '@/lib/db-schemas/category-colors';
 import {
   useCategoriesQuery,
   useCategoryCreateMutation,
@@ -11,7 +12,6 @@ import {
   useCategoryUpdateMutation,
 } from '@/lib/db/categories';
 import { useCategoriesColorsQuery } from '@/lib/db/categories-colors';
-import { Tables } from '@/lib/db/database.types';
 import { useContext } from 'react';
 
 const CATEGORIES_PAGE_TITLE = 'Kategorie';
@@ -19,7 +19,7 @@ const CATEGORIES_PAGE_DESCRIPTION = 'Zarządzaj swoimi kategoriami transakcji';
 
 function CMSCategoryMobileItem(props: {
   category: TCategory;
-  colors: Tables<'categories_colors'>[];
+  colors: TCategoryColor[];
 }) {
   const cmsContext = useContext(CMSContext);
   const { category, colors } = props;
@@ -60,7 +60,7 @@ function useCategoriesCMSQuery(): {
   isLoading: boolean;
   data: {
     categories: TCategory[];
-    categoriesColors: Tables<'categories_colors'>[];
+    categoriesColors: TCategoryColor[];
   };
 } {
   const { isLoading: isColorsLoading, data: categoriesColors } =

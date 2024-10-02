@@ -7,7 +7,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { TCategory } from '@/lib/db-schemas/category';
-import { Tables } from '@/lib/db/database.types';
+import { TCategoryColor } from '@/lib/db-schemas/category-colors';
 import {
   categoryFormErrorMap,
   categoryFormSchema,
@@ -111,6 +111,6 @@ export default function CategoryForm({
 export type CategoryFormProps = {
   isLoading: boolean;
   category?: TCategory;
-  colors: Tables<'categories_colors'>[];
+  colors: TCategoryColor[];
   onSubmit: (value: CategoryFormValue, target: HTMLFormElement | null) => void;
 };

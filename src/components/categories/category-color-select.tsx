@@ -5,7 +5,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Tables } from '@/lib/db/database.types';
+import { TCategoryColor } from '@/lib/db-schemas/category-colors';
 import { ControllerRenderPropsWithValue } from '@/lib/types/controller-render-props-with-value';
 import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -77,14 +77,12 @@ export default function CategoryColorSelect<
   );
 }
 
-export type CategoryColorSelectValue =
-  | Tables<'categories_colors'>['colorId']
-  | null;
+export type CategoryColorSelectValue = TCategoryColor['colorId'] | null;
 export type CategoryColorSelectProps<
   TFields extends FieldValues,
   TFieldPath extends Path<TFields>
 > = {
-  colors: Tables<'categories_colors'>[];
+  colors: TCategoryColor[];
   field: ControllerRenderPropsWithValue<
     TFields,
     TFieldPath,
