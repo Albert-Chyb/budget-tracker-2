@@ -5,7 +5,7 @@ import { useCMSEditorController } from './cms-editor-controller';
 type CMSContextValue = {
   isMobile: boolean;
   handleEditorMutation: <T>(mutation: Promise<T>) => Promise<T>;
-  isSubmitting: boolean;
+  isDismissible: boolean;
 };
 
 type CMSContextProps = PropsWithChildren;
@@ -15,7 +15,7 @@ const CMS_CONTEXT_VALUE: CMSContextValue = {
   handleEditorMutation(m) {
     return m;
   },
-  isSubmitting: false,
+  isDismissible: true,
 };
 
 export const CMSContext = createContext<CMSContextValue>(CMS_CONTEXT_VALUE);
@@ -23,16 +23,16 @@ export const CMSContext = createContext<CMSContextValue>(CMS_CONTEXT_VALUE);
 export function CMSContextProvider(props: CMSContextProps) {
   const editor = useCMSEditorController();
   const isMobile = useMediaQuery('(max-width: 768px)');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDismissible, setIsDismissible] = useState(true);
   const { children } = props;
 
   async function handleEditorMutation<T>(mutation: Promise<T>) {
-    setIsSubmitting(true);
+    setIsDismissible(false);
 
     try {
       return await mutation;
     } finally {
-      setIsSubmitting(false);
+      setIsDismissible(true);
       editor.close();
     }
   }
@@ -42,7 +42,7 @@ export function CMSContextProvider(props: CMSContextProps) {
       value={{
         isMobile,
         handleEditorMutation,
-        isSubmitting,
+        isDismissible,
       }}
     >
       {children}

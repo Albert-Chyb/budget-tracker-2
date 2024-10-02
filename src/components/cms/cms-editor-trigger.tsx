@@ -4,11 +4,11 @@ import { useCMSEditorOpenState } from './cms-editor-open-state';
 import CMSMobileEditorTrigger from './mobile/cms-mobile-editor-trigger';
 
 export default function CMSEditorTrigger(props: CMSEditorTriggerProps) {
-  const { isMobile, isSubmitting } = useContext(CMSContext);
+  const { isMobile, isDismissible } = useContext(CMSContext);
   const [isOpened, setIsOpened] = useCMSEditorOpenState(props.id);
 
   function handleOpenChange(open: boolean) {
-    if (isSubmitting && !open) {
+    if (!isDismissible && !open) {
       // Do not change the open state when the editor wants to close itself during a form submission.
       return;
     }
@@ -21,7 +21,7 @@ export default function CMSEditorTrigger(props: CMSEditorTriggerProps) {
       {...props}
       isOpened={isOpened}
       handleOpenChange={handleOpenChange}
-      dismissible={!isSubmitting}
+      dismissible={isDismissible}
     />
   ) : (
     ''
