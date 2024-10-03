@@ -6,19 +6,14 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { changePassword } from '@/lib/auth/change-password';
+import { useChangePasswordMutation } from '@/lib/auth/change-password';
 import { ChangePasswordFormValue } from '@/lib/form-resolvers/change-password-form';
-import { useState } from 'react';
 
 export default function ChangePasswordPage() {
-  const [isLoading, setIsLoading] = useState(false);
+  const { mutate: changePassword, isPending } = useChangePasswordMutation();
 
-  async function handlePasswordChange(value: ChangePasswordFormValue) {
-    setIsLoading(true);
-
-    await changePassword(value.password);
-
-    setIsLoading(false);
+  function handlePasswordChange(value: ChangePasswordFormValue) {
+    changePassword({ password: value.password });
   }
 
   return (
@@ -33,7 +28,7 @@ export default function ChangePasswordPage() {
       <CardContent>
         <ChangePasswordForm
           onPasswordChange={handlePasswordChange}
-          isLoading={isLoading}
+          isLoading={isPending}
         />
       </CardContent>
     </Card>

@@ -9,41 +9,45 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { signUp } from '@/lib/auth/sign-up';
+import { useSignUpMutation } from '@/lib/auth/sign-up';
 import { SignUpFormValue } from '@/lib/form-resolvers/sign-up-form';
 import { userAlreadyExists } from '@/lib/helpers/supabase-errors';
-import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 export const NO_SERVER_ERRORS: SignUpFormServerErrors = {
   emailAlreadyInUse: false,
 };
 
+function deriveServerErrors(error: unknown): SignUpFormServerErrors {
+  if (!error) {
+    return NO_SERVER_ERRORS;
+  }
+
+  if (userAlreadyExists(error)) {
+    return {
+      emailAlreadyInUse: true,
+    };
+  } else {
+    throw error;
+  }
+}
+
 export default function SignUpPage() {
-  const [serverErrors, setServerErrors] = useState(NO_SERVER_ERRORS);
-  const [isLoading, setIsLoading] = useState(false);
+  const { mutate: signUp, isPending, error } = useSignUpMutation();
   const navigate = useNavigate();
 
-  async function handleSignUp({ email, password }: SignUpFormValue) {
-    try {
-      setServerErrors({
-        emailAlreadyInUse: false,
-      });
-      setIsLoading(true);
-      await signUp(email, password);
-      navigate('/');
-    } catch (error) {
-      if (userAlreadyExists(error)) {
-        setServerErrors({
-          emailAlreadyInUse: true,
-        });
-      } else {
-        throw error;
+  function handleSignUp({ email, password }: SignUpFormValue) {
+    signUp(
+      { email, password },
+      {
+        onSuccess() {
+          navigate('/');
+        },
       }
-    } finally {
-      setIsLoading(false);
-    }
+    );
   }
+
+  const serverErrors = deriveServerErrors(error);
 
   return (
     <Card>
@@ -58,7 +62,7 @@ export default function SignUpPage() {
         <SignUpForm
           onSignUp={handleSignUp}
           serverErrors={serverErrors}
-          isLoading={isLoading}
+          isLoading={isPending}
         />
       </CardContent>
 

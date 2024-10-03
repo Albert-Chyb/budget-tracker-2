@@ -9,40 +9,45 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { signIn } from '@/lib/auth/sign-in';
+import { useSignInMutation } from '@/lib/auth/sign-in';
 import { SignInFormValue } from '@/lib/form-resolvers/sign-in-form';
 import { invalidCredentials } from '@/lib/helpers/supabase-errors';
-import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 export const NO_SERVER_ERRORS: SignInFormServerErrors = {
   invalidCredentials: false,
 };
 
+function deriveServerErrors(error: unknown) {
+  if (!error) {
+    return NO_SERVER_ERRORS;
+  }
+
+  if (invalidCredentials(error)) {
+    return {
+      invalidCredentials: true,
+    };
+  } else {
+    throw error;
+  }
+}
+
 export default function SignInPage() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [serverErrors, setServerErrors] =
-    useState<SignInFormServerErrors>(NO_SERVER_ERRORS);
+  const { mutate: signIn, isPending, error } = useSignInMutation();
   const navigate = useNavigate();
 
-  async function handleSignIn({ email, password }: SignInFormValue) {
-    try {
-      setServerErrors(NO_SERVER_ERRORS);
-      setIsLoading(true);
-      await signIn(email, password);
-      navigate('/');
-    } catch (error) {
-      if (invalidCredentials(error)) {
-        setServerErrors({
-          invalidCredentials: true,
-        });
-      } else {
-        throw error;
+  function handleSignIn({ email, password }: SignInFormValue) {
+    signIn(
+      { email, password },
+      {
+        onSuccess() {
+          navigate('/');
+        },
       }
-    } finally {
-      setIsLoading(false);
-    }
+    );
   }
+
+  const serverErrors = deriveServerErrors(error);
 
   return (
     <Card>
@@ -57,7 +62,7 @@ export default function SignInPage() {
         <SignInForm
           onSignIn={handleSignIn}
           serverErrors={serverErrors}
-          isLoading={isLoading}
+          isLoading={isPending}
         />
       </CardContent>
 
