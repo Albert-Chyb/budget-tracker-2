@@ -1,5 +1,6 @@
+import { User } from '@supabase/supabase-js';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getEnsuredUser } from '../auth/get-user';
+import { useUserQuery } from '../auth/user';
 import {
   categorySchema,
   createCategorySchema,
@@ -10,13 +11,12 @@ import {
 } from '../db-schemas/category';
 import { getSupabase } from '../supabase/init';
 
-export async function getCategories(): Promise<TCategory[]> {
+export async function getCategories(userId: string): Promise<TCategory[]> {
   const supabase = getSupabase();
-  const user = await getEnsuredUser();
   const { data: categories, error } = await supabase
     .from('transactions_categories')
     .select('id, name, type, colorId')
-    .eq('ownerId', user.id)
+    .eq('ownerId', userId)
     .order('id', { ascending: true });
 
   if (error) {
@@ -26,13 +26,15 @@ export async function getCategories(): Promise<TCategory[]> {
   return categories.map((category) => categorySchema.parse(category));
 }
 
-export async function createCategory(category: TCreateCategory) {
+export async function createCategory(
+  userId: string,
+  category: TCreateCategory
+) {
   const supabase = getSupabase();
-  const user = await getEnsuredUser();
 
   const { error } = await supabase.from('transactions_categories').insert({
     ...createCategorySchema.parse(category),
-    ownerId: user.id,
+    ownerId: userId,
   });
 
   if (error) {
@@ -42,15 +44,15 @@ export async function createCategory(category: TCreateCategory) {
 
 export async function updateCategory(
   id: TCategory['id'],
+  userId: string,
   category: TUpdateCategory
 ) {
   const supabase = getSupabase();
-  const user = await getEnsuredUser();
 
   const { error } = await supabase
     .from('transactions_categories')
     .update(updateCategorySchema.parse(category))
-    .eq('ownerId', user.id)
+    .eq('ownerId', userId)
     .eq('id', id);
 
   if (error) {
@@ -58,14 +60,13 @@ export async function updateCategory(
   }
 }
 
-export async function deleteCategory(id: TCategory['id']) {
+export async function deleteCategory(id: TCategory['id'], userId: string) {
   const supabase = getSupabase();
-  const user = await getEnsuredUser();
 
   const { error } = await supabase
     .from('transactions_categories')
     .delete()
-    .eq('ownerId', user.id)
+    .eq('ownerId', userId)
     .eq('id', id);
 
   if (error) {
@@ -74,13 +75,17 @@ export async function deleteCategory(id: TCategory['id']) {
 }
 
 export function useCategoriesQuery() {
+  const { data: user } = useUserQuery();
+
   return useQuery({
+    enabled: !!user,
     queryKey: ['categories'],
-    queryFn: () => getCategories(),
+    queryFn: () => getCategories((<User>user).id),
   });
 }
 
 export type CategoryCreateMutationVariables = {
+  userId: string;
   category: TCreateCategory;
 };
 
@@ -88,8 +93,8 @@ export function useCategoryCreateMutation() {
   const client = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ category }: CategoryCreateMutationVariables) =>
-      createCategory(category),
+    mutationFn: ({ category, userId }: CategoryCreateMutationVariables) =>
+      createCategory(userId, category),
     onSuccess() {
       client.invalidateQueries({
         queryKey: ['categories'],
@@ -100,6 +105,7 @@ export function useCategoryCreateMutation() {
 
 export type CategoryUpdateMutationVariables = {
   id: TCategory['id'];
+  userId: string;
   category: TUpdateCategory;
 };
 
@@ -107,8 +113,8 @@ export function useCategoryUpdateMutation() {
   const client = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, category }: CategoryUpdateMutationVariables) =>
-      updateCategory(id, category),
+    mutationFn: ({ id, category, userId }: CategoryUpdateMutationVariables) =>
+      updateCategory(id, userId, category),
     onSuccess() {
       client.invalidateQueries({
         queryKey: ['categories'],
@@ -119,13 +125,15 @@ export function useCategoryUpdateMutation() {
 
 export type CategoryDeleteMutationVariables = {
   id: TCategory['id'];
+  userId: string;
 };
 
 export function useCategoryDeleteMutation() {
   const client = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id }: CategoryDeleteMutationVariables) => deleteCategory(id),
+    mutationFn: ({ id, userId }: CategoryDeleteMutationVariables) =>
+      deleteCategory(id, userId),
     onSuccess: () =>
       client.invalidateQueries({
         queryKey: ['categories'],

@@ -2,6 +2,7 @@ import Category from '@/components/categories/category';
 import CategoryForm from '@/components/categories/category-form';
 import { CMSContext } from '@/components/cms/cms-context';
 import CMSMobileItem from '@/components/cms/mobile/cms-mobile-item';
+import { UserContext } from '@/contexts/user-context';
 import { TCategory } from '@/lib/db-schemas/category';
 import { TCategoryColor } from '@/lib/db-schemas/category-colors';
 import {
@@ -14,12 +15,15 @@ export function CMSCategoryMobileItem(props: {
   category: TCategory;
   colors: TCategoryColor[];
 }) {
+  const { getTrustedUser } = useContext(UserContext);
   const cmsContext = useContext(CMSContext);
   const { category, colors } = props;
   const { mutate: deleteCategory, isPending: isDeletePending } =
     useCategoryDeleteMutation();
   const { mutateAsync: updateCategory, isPending: isUpdatePending } =
     useCategoryUpdateMutation();
+
+  const { id: userId } = getTrustedUser();
 
   return (
     <CMSMobileItem
@@ -34,7 +38,11 @@ export function CMSCategoryMobileItem(props: {
             category={category}
             onSubmit={(value) =>
               cmsContext.handleEditorMutation(
-                updateCategory({ id: category.id, category: value })
+                updateCategory({
+                  id: category.id,
+                  category: value,
+                  userId,
+                })
               )
             }
             isLoading={isUpdatePending}
@@ -42,7 +50,7 @@ export function CMSCategoryMobileItem(props: {
         ),
       }}
       isBeingDeleted={isDeletePending}
-      onDelete={() => deleteCategory({ id: category.id })}
+      onDelete={() => deleteCategory({ id: category.id, userId })}
     >
       <Category category={category} />
     </CMSMobileItem>

@@ -1,6 +1,7 @@
 import CategoryForm from '@/components/categories/category-form';
 import CMS from '@/components/cms/cms';
 import { CMSContext } from '@/components/cms/cms-context';
+import { UserContext } from '@/contexts/user-context';
 import { useCategoryCreateMutation } from '@/lib/db/categories';
 import { useContext } from 'react';
 import { useCategoriesCMSQuery } from './categories-page.hooks';
@@ -10,6 +11,7 @@ const CATEGORIES_PAGE_TITLE = 'Kategorie';
 const CATEGORIES_PAGE_DESCRIPTION = 'Zarządzaj swoimi kategoriami transakcji';
 
 export default function CategoriesPage() {
+  const { getTrustedUser } = useContext(UserContext);
   const cmsContext = useContext(CMSContext);
   const {
     isLoading,
@@ -17,6 +19,8 @@ export default function CategoriesPage() {
   } = useCategoriesCMSQuery();
   const { mutateAsync: createCategory, isPending: isCreatePending } =
     useCategoryCreateMutation();
+
+  const { id: userId } = getTrustedUser();
 
   const mobileCategoriesItems = categories.map((category) => (
     <CMSCategoryMobileItem
@@ -39,7 +43,7 @@ export default function CategoriesPage() {
             colors={categoriesColors}
             onSubmit={(value) =>
               cmsContext.handleEditorMutation(
-                createCategory({ category: value })
+                createCategory({ category: value, userId })
               )
             }
             isLoading={isCreatePending}
