@@ -2,12 +2,17 @@ import {
   SignInFormProps,
   SignInFormServerErrors,
 } from '@/components/auth/sign-in-form';
-import { signIn } from '@/lib/auth/sign-in';
+import { SignInMutationVariables, useSignInMutation } from '@/lib/auth/sign-in';
 import { SignInFormValue } from '@/lib/form-resolvers/sign-in-form';
 import { invalidCredentials } from '@/lib/helpers/supabase-errors';
-import SignInPage, { NO_SERVER_ERRORS } from '@/pages/auth/sign-in-page';
+import SignInPage from '@/pages/auth/sign-in-page';
 import { User } from '@supabase/supabase-js';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  QueryClient,
+  QueryClientProvider,
+  UseMutationResult,
+} from '@tanstack/react-query';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -20,17 +25,16 @@ const SIGN_IN_FORM_VALUE: SignInFormValue = {
 const navigateFunctionMock = vi.fn();
 
 vi.mock('@/lib/auth/sign-in', () => ({
-  signIn: vi.fn(),
+  useSignInMutation: vi.fn(),
 }));
 
 vi.mock('@/components/auth/sign-in-form', () => ({
   default: (props: SignInFormProps) => (
     <div
       data-server-errors={JSON.stringify(props.serverErrors)}
-      data-is-loading={props.isLoading}
       data-testid='sign-in-form'
       onClick={() => props.onSignIn({ ...SIGN_IN_FORM_VALUE })}
-    ></div>
+    />
   ),
 }));
 
@@ -44,8 +48,11 @@ vi.mock('react-router-dom', async () => ({
 }));
 
 describe('SignInPage', () => {
+  /** Mock of the `mutate()` function returned from useSignInMutation hook */
+  const useSignInMutateFn = vi.fn();
+
   /** Renders the sign in page wrapped with a router */
-  let renderSignInPage: () => void;
+  let renderSignInPage: (error?: unknown | null) => void;
 
   /** Calls the handleSignIn handler of the SignInPage component */
   let callHandleSignIn: () => void;
@@ -53,16 +60,43 @@ describe('SignInPage', () => {
   /** Gets the server errors that was passed to the SignInForm component via props */
   let getServerErrors: () => SignInFormServerErrors;
 
-  /** Gets the isLoading state value that was passed to the SignInForm component via props */
-  let isLoading: () => boolean;
-
   beforeEach(() => {
-    vi.mocked(signIn).mockResolvedValue({} as User);
+    renderSignInPage = (error = null) => {
+      // Fake state that is returned from useMutation hook.
+      // We mock only selected properties that the page depends on.
+      const fakeUseMutationResult = {
+        error,
+        mutate: useSignInMutateFn,
+        isPending: false,
+      } as unknown as UseMutationResult<
+        User,
+        Error,
+        SignInMutationVariables,
+        unknown
+      >;
+      vi.mocked(useSignInMutation).mockReturnValueOnce(fakeUseMutationResult);
 
-    renderSignInPage = () => {
-      render(<SignInPage />, {
-        wrapper: MemoryRouter,
+      // Query client with disabled retries
+      const queryClient = new QueryClient({
+        defaultOptions: {
+          queries: {
+            retry: 0,
+          },
+          mutations: {
+            retry: 0,
+          },
+        },
       });
+
+      // Render the sign in page with nesesery providers
+      render(
+        <QueryClientProvider client={queryClient}>
+          <SignInPage />
+        </QueryClientProvider>,
+        {
+          wrapper: MemoryRouter,
+        }
+      );
 
       callHandleSignIn = () => {
         const signInFormMock = screen.getByTestId('sign-in-form');
@@ -73,78 +107,43 @@ describe('SignInPage', () => {
         const signInFormMock = screen.getByTestId('sign-in-form');
         return JSON.parse(signInFormMock.getAttribute('data-server-errors')!);
       };
-
-      isLoading = () => {
-        const signInFormMock = screen.getByTestId('sign-in-form');
-        return signInFormMock.getAttribute('data-is-loading') === 'true';
-      };
     };
-
-    renderSignInPage();
-  });
-
-  it('should have isLoading state set to false initially', () => {
-    expect(isLoading()).toBe(false);
-  });
-
-  it('should start without any server errors', () => {
-    expect(getServerErrors()).toEqual(NO_SERVER_ERRORS);
   });
 
   describe('handleSignIn', () => {
     it('should call the signIn function with form value', () => {
       const { email, password } = SIGN_IN_FORM_VALUE;
 
+      renderSignInPage();
       callHandleSignIn();
 
-      expect(signIn).toHaveBeenCalledWith(email, password);
-    });
-
-    it('should set the isLoading state to true before calling the signIn function', () => {
-      callHandleSignIn();
-
-      expect(isLoading()).toBe(true);
-    });
-
-    it('should set the isLoading state to false after the signIn function resolved a value', async () => {
-      callHandleSignIn();
-
-      await waitFor(() => expect(isLoading()).toBe(false));
-    });
-
-    it('should set the isLoading state to false if the signIn function threw an expected error', async () => {
-      vi.mocked(signIn).mockRejectedValue('Error from tests');
-      vi.mocked(invalidCredentials).mockReturnValue(true);
-
-      callHandleSignIn();
-
-      await waitFor(() => expect(isLoading()).toBe(false));
-    });
-
-    it('should redirect the user to the home page after the signIn function resolved', async () => {
-      callHandleSignIn();
-
-      await waitFor(() =>
-        expect(navigateFunctionMock).toHaveBeenCalledWith('/')
+      expect(useSignInMutateFn).toHaveBeenCalledWith(
+        { email, password },
+        expect.anything()
       );
     });
 
-    it('should clear server errors before the signIn function is called', () => {
+    it('should redirect the user to the home page after successful sign in', () => {
+      useSignInMutateFn.mockImplementationOnce(
+        (_formValue, lifecycle: { onSuccess: () => void }) => {
+          lifecycle.onSuccess();
+        }
+      );
+
+      renderSignInPage();
       callHandleSignIn();
 
-      expect(getServerErrors()).toEqual(NO_SERVER_ERRORS);
+      expect(navigateFunctionMock).toHaveBeenCalledWith('/');
     });
 
-    it('should set invalidCredentials error to true if the signIn function threw such error', async () => {
-      vi.mocked(signIn).mockRejectedValue('error from tests');
+    it('should set invalidCredentials error to true if the mutation threw such error', () => {
       vi.mocked(invalidCredentials).mockReturnValue(true);
 
+      renderSignInPage(new Error('Expected error from a sign in page test'));
       callHandleSignIn();
 
-      await waitFor(() =>
-        expect(getServerErrors()).toEqual(
-          expect.objectContaining({ invalidCredentials: true })
-        )
+      expect(getServerErrors()).toEqual(
+        expect.objectContaining({ invalidCredentials: true })
       );
     });
   });

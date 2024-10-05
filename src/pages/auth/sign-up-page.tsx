@@ -14,13 +14,11 @@ import { SignUpFormValue } from '@/lib/form-resolvers/sign-up-form';
 import { userAlreadyExists } from '@/lib/helpers/supabase-errors';
 import { Link, useNavigate } from 'react-router-dom';
 
-export const NO_SERVER_ERRORS: SignUpFormServerErrors = {
-  emailAlreadyInUse: false,
-};
-
 function deriveServerErrors(error: unknown): SignUpFormServerErrors {
   if (!error) {
-    return NO_SERVER_ERRORS;
+    return {
+      emailAlreadyInUse: false,
+    };
   }
 
   if (userAlreadyExists(error)) {

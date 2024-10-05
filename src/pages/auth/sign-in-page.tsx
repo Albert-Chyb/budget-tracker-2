@@ -14,13 +14,11 @@ import { SignInFormValue } from '@/lib/form-resolvers/sign-in-form';
 import { invalidCredentials } from '@/lib/helpers/supabase-errors';
 import { Link, useNavigate } from 'react-router-dom';
 
-export const NO_SERVER_ERRORS: SignInFormServerErrors = {
-  invalidCredentials: false,
-};
-
-function deriveServerErrors(error: unknown) {
+function deriveServerErrors(error: unknown): SignInFormServerErrors {
   if (!error) {
-    return NO_SERVER_ERRORS;
+    return {
+      invalidCredentials: false,
+    };
   }
 
   if (invalidCredentials(error)) {
