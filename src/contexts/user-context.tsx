@@ -1,31 +1,39 @@
-import { onUserChange } from '@/lib/auth/on-user-change';
+import { useUserQuery } from '@/lib/auth/user';
 import { User } from '@supabase/supabase-js';
-import { createContext, PropsWithChildren, useEffect, useState } from 'react';
+import { createContext, PropsWithChildren } from 'react';
 
 export const UserContext = createContext<UserContextValue>({
   user: null,
   isInitialized: false,
+  getTrustedUser() {
+    throw new Error('The user is not logged.');
+  },
 });
 
 export function UserProvider({ children }: UserContextProps) {
-  const [value, setValue] = useState<UserContextValue>({
-    user: null,
-    isInitialized: false,
-  });
+  const { data: user, isPending } = useUserQuery();
 
-  useEffect(() => {
-    const unsubscribe = onUserChange((user) =>
-      setValue({ user, isInitialized: true })
-    );
+  const value = {
+    user: user ?? null,
+    isInitialized: !isPending,
+    getTrustedUser() {
+      if (!user) {
+        throw new Error('The user is not logged.');
+      }
 
-    return () => unsubscribe();
-  }, []);
+      return user;
+    },
+  };
+  console.log(value);
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }
 
-export type UserContextProps = PropsWithChildren<object>;
+export type UserContextProps = PropsWithChildren;
 export interface UserContextValue {
   user: User | null;
   isInitialized: boolean;
+
+  /** Returns the user object or throws an error if there isn't one. */
+  getTrustedUser(): User;
 }
