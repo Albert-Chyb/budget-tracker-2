@@ -20,5 +20,6 @@ export function useUserQuery() {
   return useQuery({
     queryKey: USER_QUERY_KEY,
     queryFn: () => getUser(),
+    staleTime: Infinity,
   });
 }
