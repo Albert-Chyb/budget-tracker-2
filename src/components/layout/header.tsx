@@ -1,5 +1,5 @@
 import { UserContext } from '@/contexts/user-context';
-import { signOut } from '@/lib/auth/sign-out';
+import { useSignOutMutation } from '@/lib/auth/sign-out';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import SignOutAlertDialog from '../auth/sign-out-alert-dialog';
@@ -8,10 +8,11 @@ import { NavigationMenu, NavigationMenuList } from '../ui/navigation-menu';
 import HeaderNavigationItem from './header-navigation-item';
 
 export function Header() {
+  const { mutate: signOut } = useSignOutMutation();
   const { user } = useContext(UserContext);
 
-  async function handleSignOut() {
-    await signOut();
+  function handleSignOut() {
+    signOut();
   }
 
   return (
