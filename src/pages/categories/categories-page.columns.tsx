@@ -12,7 +12,7 @@ export const categoriesPageTableColumns = [
   columnBuilder.accessor('type', {
     id: 'category-transactions-type',
     header: 'Typ transakcji',
-    cell: (props) => props.renderValue(),
+    cell: (props) => (props.getValue() === 'income' ? 'Przychód' : 'Wydatek'),
   }),
   columnBuilder.accessor('colorId', {
     id: 'category-color-id',

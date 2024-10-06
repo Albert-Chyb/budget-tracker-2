@@ -1,3 +1,11 @@
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { TCategory } from '@/lib/db-schemas/category';
 import {
   flexRender,
@@ -16,28 +24,32 @@ export function CategoriesPageTable(props: CategoriesPageTableProps) {
   });
 
   const tableHeaderRows = table.getHeaderGroups().map(({ id, headers }) => (
-    <tr key={id}>
+    <TableRow key={id}>
       {headers.map((header) => (
-        <th key={header.id}>
+        <TableHead key={header.id}>
           {flexRender(header.column.columnDef.header, header.getContext())}
-        </th>
+        </TableHead>
       ))}
-    </tr>
+    </TableRow>
   ));
 
   const tableRows = table.getRowModel().rows.map((row) => (
-    <tr key={row.id}>
+    <TableRow key={row.id}>
       {row.getVisibleCells().map((cell) => (
-        <td>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+        <TableCell key={cell.id}>
+          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+        </TableCell>
       ))}
-    </tr>
+    </TableRow>
   ));
 
   return (
-    <table>
-      <thead>{tableHeaderRows}</thead>
-      <tbody>{tableRows}</tbody>
-    </table>
+    <div className='rounded-md border'>
+      <Table>
+        <TableHeader>{tableHeaderRows}</TableHeader>
+        <TableBody>{tableRows}</TableBody>
+      </Table>
+    </div>
   );
 }
 
