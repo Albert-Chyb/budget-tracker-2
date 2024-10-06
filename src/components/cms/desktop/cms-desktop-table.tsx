@@ -6,22 +6,16 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { TCategory } from '@/lib/db-schemas/category';
 import {
   flexRender,
-  getCoreRowModel,
-  useReactTable,
+  RowData,
+  Table as TanstackTable,
 } from '@tanstack/react-table';
-import { categoriesPageTableColumns } from './categories-page.columns';
 
-export function CategoriesPageTable(props: CategoriesPageTableProps) {
-  const { data } = props;
-
-  const table = useReactTable({
-    columns: categoriesPageTableColumns,
-    getCoreRowModel: getCoreRowModel(),
-    data,
-  });
+export function CMSDesktopTable<TData extends RowData>(
+  props: CategoriesPageTableProps<TData>
+) {
+  const { table } = props;
 
   const tableHeaderRows = table.getHeaderGroups().map(({ id, headers }) => (
     <TableRow key={id}>
@@ -53,4 +47,6 @@ export function CategoriesPageTable(props: CategoriesPageTableProps) {
   );
 }
 
-export type CategoriesPageTableProps = { data: TCategory[] };
+export type CategoriesPageTableProps<TData extends RowData> = {
+  table: TanstackTable<TData>;
+};
