@@ -6,6 +6,7 @@ import { useCategoryCreateMutation } from '@/lib/db/categories';
 import { useContext } from 'react';
 import { useCategoriesCMSQuery } from './categories-page.hooks';
 import { CMSCategoryMobileItem } from './categories-page.layout';
+import { CategoriesPageTable } from './categories-page.table';
 
 const CATEGORIES_PAGE_TITLE = 'Kategorie';
 const CATEGORIES_PAGE_DESCRIPTION = 'Zarządzaj swoimi kategoriami transakcji';
@@ -36,6 +37,7 @@ export default function CategoriesPage() {
       title={CATEGORIES_PAGE_TITLE}
       description={CATEGORIES_PAGE_DESCRIPTION}
       mobileItems={mobileCategoriesItems}
+      desktopTable={<CategoriesPageTable data={categories} />}
       newItemEditor={{
         id: 'editor',
         content: (

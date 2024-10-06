@@ -17,7 +17,14 @@ import CMSMobileLoadingSkeleton from './mobile/cms-mobile-loading-skeleton';
 
 export default function CMS(props: CMSProps) {
   const { isMobile } = useContext(CMSContext);
-  const { title, description, mobileItems, newItemEditor, isLoading } = props;
+  const {
+    title,
+    description,
+    mobileItems,
+    newItemEditor,
+    isLoading,
+    desktopTable,
+  } = props;
 
   if (isLoading) {
     return isMobile ? <CMSMobileLoadingSkeleton /> : 'Pobieram dane ...';
@@ -41,7 +48,11 @@ export default function CMS(props: CMSProps) {
       </div>
 
       <CardContent>
-        {isMobile ? <CMSMobile>{mobileItems}</CMSMobile> : <CMSDesktop />}
+        {isMobile ? (
+          <CMSMobile>{mobileItems}</CMSMobile>
+        ) : (
+          <CMSDesktop>{desktopTable}</CMSDesktop>
+        )}
       </CardContent>
     </Card>
   );
@@ -56,4 +67,5 @@ export type CMSProps = {
     CMSMobileItemProps,
     JSXElementConstructor<CMSMobileItemProps>
   >[];
+  desktopTable: ReactElement;
 };
