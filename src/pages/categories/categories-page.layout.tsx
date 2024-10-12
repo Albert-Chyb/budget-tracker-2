@@ -4,27 +4,21 @@ import { CMSContext } from '@/components/cms/cms-context';
 import CMSEditorTrigger from '@/components/cms/cms-editor-trigger';
 import CMSMobileItem from '@/components/cms/mobile/cms-mobile-item';
 import { Button } from '@/components/ui/button';
-import { UserContext } from '@/contexts/user-context';
 import { TCategory } from '@/lib/db-schemas/category';
-import { TCategoryColor } from '@/lib/db-schemas/category-colors';
-import {
-  useCategoryDeleteMutation,
-  useCategoryUpdateMutation,
-} from '@/lib/db/categories';
 import { Pen, Trash } from 'lucide-react';
 import { useContext } from 'react';
+import { CategoriesPageResolver } from './categories-page.resolver';
 
-export function CMSCategoryActions(props: CMSCategoryActionsProps) {
-  const { category, colors } = props;
+export function CategoryActions(props: CMSCategoryActionsProps) {
+  const { category, resolver } = props;
 
-  const { getTrustedUser } = useContext(UserContext);
   const cmsContext = useContext(CMSContext);
-  const { mutate: deleteCategory, isPending: isDeletePending } =
-    useCategoryDeleteMutation();
-  const { mutateAsync: updateCategory, isPending: isUpdatePending } =
-    useCategoryUpdateMutation();
 
-  const { id: userId } = getTrustedUser();
+  const { delete: deleteCategory, isPending: isDeletePending } =
+    resolver.useDelete(category.id);
+
+  const { update: updateCategory, isPending: isUpdatePending } =
+    resolver.useUpdate(category.id);
 
   const editorProps = {
     id: String(category.id),
@@ -33,25 +27,15 @@ export function CMSCategoryActions(props: CMSCategoryActionsProps) {
       'Po zakończeniu edycji naciśnij przycisk Zapisz, aby zapisać zmiany.',
     content: (
       <CategoryForm
-        colors={colors}
+        colors={resolver.data.categoriesColors}
         category={category}
         onSubmit={(value) =>
-          cmsContext.handleEditorMutation(
-            updateCategory({
-              id: category.id,
-              category: value,
-              userId,
-            })
-          )
+          cmsContext.handleEditorMutation(updateCategory(value))
         }
         isLoading={isUpdatePending}
       />
     ),
   };
-
-  function handleDeleteButtonClick() {
-    deleteCategory({ userId, id: category.id });
-  }
 
   return (
     <>
@@ -60,7 +44,7 @@ export function CMSCategoryActions(props: CMSCategoryActionsProps) {
         size='icon'
         variant='ghost'
         aria-label={`Usuń kategorię: ${category.name}`}
-        onClick={() => handleDeleteButtonClick()}
+        onClick={() => deleteCategory()}
         disabled={isDeletePending}
       >
         <Trash className='size-4' />
@@ -82,22 +66,22 @@ export function CMSCategoryActions(props: CMSCategoryActionsProps) {
 
 export type CMSCategoryActionsProps = {
   category: TCategory;
-  colors: TCategoryColor[];
+  resolver: CategoriesPageResolver;
 };
 
 export function CMSCategoryMobileItem(props: {
   category: TCategory;
-  colors: TCategoryColor[];
+  resolver: CategoriesPageResolver;
 }) {
-  const { getTrustedUser } = useContext(UserContext);
+  const { category, resolver } = props;
   const cmsContext = useContext(CMSContext);
-  const { category, colors } = props;
-  const { mutate: deleteCategory, isPending: isDeletePending } =
-    useCategoryDeleteMutation();
-  const { mutateAsync: updateCategory, isPending: isUpdatePending } =
-    useCategoryUpdateMutation();
 
-  const { id: userId } = getTrustedUser();
+  const { delete: deleteCategory, isPending: isDeletePending } =
+    resolver.useDelete(category.id);
+
+  const { update, isPending: isUpdatePending } = resolver.useUpdate(
+    category.id
+  );
 
   return (
     <CMSMobileItem
@@ -108,23 +92,15 @@ export function CMSCategoryMobileItem(props: {
           'Po zakończeniu edycji naciśnij przycisk Zapisz, aby zapisać zmiany.',
         content: (
           <CategoryForm
-            colors={colors}
+            colors={resolver.data.categoriesColors}
             category={category}
-            onSubmit={(value) =>
-              cmsContext.handleEditorMutation(
-                updateCategory({
-                  id: category.id,
-                  category: value,
-                  userId,
-                })
-              )
-            }
+            onSubmit={(value) => cmsContext.handleEditorMutation(update(value))}
             isLoading={isUpdatePending}
           />
         ),
       }}
       isBeingDeleted={isDeletePending}
-      onDelete={() => deleteCategory({ id: category.id, userId })}
+      onDelete={() => deleteCategory()}
     >
       <Category category={category} />
     </CMSMobileItem>

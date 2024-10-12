@@ -1,60 +1,61 @@
 import CategoryForm from '@/components/categories/category-form';
 import CMS from '@/components/cms/cms';
 import { CMSContext } from '@/components/cms/cms-context';
-import { UserContext } from '@/contexts/user-context';
-import { useCategoryCreateMutation } from '@/lib/db/categories';
-import { useContext } from 'react';
-import {
-  useCategoriesCMSQuery,
-  useCategoriesColumnsDef,
-} from './categories-page.hooks';
+import { TCategory } from '@/lib/db-schemas/category';
+import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { useMemo } from 'react';
+import { categoriesPageTableColsFactory } from './categories-page.columns';
 import { CMSCategoryMobileItem } from './categories-page.layout';
+import { useCategoriesPageResolver } from './categories-page.resolver';
 
 const CATEGORIES_PAGE_TITLE = 'Kategorie';
 const CATEGORIES_PAGE_DESCRIPTION = 'Zarządzaj swoimi kategoriami transakcji';
 
 export default function CategoriesPage() {
-  const { getTrustedUser } = useContext(UserContext);
-  const cmsContext = useContext(CMSContext);
-  const {
-    isLoading,
-    data: { categories, categoriesColors },
-  } = useCategoriesCMSQuery();
-  const { mutateAsync: createCategory, isPending: isCreatePending } =
-    useCategoryCreateMutation();
+  const resolver = useCategoriesPageResolver();
+  const { create, isPending: isCreatePending } = resolver.useCreate();
 
-  const { id: userId } = getTrustedUser();
+  const categories = resolver.data.categories;
+  const categoriesColors = resolver.data.categoriesColors;
 
   const mobileCategoriesItems = categories.map((category) => (
     <CMSCategoryMobileItem
       category={category}
-      colors={categoriesColors}
+      resolver={resolver}
       key={category.id}
     />
   ));
 
-  const columnsDef = useCategoriesColumnsDef(categoriesColors);
+  const columns = useMemo(
+    () => categoriesPageTableColsFactory(resolver),
+    [resolver]
+  );
+
+  const table = useReactTable<TCategory>({
+    data: categories,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  });
 
   return (
     <CMS
-      isLoading={isLoading}
+      isLoading={resolver.isLoading}
       title={CATEGORIES_PAGE_TITLE}
       description={CATEGORIES_PAGE_DESCRIPTION}
       mobileItems={mobileCategoriesItems}
-      data={categories}
-      columnsDef={columnsDef}
+      table={table}
       newItemEditor={{
         id: 'editor',
         content: (
-          <CategoryForm
-            colors={categoriesColors}
-            onSubmit={(value) =>
-              cmsContext.handleEditorMutation(
-                createCategory({ category: value, userId })
-              )
-            }
-            isLoading={isCreatePending}
-          />
+          <CMSContext.Consumer>
+            {({ handleEditorMutation }) => (
+              <CategoryForm
+                colors={categoriesColors}
+                onSubmit={(value) => handleEditorMutation(create(value))}
+                isLoading={isCreatePending}
+              />
+            )}
+          </CMSContext.Consumer>
         ),
         title: 'Nowa kategoria',
         description:
