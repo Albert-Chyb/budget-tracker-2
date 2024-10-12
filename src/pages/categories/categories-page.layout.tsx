@@ -12,29 +12,15 @@ import { CategoriesPageResolver } from './categories-page.resolver';
 export function CategoryActions(props: CMSCategoryActionsProps) {
   const { category, resolver } = props;
 
-  const cmsContext = useContext(CMSContext);
-
   const { delete: deleteCategory, isPending: isDeletePending } =
     resolver.useDelete(category.id);
-
-  const { update: updateCategory, isPending: isUpdatePending } =
-    resolver.useUpdate(category.id);
 
   const editorProps = {
     id: String(category.id),
     title: category.name,
     description:
       'Po zakończeniu edycji naciśnij przycisk Zapisz, aby zapisać zmiany.',
-    content: (
-      <CategoryForm
-        colors={resolver.data.categoriesColors}
-        category={category}
-        onSubmit={(value) =>
-          cmsContext.handleEditorMutation(updateCategory(value))
-        }
-        isLoading={isUpdatePending}
-      />
-    ),
+    content: <CMSCategoryEditForm resolver={resolver} category={category} />,
   };
 
   return (
@@ -74,14 +60,9 @@ export function CMSCategoryMobileItem(props: {
   resolver: CategoriesPageResolver;
 }) {
   const { category, resolver } = props;
-  const cmsContext = useContext(CMSContext);
 
   const { delete: deleteCategory, isPending: isDeletePending } =
     resolver.useDelete(category.id);
-
-  const { update, isPending: isUpdatePending } = resolver.useUpdate(
-    category.id
-  );
 
   return (
     <CMSMobileItem
@@ -91,12 +72,7 @@ export function CMSCategoryMobileItem(props: {
         description:
           'Po zakończeniu edycji naciśnij przycisk Zapisz, aby zapisać zmiany.',
         content: (
-          <CategoryForm
-            colors={resolver.data.categoriesColors}
-            category={category}
-            onSubmit={(value) => cmsContext.handleEditorMutation(update(value))}
-            isLoading={isUpdatePending}
-          />
+          <CMSCategoryEditForm resolver={resolver} category={category} />
         ),
       }}
       isBeingDeleted={isDeletePending}
@@ -106,3 +82,44 @@ export function CMSCategoryMobileItem(props: {
     </CMSMobileItem>
   );
 }
+
+export function CMSCategoryCreateForm(props: CMSCategoryCreateFormProps) {
+  const { resolver } = props;
+
+  const { handleEditorMutation } = useContext(CMSContext);
+  const { create, isPending: isCreatePending } = resolver.useCreate();
+
+  return (
+    <CategoryForm
+      colors={resolver.data.categoriesColors}
+      onSubmit={(value) => handleEditorMutation(create(value))}
+      isLoading={isCreatePending}
+    />
+  );
+}
+
+export type CMSCategoryCreateFormProps = {
+  resolver: CategoriesPageResolver;
+};
+
+export function CMSCategoryEditForm(props: CMSCategoryEditFormProps) {
+  const { resolver, category } = props;
+
+  const { handleEditorMutation } = useContext(CMSContext);
+  const { update: updateCategory, isPending: isUpdatePending } =
+    resolver.useUpdate(category.id);
+
+  return (
+    <CategoryForm
+      colors={resolver.data.categoriesColors}
+      category={category}
+      onSubmit={(value) => handleEditorMutation(updateCategory(value))}
+      isLoading={isUpdatePending}
+    />
+  );
+}
+
+export type CMSCategoryEditFormProps = {
+  category: TCategory;
+  resolver: CategoriesPageResolver;
+};
