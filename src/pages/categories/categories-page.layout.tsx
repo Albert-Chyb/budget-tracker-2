@@ -7,10 +7,10 @@ import { Button } from '@/components/ui/button';
 import { TCategory } from '@/lib/db-schemas/category';
 import { Pen, Trash } from 'lucide-react';
 import { useContext } from 'react';
-import { CategoriesPageResolver } from './categories-page.resolver';
+import { CategoriesPageStore } from './categories-page.store';
 
 export function CategoryActions(props: CMSCategoryActionsProps) {
-  const { category, resolver } = props;
+  const { category, store: resolver } = props;
 
   const { delete: deleteCategory, isPending: isDeletePending } =
     resolver.useDelete(category.id);
@@ -20,7 +20,7 @@ export function CategoryActions(props: CMSCategoryActionsProps) {
     title: category.name,
     description:
       'Po zakończeniu edycji naciśnij przycisk Zapisz, aby zapisać zmiany.',
-    content: <CMSCategoryEditForm resolver={resolver} category={category} />,
+    content: <CMSCategoryEditForm store={resolver} category={category} />,
   };
 
   return (
@@ -52,17 +52,17 @@ export function CategoryActions(props: CMSCategoryActionsProps) {
 
 export type CMSCategoryActionsProps = {
   category: TCategory;
-  resolver: CategoriesPageResolver;
+  store: CategoriesPageStore;
 };
 
 export function CMSCategoryMobileItem(props: {
   category: TCategory;
-  resolver: CategoriesPageResolver;
+  store: CategoriesPageStore;
 }) {
-  const { category, resolver } = props;
+  const { category, store } = props;
 
   const { delete: deleteCategory, isPending: isDeletePending } =
-    resolver.useDelete(category.id);
+    store.useDelete(category.id);
 
   return (
     <CMSMobileItem
@@ -71,9 +71,7 @@ export function CMSCategoryMobileItem(props: {
         title: category.name,
         description:
           'Po zakończeniu edycji naciśnij przycisk Zapisz, aby zapisać zmiany.',
-        content: (
-          <CMSCategoryEditForm resolver={resolver} category={category} />
-        ),
+        content: <CMSCategoryEditForm store={store} category={category} />,
       }}
       isBeingDeleted={isDeletePending}
       onDelete={() => deleteCategory()}
@@ -84,14 +82,14 @@ export function CMSCategoryMobileItem(props: {
 }
 
 export function CMSCategoryCreateForm(props: CMSCategoryCreateFormProps) {
-  const { resolver } = props;
+  const { store } = props;
 
   const { handleEditorMutation } = useContext(CMSContext);
-  const { create, isPending: isCreatePending } = resolver.useCreate();
+  const { create, isPending: isCreatePending } = store.useCreate();
 
   return (
     <CategoryForm
-      colors={resolver.data.categoriesColors}
+      colors={store.data.categoriesColors}
       onSubmit={(value) => handleEditorMutation(create(value))}
       isLoading={isCreatePending}
     />
@@ -99,19 +97,19 @@ export function CMSCategoryCreateForm(props: CMSCategoryCreateFormProps) {
 }
 
 export type CMSCategoryCreateFormProps = {
-  resolver: CategoriesPageResolver;
+  store: CategoriesPageStore;
 };
 
 export function CMSCategoryEditForm(props: CMSCategoryEditFormProps) {
-  const { resolver, category } = props;
+  const { store, category } = props;
 
   const { handleEditorMutation } = useContext(CMSContext);
   const { update: updateCategory, isPending: isUpdatePending } =
-    resolver.useUpdate(category.id);
+    store.useUpdate(category.id);
 
   return (
     <CategoryForm
-      colors={resolver.data.categoriesColors}
+      colors={store.data.categoriesColors}
       category={category}
       onSubmit={(value) => handleEditorMutation(updateCategory(value))}
       isLoading={isUpdatePending}
@@ -121,5 +119,5 @@ export function CMSCategoryEditForm(props: CMSCategoryEditFormProps) {
 
 export type CMSCategoryEditFormProps = {
   category: TCategory;
-  resolver: CategoriesPageResolver;
+  store: CategoriesPageStore;
 };

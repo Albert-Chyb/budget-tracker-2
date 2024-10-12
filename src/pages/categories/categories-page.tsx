@@ -7,28 +7,25 @@ import {
   CMSCategoryCreateForm,
   CMSCategoryMobileItem,
 } from './categories-page.layout';
-import { useCategoriesPageResolver } from './categories-page.resolver';
+import { useCategoriesPageStore } from './categories-page.store';
 
 const CATEGORIES_PAGE_TITLE = 'Kategorie';
 const CATEGORIES_PAGE_DESCRIPTION = 'Zarządzaj swoimi kategoriami transakcji';
 
 export default function CategoriesPage() {
-  const resolver = useCategoriesPageResolver();
+  const store = useCategoriesPageStore();
 
-  const categories = resolver.data.categories;
+  const categories = store.data.categories;
 
   const mobileCategoriesItems = categories.map((category) => (
     <CMSCategoryMobileItem
       category={category}
-      resolver={resolver}
+      store={store}
       key={category.id}
     />
   ));
 
-  const columns = useMemo(
-    () => categoriesPageTableColsFactory(resolver),
-    [resolver]
-  );
+  const columns = useMemo(() => categoriesPageTableColsFactory(store), [store]);
 
   const table = useReactTable<TCategory>({
     data: categories,
@@ -38,14 +35,14 @@ export default function CategoriesPage() {
 
   return (
     <CMS
-      isLoading={resolver.isLoading}
+      isLoading={store.isLoading}
       title={CATEGORIES_PAGE_TITLE}
       description={CATEGORIES_PAGE_DESCRIPTION}
       mobileItems={mobileCategoriesItems}
       table={table}
       newItemEditor={{
         id: 'editor',
-        content: <CMSCategoryCreateForm resolver={resolver} />,
+        content: <CMSCategoryCreateForm store={store} />,
         title: 'Nowa kategoria',
         description:
           'Po wypełnieniu formularza naciśnij przycisk Zapisz, aby stworzyć nową kategorię.',

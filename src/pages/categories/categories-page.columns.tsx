@@ -1,13 +1,11 @@
 import { TCategory } from '@/lib/db-schemas/category';
 import { createColumnHelper } from '@tanstack/react-table';
 import { CategoryActions } from './categories-page.layout';
-import { CategoriesPageResolver } from './categories-page.resolver';
+import { CategoriesPageStore } from './categories-page.store';
 
 const columnBuilder = createColumnHelper<TCategory>();
 
-export const categoriesPageTableColsFactory = (
-  resolver: CategoriesPageResolver
-) => [
+export const categoriesPageTableColsFactory = (store: CategoriesPageStore) => [
   columnBuilder.accessor('name', {
     id: 'category-name',
     header: 'Nazwa',
@@ -27,7 +25,7 @@ export const categoriesPageTableColsFactory = (
     id: 'category-actions',
     header: 'Akcje',
     cell: ({ row }) => (
-      <CategoryActions category={row.original} resolver={resolver} />
+      <CategoryActions category={row.original} store={store} />
     ),
   }),
 ];

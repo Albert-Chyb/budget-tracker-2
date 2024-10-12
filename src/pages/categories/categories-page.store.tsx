@@ -9,7 +9,7 @@ import {
 import { useCategoriesColorsQuery } from '@/lib/db/categories-colors';
 import { useContext, useMemo } from 'react';
 
-export function useCategoriesPageResolver() {
+export function useCategoriesPageStore() {
   const { getTrustedUser } = useContext(UserContext);
 
   const { isLoading: isColorsLoading, data: categoriesColors } =
@@ -64,6 +64,4 @@ export function useCategoriesPageResolver() {
   );
 }
 
-export type CategoriesPageResolver = ReturnType<
-  typeof useCategoriesPageResolver
->;
+export type CategoriesPageStore = ReturnType<typeof useCategoriesPageStore>;
