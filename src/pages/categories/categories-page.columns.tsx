@@ -1,5 +1,6 @@
 import { TCategory } from '@/lib/db-schemas/category';
 import { createColumnHelper } from '@tanstack/react-table';
+import { CMSCategoryActions } from './categories-page.layout';
 
 const columnBuilder = createColumnHelper<TCategory>();
 
@@ -22,6 +23,8 @@ export const categoriesPageTableColumns = [
   columnBuilder.display({
     id: 'category-actions',
     header: 'Akcje',
-    cell: () => <button>Usuń</button>,
+    cell: ({ row }) => (
+      <CMSCategoryActions category={row.original} colors={[]} />
+    ),
   }),
 ];

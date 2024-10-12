@@ -1,6 +1,7 @@
 import { PropsWithChildren, ReactElement, useContext } from 'react';
 import { CMSContext } from './cms-context';
 import { useCMSEditorOpenState } from './cms-editor-open-state';
+import { CMSDesktopEditorTrigger } from './desktop/cms-desktop-editor-trigger';
 import CMSMobileEditorTrigger from './mobile/cms-mobile-editor-trigger';
 
 export default function CMSEditorTrigger(props: CMSEditorTriggerProps) {
@@ -16,15 +17,17 @@ export default function CMSEditorTrigger(props: CMSEditorTriggerProps) {
     setIsOpened(open);
   }
 
+  const childProps: CMSChildEditorTriggerProps = {
+    ...props,
+    isOpened: isOpened,
+    handleOpenChange: handleOpenChange,
+    dismissible: isDismissible,
+  };
+
   return isMobile ? (
-    <CMSMobileEditorTrigger
-      {...props}
-      isOpened={isOpened}
-      handleOpenChange={handleOpenChange}
-      dismissible={isDismissible}
-    />
+    <CMSMobileEditorTrigger {...childProps} />
   ) : (
-    ''
+    <CMSDesktopEditorTrigger {...childProps} />
   );
 }
 
@@ -34,3 +37,9 @@ export type CMSEditorTriggerProps = PropsWithChildren<{
   content: ReactElement;
   id: string;
 }>;
+
+export type CMSChildEditorTriggerProps = CMSEditorTriggerProps & {
+  isOpened: boolean;
+  handleOpenChange: (open: boolean) => void;
+  dismissible: boolean;
+};

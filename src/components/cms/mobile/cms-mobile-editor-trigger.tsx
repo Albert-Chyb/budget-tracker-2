@@ -7,7 +7,10 @@ import {
   DrawerTrigger,
 } from '@/components/ui/drawer';
 import { PropsWithChildren } from 'react';
-import { CMSEditorTriggerProps } from '../cms-editor-trigger';
+import {
+  CMSChildEditorTriggerProps,
+  CMSEditorTriggerProps,
+} from '../cms-editor-trigger';
 
 export default function CMSMobileEditorTrigger(
   props: CMSMobileEditorTriggerProps
@@ -47,8 +50,4 @@ export default function CMSMobileEditorTrigger(
 }
 
 export type CMSMobileEditorTriggerProps =
-  PropsWithChildren<CMSEditorTriggerProps> & {
-    isOpened: boolean;
-    handleOpenChange: (open: boolean) => void;
-    dismissible: boolean;
-  };
+  PropsWithChildren<CMSEditorTriggerProps> & CMSChildEditorTriggerProps;
