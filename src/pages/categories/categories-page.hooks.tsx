@@ -2,6 +2,8 @@ import { TCategory } from '@/lib/db-schemas/category';
 import { TCategoryColor } from '@/lib/db-schemas/category-colors';
 import { useCategoriesQuery } from '@/lib/db/categories';
 import { useCategoriesColorsQuery } from '@/lib/db/categories-colors';
+import { useMemo } from 'react';
+import { categoriesPageTableColumnsFactory } from './categories-page.columns';
 
 export function useCategoriesCMSQuery(): {
   isLoading: boolean;
@@ -22,4 +24,8 @@ export function useCategoriesCMSQuery(): {
       categories: categories ?? [],
     },
   };
+}
+
+export function useCategoriesColumnsDef(colors: TCategoryColor[]) {
+  return useMemo(() => categoriesPageTableColumnsFactory(colors), [colors]);
 }

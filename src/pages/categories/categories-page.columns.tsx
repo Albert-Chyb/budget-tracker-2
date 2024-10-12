@@ -1,10 +1,11 @@
 import { TCategory } from '@/lib/db-schemas/category';
+import { TCategoryColor } from '@/lib/db-schemas/category-colors';
 import { createColumnHelper } from '@tanstack/react-table';
 import { CMSCategoryActions } from './categories-page.layout';
 
 const columnBuilder = createColumnHelper<TCategory>();
 
-export const categoriesPageTableColumns = [
+export const categoriesPageTableColumnsFactory = (colors: TCategoryColor[]) => [
   columnBuilder.accessor('name', {
     id: 'category-name',
     header: 'Nazwa',
@@ -24,7 +25,7 @@ export const categoriesPageTableColumns = [
     id: 'category-actions',
     header: 'Akcje',
     cell: ({ row }) => (
-      <CMSCategoryActions category={row.original} colors={[]} />
+      <CMSCategoryActions category={row.original} colors={colors} />
     ),
   }),
 ];

@@ -4,8 +4,10 @@ import { CMSContext } from '@/components/cms/cms-context';
 import { UserContext } from '@/contexts/user-context';
 import { useCategoryCreateMutation } from '@/lib/db/categories';
 import { useContext } from 'react';
-import { categoriesPageTableColumns } from './categories-page.columns';
-import { useCategoriesCMSQuery } from './categories-page.hooks';
+import {
+  useCategoriesCMSQuery,
+  useCategoriesColumnsDef,
+} from './categories-page.hooks';
 import { CMSCategoryMobileItem } from './categories-page.layout';
 
 const CATEGORIES_PAGE_TITLE = 'Kategorie';
@@ -31,6 +33,8 @@ export default function CategoriesPage() {
     />
   ));
 
+  const columnsDef = useCategoriesColumnsDef(categoriesColors);
+
   return (
     <CMS
       isLoading={isLoading}
@@ -38,7 +42,7 @@ export default function CategoriesPage() {
       description={CATEGORIES_PAGE_DESCRIPTION}
       mobileItems={mobileCategoriesItems}
       data={categories}
-      columnsDef={categoriesPageTableColumns}
+      columnsDef={columnsDef}
       newItemEditor={{
         id: 'editor',
         content: (
