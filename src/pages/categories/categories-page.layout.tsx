@@ -38,6 +38,7 @@ export function CategoryActions(props: CMSCategoryActionsProps) {
 
       <CMSEditorTrigger {...editorProps}>
         <Button
+          disabled={isDeletePending}
           type='button'
           size='icon'
           variant='ghost'
