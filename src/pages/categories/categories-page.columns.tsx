@@ -1,3 +1,4 @@
+import { CategoryColorBadge } from '@/components/categories/category-color-badge';
 import { TCategory } from '@/lib/db-schemas/category';
 import { createColumnHelper } from '@tanstack/react-table';
 import { CategoryActions } from './categories-page.layout';
@@ -16,10 +17,15 @@ export const categoriesPageTableColsFactory = (store: CategoriesPageStore) => [
     header: 'Typ transakcji',
     cell: (props) => (props.getValue() === 'income' ? 'Przychód' : 'Wydatek'),
   }),
-  columnBuilder.accessor('colorId', {
+  columnBuilder.accessor((data) => data.color?.name, {
     id: 'category-color-id',
     header: 'Kolor',
-    cell: (props) => props.renderValue(),
+    cell: (props) =>
+      props.row.original.color !== null ? (
+        <CategoryColorBadge color={props.row.original.color} />
+      ) : (
+        '-'
+      ),
   }),
   columnBuilder.display({
     id: 'category-actions',

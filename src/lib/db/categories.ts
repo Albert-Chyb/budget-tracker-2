@@ -15,7 +15,7 @@ export async function getCategories(userId: string): Promise<TCategory[]> {
   const supabase = getSupabase();
   const { data: categories, error } = await supabase
     .from('transactions_categories')
-    .select('id, name, type, colorId')
+    .select('id, name, type, colorId, color:categories_colors(*)')
     .eq('ownerId', userId)
     .order('id', { ascending: true });
 

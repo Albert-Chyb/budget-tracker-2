@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { categoryColorsSchema } from './category-colors';
 
 export const categoryTypeSchema = z.enum(['income', 'expense']);
 
@@ -7,10 +8,17 @@ export const categorySchema = z.object({
   name: z.string().min(3).max(32),
   colorId: z.number().int().positive().nullable(),
   type: categoryTypeSchema,
+  color: categoryColorsSchema.nullable(),
 });
 
-export const createCategorySchema = categorySchema.omit({ id: true });
-export const updateCategorySchema = categorySchema.omit({ id: true }).partial();
+export const createCategorySchema = categorySchema.omit({
+  id: true,
+  color: true,
+});
+
+export const updateCategorySchema = categorySchema
+  .omit({ id: true, color: true })
+  .partial();
 
 export type TCategory = z.infer<typeof categorySchema>;
 export type TCreateCategory = z.infer<typeof createCategorySchema>;

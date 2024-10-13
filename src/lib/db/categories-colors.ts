@@ -6,7 +6,8 @@ export async function getCategoriesColors() {
   const supabase = getSupabase();
   const { data: colors, error } = await supabase
     .from('categories_colors')
-    .select('colorId, name, rgb');
+    .select('colorId, name, rgb')
+    .order('name');
 
   if (error) {
     throw error;
