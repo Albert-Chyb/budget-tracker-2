@@ -1,4 +1,5 @@
 import { CategoryColorBadge } from '@/components/categories/category-color-badge';
+import { CategoryTypeLabel } from '@/components/categories/category-type';
 import { TCategory } from '@/lib/db-schemas/category';
 import { createColumnHelper } from '@tanstack/react-table';
 import { CategoryActions } from './categories-page.layout';
@@ -15,7 +16,11 @@ export const categoriesPageTableColsFactory = (store: CategoriesPageStore) => [
   columnBuilder.accessor('type', {
     id: 'category-transactions-type',
     header: 'Typ transakcji',
-    cell: (props) => (props.getValue() === 'income' ? 'Przychód' : 'Wydatek'),
+    cell: (props) => {
+      const type = props.getValue();
+
+      return <CategoryTypeLabel type={type} />;
+    },
   }),
   columnBuilder.accessor((data) => data.color?.name, {
     id: 'category-color-id',
