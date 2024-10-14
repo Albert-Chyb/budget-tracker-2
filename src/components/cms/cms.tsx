@@ -2,13 +2,6 @@ import { RowData, Table } from '@tanstack/react-table';
 import { Plus } from 'lucide-react';
 import { JSXElementConstructor, ReactElement } from 'react';
 import { Button } from '../ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '../ui/card';
 import { CMSContext, CMSContextProvider } from './cms-context';
 import CMSEditorTrigger, { CMSEditorTriggerProps } from './cms-editor-trigger';
 import { CMSLoadingSkeleton } from './cms-loading-skeleton';
@@ -25,12 +18,12 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
       {isLoading ? (
         <CMSLoadingSkeleton />
       ) : (
-        <Card>
-          <div className='p-6 flex justify-between items-center gap-x-2'>
-            <CardHeader className='p-0'>
-              <CardTitle>{title}</CardTitle>
-              <CardDescription>{description}</CardDescription>
-            </CardHeader>
+        <>
+          <div className='flex justify-between items-center gap-x-2 py-6'>
+            <div>
+              <h2 className='text-2xl font-semibold'>{title}</h2>
+              <p className='text-muted-foreground'>{description}</p>
+            </div>
 
             <div className='shrink-0'>
               <CMSEditorTrigger {...newItemEditor}>
@@ -41,18 +34,16 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
             </div>
           </div>
 
-          <CardContent>
-            <CMSContext.Consumer>
-              {({ isMobile }) =>
-                isMobile ? (
-                  <CMSMobile>{mobileItems}</CMSMobile>
-                ) : (
-                  <CMSDesktopTable table={table} />
-                )
-              }
-            </CMSContext.Consumer>
-          </CardContent>
-        </Card>
+          <CMSContext.Consumer>
+            {({ isMobile }) =>
+              isMobile ? (
+                <CMSMobile>{mobileItems}</CMSMobile>
+              ) : (
+                <CMSDesktopTable table={table} />
+              )
+            }
+          </CMSContext.Consumer>
+        </>
       )}
     </CMSContextProvider>
   );
