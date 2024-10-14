@@ -1,12 +1,10 @@
+import CategoryForm from '@/components/categories/category-form';
 import CMS from '@/components/cms/cms';
 import { TCategory } from '@/lib/db-schemas/category';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { useMemo } from 'react';
 import { categoriesPageTableColsFactory } from './categories-page.columns';
-import {
-  CMSCategoryCreateForm,
-  CMSCategoryMobileItem,
-} from './categories-page.layout';
+import { CMSCategoryMobileItem } from './categories-page.layout';
 import { useCategoriesPageStore } from './categories-page.store';
 
 const CATEGORIES_PAGE_TITLE = 'Kategorie';
@@ -26,7 +24,8 @@ export default function CategoriesPage() {
   ));
 
   const columns = useMemo(() => categoriesPageTableColsFactory(store), [store]);
-
+  const { create: createCategory, isPending: isCreatePending } =
+    store.useCreate();
   const table = useReactTable<TCategory>({
     data: categories,
     columns,
@@ -42,10 +41,17 @@ export default function CategoriesPage() {
       table={table}
       newItemEditor={{
         id: 'editor',
-        content: <CMSCategoryCreateForm store={store} />,
+        content: (
+          <CategoryForm
+            colors={store.data.categoriesColors}
+            onSubmit={(value) => createCategory(value)}
+            isLoading={isCreatePending}
+          />
+        ),
         title: 'Nowa kategoria',
         description:
           'Po wypełnieniu formularza naciśnij przycisk Zapisz, aby stworzyć nową kategorię.',
+        isDismissible: !isCreatePending,
       }}
     />
   );

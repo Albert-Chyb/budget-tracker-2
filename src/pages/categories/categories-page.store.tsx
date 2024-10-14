@@ -1,3 +1,4 @@
+import { useCMSEditorController } from '@/components/cms/cms-editor-controller';
 import { UserContext } from '@/contexts/user-context';
 import { TCreateCategory, TUpdateCategory } from '@/lib/db-schemas/category';
 import {
@@ -12,6 +13,7 @@ import { useContext, useMemo } from 'react';
 export function useCategoriesPageStore() {
   const { getTrustedUser } = useContext(UserContext);
 
+  const editor = useCMSEditorController();
   const { isLoading: isColorsLoading, data: categoriesColors } =
     useCategoriesColorsQuery();
   const { isLoading: isCategoriesLoading, data: categories } =
@@ -32,7 +34,14 @@ export function useCategoriesPageStore() {
 
         return {
           create(newCategory: TCreateCategory) {
-            return mutateAsync({ userId, category: newCategory });
+            return mutateAsync(
+              { userId, category: newCategory },
+              {
+                onSettled() {
+                  editor.close();
+                },
+              }
+            );
           },
           isPending,
         };
@@ -54,13 +63,27 @@ export function useCategoriesPageStore() {
 
         return {
           update(updatedCategory: TUpdateCategory) {
-            return mutateAsync({ userId, id, category: updatedCategory });
+            return mutateAsync(
+              { userId, id, category: updatedCategory },
+              {
+                onSettled() {
+                  editor.close();
+                },
+              }
+            );
           },
           isPending,
         };
       },
     }),
-    [categories, categoriesColors, isCategoriesLoading, isColorsLoading, userId]
+    [
+      categories,
+      categoriesColors,
+      editor,
+      isCategoriesLoading,
+      isColorsLoading,
+      userId,
+    ]
   );
 }
 
