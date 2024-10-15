@@ -1,7 +1,12 @@
 import CategoryForm from '@/components/categories/category-form';
 import CMS from '@/components/cms/cms';
+import { useURLPaginationState } from '@/hooks/url-pagination-state';
 import { TCategory } from '@/lib/db-schemas/category';
-import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import {
+  getCoreRowModel,
+  getPaginationRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
 import { useMemo } from 'react';
 import { categoriesPageTableColsFactory } from './categories-page.columns';
 import { CMSCategoryMobileItem } from './categories-page.layout';
@@ -23,13 +28,23 @@ export default function CategoriesPage() {
     />
   ));
 
-  const columns = useMemo(() => categoriesPageTableColsFactory(store), [store]);
   const { create: createCategory, isPending: isCreatePending } =
     store.useCreate();
+
+  const [pagination, setPagination] = useURLPaginationState({
+    pageIndex: 0,
+    pageSize: 10,
+  });
+  const columns = useMemo(() => categoriesPageTableColsFactory(store), [store]);
   const table = useReactTable<TCategory>({
     data: categories,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onPaginationChange: setPagination,
+    state: {
+      pagination,
+    },
   });
 
   return (
