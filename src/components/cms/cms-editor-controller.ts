@@ -1,28 +1,19 @@
 import { useSessionStorage } from '@uidotdev/usehooks';
-import { useCallback, useMemo } from 'react';
 
 export function useCMSEditorController() {
   const [current, setCurrent] = useSessionStorage('opened-editor', '');
 
-  const open = useCallback(
-    (id: string) => {
-      setCurrent(id);
-    },
-    [setCurrent]
-  );
+  const open = (id: string) => {
+    setCurrent(id);
+  };
 
-  const close = useCallback(() => {
+  const close = () => {
     setCurrent('');
-  }, [setCurrent]);
+  };
 
-  const controller = useMemo(
-    () => ({
-      open,
-      close,
-      current,
-    }),
-    [close, current, open]
-  );
-
-  return controller;
+  return {
+    open,
+    close,
+    current,
+  };
 }

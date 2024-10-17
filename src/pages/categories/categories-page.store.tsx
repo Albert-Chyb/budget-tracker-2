@@ -8,7 +8,7 @@ import {
   useCategoryUpdateMutation,
 } from '@/lib/db/categories';
 import { useCategoriesColorsQuery } from '@/lib/db/categories-colors';
-import { useContext, useMemo } from 'react';
+import { useContext } from 'react';
 
 export function useCategoriesPageStore() {
   const { getTrustedUser } = useContext(UserContext);
@@ -21,70 +21,60 @@ export function useCategoriesPageStore() {
 
   const { id: userId } = getTrustedUser();
 
-  return useMemo(
-    () => ({
-      isLoading: isColorsLoading || isCategoriesLoading,
-      data: {
-        categoriesColors: categoriesColors ?? [],
-        categories: categories ?? [],
-      },
+  return {
+    isLoading: isColorsLoading || isCategoriesLoading,
+    data: {
+      categoriesColors: categoriesColors ?? [],
+      categories: categories ?? [],
+    },
 
-      useCreate() {
-        const { mutateAsync, isPending } = useCategoryCreateMutation();
+    useCreate() {
+      const { mutateAsync, isPending } = useCategoryCreateMutation();
 
-        return {
-          create(newCategory: TCreateCategory) {
-            return mutateAsync(
-              { userId, category: newCategory },
-              {
-                onSettled() {
-                  editor.close();
-                },
-              }
-            );
-          },
-          isPending,
-        };
-      },
+      return {
+        create(newCategory: TCreateCategory) {
+          return mutateAsync(
+            { userId, category: newCategory },
+            {
+              onSettled() {
+                editor.close();
+              },
+            }
+          );
+        },
+        isPending,
+      };
+    },
 
-      useDelete(id: number) {
-        const { mutateAsync, isPending } = useCategoryDeleteMutation();
+    useDelete(id: number) {
+      const { mutateAsync, isPending } = useCategoryDeleteMutation();
 
-        return {
-          delete() {
-            return mutateAsync({ userId, id });
-          },
-          isPending,
-        };
-      },
+      return {
+        delete() {
+          return mutateAsync({ userId, id });
+        },
+        isPending,
+      };
+    },
 
-      useUpdate(id: number) {
-        const { mutateAsync, isPending } = useCategoryUpdateMutation();
+    useUpdate(id: number) {
+      const { mutateAsync, isPending } = useCategoryUpdateMutation();
 
-        return {
-          update(updatedCategory: TUpdateCategory) {
-            return mutateAsync(
-              { userId, id, category: updatedCategory },
-              {
-                onSettled() {
-                  editor.close();
-                },
-              }
-            );
-          },
-          isPending,
-        };
-      },
-    }),
-    [
-      categories,
-      categoriesColors,
-      editor,
-      isCategoriesLoading,
-      isColorsLoading,
-      userId,
-    ]
-  );
+      return {
+        update(updatedCategory: TUpdateCategory) {
+          return mutateAsync(
+            { userId, id, category: updatedCategory },
+            {
+              onSettled() {
+                editor.close();
+              },
+            }
+          );
+        },
+        isPending,
+      };
+    },
+  };
 }
 
 export type CategoriesPageStore = ReturnType<typeof useCategoriesPageStore>;

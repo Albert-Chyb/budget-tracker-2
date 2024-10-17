@@ -7,7 +7,6 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { useMemo } from 'react';
 import { categoriesPageTableColsFactory } from './categories-page.columns';
 import { CMSCategoryMobileItem } from './categories-page.layout';
 import { useCategoriesPageStore } from './categories-page.store';
@@ -35,7 +34,7 @@ export default function CategoriesPage() {
     pageIndex: 0,
     pageSize: 10,
   });
-  const columns = useMemo(() => categoriesPageTableColsFactory(store), [store]);
+  const columns = categoriesPageTableColsFactory(store);
   const table = useReactTable<TCategory>({
     data: categories,
     columns,
