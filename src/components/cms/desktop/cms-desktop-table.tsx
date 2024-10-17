@@ -6,17 +6,19 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { TanstackTablePaginator } from '@/components/ui/tanstack-table-paginator';
+import { TanstackTablePaginator } from '@/components/ui/tanstack-table/tanstack-table-paginator';
 import {
   flexRender,
   RowData,
   Table as TanstackTable,
 } from '@tanstack/react-table';
+import { useMediaQuery } from '@uidotdev/usehooks';
 
 export function CMSDesktopTable<TData extends RowData>(
   props: CategoriesPageTableProps<TData>
 ) {
   const { table } = props;
+  const isXlBreakpoint = useMediaQuery('(min-width: 1280px) ');
 
   const tableHeaderRows = table.getHeaderGroups().map(({ id, headers }) => (
     <TableRow key={id}>
@@ -47,7 +49,12 @@ export function CMSDesktopTable<TData extends RowData>(
         </Table>
       </div>
 
-      <TanstackTablePaginator table={table} className='mt-6' />
+      <TanstackTablePaginator
+        table={table}
+        className='mt-6'
+        leftCount={isXlBreakpoint ? 1 : 0}
+        rightCount={isXlBreakpoint ? 3 : 2}
+      />
     </>
   );
 }

@@ -6,7 +6,9 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { ComponentProps, PropsWithChildren } from 'react';
-import { Button, buttonVariants } from './button';
+import { twMerge } from 'tailwind-merge';
+import { Button, buttonVariants } from '../button';
+import { TanStackPageSizeSelect } from './tanstack-page-size-select';
 
 function generateVisibleButtonsIndexes(
   currentPageIndex: number,
@@ -79,12 +81,14 @@ type TanstackTablePaginatorIndexProps = PropsWithChildren<{
 
 function TanstackTablePaginatorPages<TData>({
   table,
+  leftCount,
+  rightCount,
 }: TanstackTablePaginatorPagesProps<TData>) {
   const visibleIndexes = generateVisibleButtonsIndexes(
     table.getState().pagination.pageIndex,
     table.getPageCount(),
-    1,
-    3
+    leftCount,
+    rightCount
   );
 
   return visibleIndexes.map(({ index, isPlaceholder }) => {
@@ -117,64 +121,76 @@ function TanstackTablePaginatorPages<TData>({
 
 type TanstackTablePaginatorPagesProps<TData> = {
   table: Table<TData>;
+  leftCount: number;
+  rightCount: number;
 };
 
+const PAGE_SIZE_OPTIONS = new Set([10, 25, 50, 100]);
+
 export function TanstackTablePaginator<TData>(
-  props: TanstackTablePaginatorProps<TData> & ComponentProps<'nav'>
+  props: TanstackTablePaginatorProps<TData> & ComponentProps<'div'>
 ) {
-  const { table, ...navProps } = props;
+  const { table, leftCount, rightCount, className, ...otherProps } = props;
 
   return (
-    <nav {...navProps} aria-label='pagination'>
-      <TanstackTablePaginatorContent className='flex gap-x-2 justify-center'>
-        <TanstackTablePaginatorItem>
-          <TanstackTablePaginatorButton
-            aria-label='Poprzednia strona'
-            disabled={!table.getCanPreviousPage()}
-            onClick={() => table.previousPage()}
-          >
-            <ChevronLeft className='mr-2' />
-            Poprzednia
-          </TanstackTablePaginatorButton>
-        </TanstackTablePaginatorItem>
+    <div className={twMerge(className, 'flex justify-center')} {...otherProps}>
+      <nav aria-label='pagination'>
+        <TanstackTablePaginatorContent className='flex gap-x-2 justify-center'>
+          <TanstackTablePaginatorItem>
+            <TanstackTablePaginatorButton
+              aria-label='Poprzednia strona'
+              disabled={!table.getCanPreviousPage()}
+              onClick={() => table.previousPage()}
+            >
+              <ChevronLeft className='mr-2' />
+            </TanstackTablePaginatorButton>
+          </TanstackTablePaginatorItem>
 
-        <TanstackTablePaginatorItem>
-          <TanstackTablePaginatorButton
-            aria-label='Pierwsza strona'
-            disabled={!table.getCanPreviousPage()}
-            onClick={() => table.firstPage()}
-          >
-            <ChevronFirst className='mr-2' />
-          </TanstackTablePaginatorButton>
-        </TanstackTablePaginatorItem>
+          <TanstackTablePaginatorItem>
+            <TanstackTablePaginatorButton
+              aria-label='Pierwsza strona'
+              disabled={!table.getCanPreviousPage()}
+              onClick={() => table.firstPage()}
+            >
+              <ChevronFirst className='mr-2' />
+            </TanstackTablePaginatorButton>
+          </TanstackTablePaginatorItem>
 
-        <TanstackTablePaginatorPages table={table} />
+          <TanstackTablePaginatorPages
+            table={table}
+            rightCount={rightCount}
+            leftCount={leftCount}
+          />
 
-        <TanstackTablePaginatorItem>
-          <TanstackTablePaginatorButton
-            aria-label='Ostatnia strona'
-            disabled={!table.getCanNextPage()}
-            onClick={() => table.lastPage()}
-          >
-            <ChevronLast />
-          </TanstackTablePaginatorButton>
-        </TanstackTablePaginatorItem>
+          <TanstackTablePaginatorItem>
+            <TanstackTablePaginatorButton
+              aria-label='Ostatnia strona'
+              disabled={!table.getCanNextPage()}
+              onClick={() => table.lastPage()}
+            >
+              <ChevronLast />
+            </TanstackTablePaginatorButton>
+          </TanstackTablePaginatorItem>
 
-        <TanstackTablePaginatorItem>
-          <TanstackTablePaginatorButton
-            aria-label='Następna stron'
-            disabled={!table.getCanNextPage()}
-            onClick={() => table.nextPage()}
-          >
-            Następna
-            <ChevronRight />
-          </TanstackTablePaginatorButton>
-        </TanstackTablePaginatorItem>
-      </TanstackTablePaginatorContent>
-    </nav>
+          <TanstackTablePaginatorItem>
+            <TanstackTablePaginatorButton
+              aria-label='Następna stron'
+              disabled={!table.getCanNextPage()}
+              onClick={() => table.nextPage()}
+            >
+              <ChevronRight />
+            </TanstackTablePaginatorButton>
+          </TanstackTablePaginatorItem>
+        </TanstackTablePaginatorContent>
+      </nav>
+
+      <TanStackPageSizeSelect table={table} options={PAGE_SIZE_OPTIONS} />
+    </div>
   );
 }
 
 export type TanstackTablePaginatorProps<TData> = {
   table: Table<TData>;
+  leftCount: number;
+  rightCount: number;
 };
