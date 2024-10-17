@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from '../select';
 
-export function TanStackPageSizeSelect<TData>(
+export function TanStackTablePageSizeSelect<TData>(
   props: TanStackTablePageSizeSelectProps<TData>
 ) {
   const { table, options } = props;
@@ -26,7 +26,9 @@ export function TanStackPageSizeSelect<TData>(
 
         <SelectContent>
           {Array.from(options).map((option) => (
-            <SelectItem key={option} value={String(option)}>{option}</SelectItem>
+            <SelectItem key={option} value={String(option)}>
+              {option}
+            </SelectItem>
           ))}
         </SelectContent>
       </Select>

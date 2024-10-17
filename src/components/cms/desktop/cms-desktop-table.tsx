@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { TanstackTablePaginator } from '@/components/ui/tanstack-table/tanstack-table-paginator';
+import { TanStackTablePaginator } from '@/components/ui/tanstack-table/paginator';
 import {
   flexRender,
   RowData,
@@ -49,7 +49,7 @@ export function CMSDesktopTable<TData extends RowData>(
         </Table>
       </div>
 
-      <TanstackTablePaginator
+      <TanStackTablePaginator
         table={table}
         className='mt-6'
         leftCount={isXlBreakpoint ? 1 : 0}
