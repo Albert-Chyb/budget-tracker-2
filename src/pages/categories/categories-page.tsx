@@ -5,6 +5,7 @@ import { TCategory } from '@/lib/db-schemas/category';
 import {
   getCoreRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
 import { categoriesPageTableColsFactory } from './categories-page.columns';
@@ -40,6 +41,7 @@ export default function CategoriesPage() {
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
     onPaginationChange: setPagination,
     state: {
       pagination,

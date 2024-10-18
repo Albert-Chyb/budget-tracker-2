@@ -2,7 +2,6 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
@@ -13,6 +12,7 @@ import {
   Table as TanstackTable,
 } from '@tanstack/react-table';
 import { useMediaQuery } from '@uidotdev/usehooks';
+import { CMSTableHead } from './cms-desktop-table-head';
 
 export function CMSDesktopTable<TData extends RowData>(
   props: CategoriesPageTableProps<TData>
@@ -23,9 +23,7 @@ export function CMSDesktopTable<TData extends RowData>(
   const tableHeaderRows = table.getHeaderGroups().map(({ id, headers }) => (
     <TableRow key={id}>
       {headers.map((header) => (
-        <TableHead key={header.id}>
-          {flexRender(header.column.columnDef.header, header.getContext())}
-        </TableHead>
+        <CMSTableHead header={header} key={header.id} />
       ))}
     </TableRow>
   ));
