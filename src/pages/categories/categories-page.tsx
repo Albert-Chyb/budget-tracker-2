@@ -4,6 +4,7 @@ import { useURLPaginationState } from '@/hooks/url-pagination-state';
 import { TCategory } from '@/lib/db-schemas/category';
 import {
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
@@ -42,6 +43,7 @@ export default function CategoriesPage() {
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     onPaginationChange: setPagination,
     state: {
       pagination,
