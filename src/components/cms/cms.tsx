@@ -26,8 +26,8 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
       {isLoading ? (
         <CMSLoadingSkeleton />
       ) : (
-        <>
-          <div className='flex justify-between items-center gap-x-2 py-6'>
+        <section>
+          <header className='flex justify-between items-center gap-x-2 py-6'>
             <div>
               <h2 className='text-2xl font-semibold'>{title}</h2>
               <p className='text-muted-foreground'>{description}</p>
@@ -40,7 +40,7 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
                 </Button>
               </CMSEditorTrigger>
             </div>
-          </div>
+          </header>
 
           <CMSContext.Consumer>
             {({ isMobile }) =>
@@ -51,7 +51,7 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
               )
             }
           </CMSContext.Consumer>
-        </>
+        </section>
       )}
     </CMSContextProvider>
   );
