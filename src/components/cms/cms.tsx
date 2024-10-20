@@ -5,13 +5,21 @@ import { Button } from '../ui/button';
 import { CMSContext, CMSContextProvider } from './cms-context';
 import CMSEditorTrigger, { CMSEditorTriggerProps } from './cms-editor-trigger';
 import { CMSLoadingSkeleton } from './cms-loading-skeleton';
+import { CMSTableFiltersConfig } from './cms-table-filters';
 import { CMSDesktopTable } from './desktop/cms-desktop-table';
 import { CMSMobile } from './mobile/cms-mobile';
 import { CMSMobileItemProps } from './mobile/cms-mobile-item';
 
 export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
-  const { title, description, mobileItems, newItemEditor, table, isLoading } =
-    props;
+  const {
+    title,
+    description,
+    mobileItems,
+    newItemEditor,
+    table,
+    isLoading,
+    filters,
+  } = props;
 
   return (
     <CMSContextProvider>
@@ -39,7 +47,7 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
               isMobile ? (
                 <CMSMobile>{mobileItems}</CMSMobile>
               ) : (
-                <CMSDesktopTable table={table} />
+                <CMSDesktopTable table={table} filters={filters} />
               )
             }
           </CMSContext.Consumer>
@@ -59,4 +67,5 @@ export type CMSProps<TData extends RowData> = {
     JSXElementConstructor<CMSMobileItemProps>
   >[];
   table: Table<TData>;
+  filters: CMSTableFiltersConfig;
 };

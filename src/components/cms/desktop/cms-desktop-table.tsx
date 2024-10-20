@@ -12,12 +12,14 @@ import {
   Table as TanstackTable,
 } from '@tanstack/react-table';
 import { useMediaQuery } from '@uidotdev/usehooks';
+import { CMSTableFiltersConfig } from '../cms-table-filters';
+import { CMSDesktopTableFilters } from './cms-desktop-table-filters';
 import { CMSTableHead } from './cms-desktop-table-head';
 
 export function CMSDesktopTable<TData extends RowData>(
   props: CategoriesPageTableProps<TData>
 ) {
-  const { table } = props;
+  const { table, filters } = props;
   const isXlBreakpoint = useMediaQuery('(min-width: 1280px) ');
 
   const tableHeaderRows = table.getHeaderGroups().map(({ id, headers }) => (
@@ -40,7 +42,9 @@ export function CMSDesktopTable<TData extends RowData>(
 
   return (
     <>
-      <div className='rounded-md border'>
+      <CMSDesktopTableFilters table={table} filters={filters} />
+
+      <div className='rounded-md border mt-6'>
         <Table>
           <TableHeader>{tableHeaderRows}</TableHeader>
           <TableBody>{tableRows}</TableBody>
@@ -59,4 +63,5 @@ export function CMSDesktopTable<TData extends RowData>(
 
 export type CategoriesPageTableProps<TData extends RowData> = {
   table: TanstackTable<TData>;
+  filters: CMSTableFiltersConfig;
 };

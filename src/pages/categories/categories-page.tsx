@@ -1,7 +1,13 @@
 import CategoryForm from '@/components/categories/category-form';
 import CMS from '@/components/cms/cms';
+import {
+  CheckboxesFilterForm,
+  CheckboxesFilterFormOption,
+} from '@/components/cms/filters-forms/checkboxes-filter-form';
+import { RadioGroupFilterForm } from '@/components/cms/filters-forms/radio-group-filter-form';
+import { TextFieldFilterForm } from '@/components/cms/filters-forms/text-field-filter-form';
 import { useURLPaginationState } from '@/hooks/url-pagination-state';
-import { TCategory } from '@/lib/db-schemas/category';
+import { TCategory, TCategoryType } from '@/lib/db-schemas/category';
 import {
   getCoreRowModel,
   getFilteredRowModel,
@@ -9,12 +15,30 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { categoriesPageTableColsFactory } from './categories-page.columns';
+import { ReactNode } from 'react';
+import {
+  categoriesPageTableColsFactory,
+  NO_COLOR_VALUE,
+} from './categories-page.columns';
 import { CMSCategoryMobileItem } from './categories-page.layout';
 import { useCategoriesPageStore } from './categories-page.store';
 
 const CATEGORIES_PAGE_TITLE = 'Kategorie';
 const CATEGORIES_PAGE_DESCRIPTION = 'Zarządzaj swoimi kategoriami transakcji';
+
+const POSSIBLE_CATEGORIES_TYPES: {
+  value: TCategoryType;
+  text: ReactNode;
+}[] = [
+  {
+    value: 'income',
+    text: 'Przychód',
+  },
+  {
+    value: 'expense',
+    text: 'Wydatek',
+  },
+];
 
 export default function CategoriesPage() {
   const store = useCategoriesPageStore();
@@ -28,6 +52,17 @@ export default function CategoriesPage() {
       key={category.id}
     />
   ));
+
+  const colorFilterOptions: CheckboxesFilterFormOption[] = [
+    {
+      value: NO_COLOR_VALUE,
+      text: 'Bez koloru',
+    },
+    ...store.data.categoriesColors.map((color) => ({
+      value: String(color.colorId),
+      text: color.name,
+    })),
+  ];
 
   const { create: createCategory, isPending: isCreatePending } =
     store.useCreate();
@@ -57,6 +92,15 @@ export default function CategoriesPage() {
       description={CATEGORIES_PAGE_DESCRIPTION}
       mobileItems={mobileCategoriesItems}
       table={table}
+      filters={{
+        'category-name': <TextFieldFilterForm />,
+        'category-transactions-type': (
+          <RadioGroupFilterForm options={POSSIBLE_CATEGORIES_TYPES} />
+        ),
+        'category-color-id': (
+          <CheckboxesFilterForm options={colorFilterOptions} />
+        ),
+      }}
       newItemEditor={{
         id: 'editor',
         content: (
