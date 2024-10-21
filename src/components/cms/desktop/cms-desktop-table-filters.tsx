@@ -1,11 +1,8 @@
-import { Table } from '@tanstack/react-table';
 import { CMSTableFiltersConfig } from '../cms-table-filters';
 import { CMSDesktopTableFilterTrigger } from './cms-desktop-table-filter-trigger';
 
-export function CMSDesktopTableFilters<TData>(
-  props: CMSDesktopTableFiltersProps<TData>
-) {
-  const { table, filters } = props;
+export function CMSDesktopTableFilters(props: CMSDesktopTableFiltersProps) {
+  const { filters } = props;
 
   return (
     <section className='space-y-4'>
@@ -17,36 +14,21 @@ export function CMSDesktopTableFilters<TData>(
       </header>
 
       <ul className='flex gap-x-2'>
-        {table.getHeaderGroups().map(({ headers }) =>
-          headers
-            .filter(({ column }) => column.getCanFilter())
-            .map(({ id, column, getContext }) => {
-              if (column.id in filters === false) {
-                throw new Error(
-                  `Column with id: ${column.id} did not receive a filter form, but was marked as filterable.`
-                );
-              }
-
-              const filterForm = filters[column.id] as JSX.Element;
-
-              return (
-                <li key={id}>
-                  <CMSDesktopTableFilterTrigger
-                    column={column}
-                    headerContext={getContext()}
-                  >
-                    {filterForm}
-                  </CMSDesktopTableFilterTrigger>
-                </li>
-              );
-            })
-        )}
+        {filters.map((filter, index) => (
+          <li key={index}>
+            <CMSDesktopTableFilterTrigger
+              column={filter.column}
+              columnName={filter.columnName}
+            >
+              {filter.form}
+            </CMSDesktopTableFilterTrigger>
+          </li>
+        ))}
       </ul>
     </section>
   );
 }
 
-export type CMSDesktopTableFiltersProps<TData> = {
-  table: Table<TData>;
+export type CMSDesktopTableFiltersProps = {
   filters: CMSTableFiltersConfig;
 };

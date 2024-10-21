@@ -1,5 +1,6 @@
 import CategoryForm from '@/components/categories/category-form';
 import CMS from '@/components/cms/cms';
+import { CMSTableFiltersConfig } from '@/components/cms/cms-table-filters';
 import {
   CheckboxesFilterForm,
   CheckboxesFilterFormOption,
@@ -9,6 +10,7 @@ import { TextFieldFilterForm } from '@/components/cms/filters-forms/text-field-f
 import { useURLPaginationState } from '@/hooks/url-pagination-state';
 import { TCategory, TCategoryType } from '@/lib/db-schemas/category';
 import {
+  Column,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
@@ -85,6 +87,24 @@ export default function CategoriesPage() {
     },
   });
 
+  const filters: CMSTableFiltersConfig = [
+    {
+      column: table.getColumn('category-name') as Column<unknown>,
+      columnName: 'Nazwa',
+      form: <TextFieldFilterForm />,
+    },
+    {
+      column: table.getColumn('category-transactions-type') as Column<unknown>,
+      columnName: 'Typ transakcji',
+      form: <RadioGroupFilterForm options={POSSIBLE_CATEGORIES_TYPES} />,
+    },
+    {
+      column: table.getColumn('category-color-id') as Column<unknown>,
+      columnName: 'Kolor',
+      form: <CheckboxesFilterForm options={colorFilterOptions} />,
+    },
+  ];
+
   return (
     <CMS
       isLoading={store.isLoading}
@@ -92,15 +112,7 @@ export default function CategoriesPage() {
       description={CATEGORIES_PAGE_DESCRIPTION}
       mobileItems={mobileCategoriesItems}
       table={table}
-      filters={{
-        'category-name': <TextFieldFilterForm />,
-        'category-transactions-type': (
-          <RadioGroupFilterForm options={POSSIBLE_CATEGORIES_TYPES} />
-        ),
-        'category-color-id': (
-          <CheckboxesFilterForm options={colorFilterOptions} />
-        ),
-      }}
+      filters={filters}
       newItemEditor={{
         id: 'editor',
         content: (

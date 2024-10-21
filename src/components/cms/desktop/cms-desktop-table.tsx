@@ -42,7 +42,7 @@ export function CMSDesktopTable<TData extends RowData>(
 
   return (
     <>
-      <CMSDesktopTableFilters table={table} filters={filters} />
+      <CMSDesktopTableFilters filters={filters} />
 
       <div className='rounded-md border mt-6'>
         <Table>
