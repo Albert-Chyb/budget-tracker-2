@@ -42,7 +42,10 @@ export function CMSDesktopTable<TData extends RowData>(
 
   return (
     <>
-      <CMSDesktopTableFilters filters={filters} />
+      <CMSDesktopTableFilters
+        filters={filters}
+        onFiltersReset={() => table.resetColumnFilters()}
+      />
 
       <div className='rounded-md border mt-6'>
         <Table>

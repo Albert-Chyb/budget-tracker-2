@@ -1,8 +1,10 @@
+import { Button } from '@/components/ui/button';
+import { FilterX } from 'lucide-react';
 import { CMSTableFiltersConfig } from '../cms-table-filters';
 import { CMSDesktopTableFilterTrigger } from './cms-desktop-table-filter-trigger';
 
 export function CMSDesktopTableFilters(props: CMSDesktopTableFiltersProps) {
-  const { filters } = props;
+  const { filters, onFiltersReset } = props;
 
   return (
     <section className='space-y-4'>
@@ -13,22 +15,35 @@ export function CMSDesktopTableFilters(props: CMSDesktopTableFiltersProps) {
         </p>
       </header>
 
-      <ul className='flex gap-x-2'>
-        {filters.map((filter, index) => (
-          <li key={index}>
-            <CMSDesktopTableFilterTrigger
-              column={filter.column}
-              columnName={filter.columnName}
-            >
-              {filter.form}
-            </CMSDesktopTableFilterTrigger>
-          </li>
-        ))}
-      </ul>
+      <div className='flex'>
+        <ul className='flex gap-x-2'>
+          {filters.map((filter, index) => (
+            <li key={index}>
+              <CMSDesktopTableFilterTrigger
+                column={filter.column}
+                columnName={filter.columnName}
+              >
+                {filter.form}
+              </CMSDesktopTableFilterTrigger>
+            </li>
+          ))}
+        </ul>
+
+        <Button
+          type='button'
+          className='ml-auto'
+          aria-label='Wyczyść filtry'
+          size='icon'
+          onClick={() => onFiltersReset()}
+        >
+          <FilterX className='size-5' />
+        </Button>
+      </div>
     </section>
   );
 }
 
 export type CMSDesktopTableFiltersProps = {
   filters: CMSTableFiltersConfig;
+  onFiltersReset: () => void;
 };
