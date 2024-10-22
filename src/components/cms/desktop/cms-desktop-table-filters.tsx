@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { FilterX } from 'lucide-react';
 import { CMSTableFiltersConfig } from '../cms-table-filters';
 import { CMSDesktopTableFilterTrigger } from './cms-desktop-table-filter-trigger';
@@ -7,13 +8,15 @@ export function CMSDesktopTableFilters(props: CMSDesktopTableFiltersProps) {
   const { filters, onFiltersReset } = props;
 
   return (
-    <section className='space-y-4'>
-      <header>
-        <h3 className='leading-none text-xl font-semibold'>Filtry</h3>
-        <p className='text-muted-foreground text-sm'>
-          Użyj poniższych filtrów, aby zawęzić wyniki w tabeli
-        </p>
-      </header>
+    <section>
+      <VisuallyHidden.Root>
+        <header>
+          <h3 className='leading-none text-xl font-semibold'>Filtry</h3>
+          <p className='text-muted-foreground text-sm'>
+            Użyj poniższych filtrów, aby zawęzić wyniki w tabeli
+          </p>
+        </header>
+      </VisuallyHidden.Root>
 
       <div className='flex'>
         <ul className='flex gap-x-2'>
