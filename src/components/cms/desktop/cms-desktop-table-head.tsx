@@ -1,25 +1,21 @@
 import { Button } from '@/components/ui/button';
 import { TableHead } from '@/components/ui/table';
 import { flexRender, Header } from '@tanstack/react-table';
-import { ChevronsDown, ChevronsUp, Minus } from 'lucide-react';
+import { ChevronsUpDown } from 'lucide-react';
 import { PropsWithChildren } from 'react';
 
 export function CMSTableHead<TData>(props: TableHeadWithSortingProps<TData>) {
   const { header } = props;
 
   if (header.column.getCanSort()) {
-    let icon: JSX.Element;
     let label: string;
     const sortDirection = header.column.getNextSortingOrder();
 
     if (typeof sortDirection === 'boolean') {
-      icon = <Minus />;
       label = 'Wyłącz sortowanie';
     } else if (sortDirection === 'asc') {
-      icon = <ChevronsUp />;
       label = 'Sortuj rosnąco';
     } else {
-      icon = <ChevronsDown />;
       label = 'Sortuj malejąco';
     }
 
@@ -33,7 +29,7 @@ export function CMSTableHead<TData>(props: TableHeadWithSortingProps<TData>) {
         >
           {flexRender(header.column.columnDef.header, header.getContext())}
 
-          <span className='ml-2'>{icon}</span>
+          <ChevronsUpDown className='ml-2 size-4' />
         </Button>
       </TableHead>
     );
