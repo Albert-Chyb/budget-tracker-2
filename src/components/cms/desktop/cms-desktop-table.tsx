@@ -11,7 +11,6 @@ import {
   RowData,
   Table as TanstackTable,
 } from '@tanstack/react-table';
-import { useMediaQuery } from '@uidotdev/usehooks';
 import { CMSTableFiltersConfig } from '../cms-table-filters';
 import { CMSDesktopTableFilters } from './cms-desktop-table-filters';
 import { CMSTableHead } from './cms-desktop-table-head';
@@ -20,7 +19,6 @@ export function CMSDesktopTable<TData extends RowData>(
   props: CategoriesPageTableProps<TData>
 ) {
   const { table, filters } = props;
-  const isXlBreakpoint = useMediaQuery('(min-width: 1280px) ');
 
   const tableHeaderRows = table.getHeaderGroups().map(({ id, headers }) => (
     <TableRow key={id}>
@@ -54,12 +52,7 @@ export function CMSDesktopTable<TData extends RowData>(
         </Table>
       </div>
 
-      <TanStackTablePaginator
-        table={table}
-        className='mt-6'
-        leftCount={isXlBreakpoint ? 1 : 0}
-        rightCount={isXlBreakpoint ? 3 : 2}
-      />
+      <TanStackTablePaginator table={table} className='mt-6' />
     </>
   );
 }

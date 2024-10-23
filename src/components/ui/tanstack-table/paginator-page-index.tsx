@@ -8,12 +8,12 @@ export function TanStackTablePaginatorPageIndex(
   const lastIndexCharactersCount = String(pageCount).length;
 
   return (
-    <div
+    <span
       style={{ minWidth: `${lastIndexCharactersCount}ch` }}
-      className='text-center'
+      className='text-center inline-block'
     >
       {children}
-    </div>
+    </span>
   );
 }
 type TanStackTablePaginatorIndexProps = PropsWithChildren<{

@@ -11,19 +11,19 @@ import { TanStackTablePageSizeSelect } from './page-size-select';
 import { TanStackTablePaginatorButton } from './paginator-button';
 import { TanStackTablePaginatorContent } from './paginator-content';
 import { TanStackTablePaginatorItem } from './paginator-item';
-import { TanStackTablePaginatorPagesButtons } from './paginator-pages';
+import { TanStackTablePaginatorPageIndex } from './paginator-page-index';
 
 const PAGE_SIZE_OPTIONS = new Set([10, 25, 50, 100]);
 
 export function TanStackTablePaginator<TData>(
   props: TanStackTablePaginatorProps<TData> & ComponentProps<'div'>
 ) {
-  const { table, leftCount, rightCount, className, ...otherProps } = props;
+  const { table, className, ...otherProps } = props;
 
   return (
     <div className={twMerge(className, 'flex justify-center')} {...otherProps}>
       <nav aria-label='pagination'>
-        <TanStackTablePaginatorContent className='flex gap-x-2 justify-center'>
+        <TanStackTablePaginatorContent className='flex gap-x-2 justify-center items-center'>
           <TanStackTablePaginatorItem>
             <TanStackTablePaginatorButton
               aria-label='Poprzednia strona'
@@ -44,11 +44,13 @@ export function TanStackTablePaginator<TData>(
             </TanStackTablePaginatorButton>
           </TanStackTablePaginatorItem>
 
-          <TanStackTablePaginatorPagesButtons
-            table={table}
-            rightCount={rightCount}
-            leftCount={leftCount}
-          />
+          <span className='text-muted-foreground text-sm'>
+            Strona{' '}
+            <TanStackTablePaginatorPageIndex pageCount={table.getPageCount()}>
+              {table.getState().pagination.pageIndex + 1}
+            </TanStackTablePaginatorPageIndex>{' '}
+            z {table.getPageCount()}
+          </span>
 
           <TanStackTablePaginatorItem>
             <TanStackTablePaginatorButton
@@ -79,6 +81,4 @@ export function TanStackTablePaginator<TData>(
 
 export type TanStackTablePaginatorProps<TData> = {
   table: Table<TData>;
-  leftCount: number;
-  rightCount: number;
 };
