@@ -1,13 +1,16 @@
 import { PaginationState, Updater } from '@tanstack/react-table';
 import { useSearchParams } from 'react-router-dom';
 
-export function useURLPaginationState(initialState: PaginationState) {
-  const [queryParams, setQueryParams] = useSearchParams();
+export function useURLPaginationState(defaults: PaginationState) {
+  const { pageIndex: defaultPageIndex, pageSize: defaultPageSize } = defaults;
 
-  const pageIndex = Number(
-    queryParams.get('pageIndex') ?? initialState.pageIndex
-  );
-  const pageSize = Number(queryParams.get('pageSize') ?? initialState.pageSize);
+  const [queryParams, setQueryParams] = useSearchParams({
+    pageIndex: String(defaultPageIndex),
+    pageSize: String(defaultPageSize),
+  });
+
+  const pageIndex = Number(queryParams.get('pageIndex'));
+  const pageSize = Number(queryParams.get('pageSize'));
   const paginationState: PaginationState = {
     pageIndex,
     pageSize,
@@ -16,11 +19,9 @@ export function useURLPaginationState(initialState: PaginationState) {
   const updateQueryParams = (newPagination: PaginationState) => {
     const { pageIndex, pageSize } = newPagination;
 
-    setQueryParams((params) => {
-      params.set('pageIndex', String(pageIndex));
-      params.set('pageSize', String(pageSize));
-
-      return params;
+    setQueryParams({
+      pageIndex: String(pageIndex),
+      pageSize: String(pageSize),
     });
   };
 
