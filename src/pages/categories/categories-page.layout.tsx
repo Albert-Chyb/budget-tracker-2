@@ -6,16 +6,17 @@ import CMSEditorTrigger, {
 import CMSMobileItem from '@/components/cms/mobile/cms-mobile-item';
 import { Button } from '@/components/ui/button';
 import { TCategory } from '@/lib/db-schemas/category';
+import { TCategoryColor } from '@/lib/db-schemas/category-colors';
 import { Pen, Trash } from 'lucide-react';
-import { CategoriesPageStore } from './categories-page.store';
+import { useCategoryDelete, useCategoryUpdate } from './categories-page.hooks';
 
 export function CategoryActions(props: CMSCategoryActionsProps) {
-  const { category, store } = props;
+  const { category, colors } = props;
 
   const { delete: deleteCategory, isPending: isDeletePending } =
-    store.useDelete(category.id);
+    useCategoryDelete(category.id);
   const { update: updateCategory, isPending: isUpdatePending } =
-    store.useUpdate(category.id);
+    useCategoryUpdate(category.id);
 
   const editorProps: CMSEditorTriggerProps = {
     id: String(category.id),
@@ -24,7 +25,7 @@ export function CategoryActions(props: CMSCategoryActionsProps) {
       'Po zakończeniu edycji naciśnij przycisk Zapisz, aby zapisać zmiany.',
     content: (
       <CategoryForm
-        colors={store.data.categoriesColors}
+        colors={colors}
         category={category}
         onSubmit={(value) => updateCategory(value)}
         isLoading={isUpdatePending}
@@ -63,19 +64,16 @@ export function CategoryActions(props: CMSCategoryActionsProps) {
 
 export type CMSCategoryActionsProps = {
   category: TCategory;
-  store: CategoriesPageStore;
+  colors: TCategoryColor[];
 };
 
-export function CMSCategoryMobileItem(props: {
-  category: TCategory;
-  store: CategoriesPageStore;
-}) {
-  const { category, store } = props;
+export function CMSCategoryMobileItem(props: CMSCategoryMobileItemProps) {
+  const { category, colors } = props;
 
   const { delete: deleteCategory, isPending: isDeletePending } =
-    store.useDelete(category.id);
+    useCategoryDelete(category.id);
   const { update: updateCategory, isPending: isUpdatePending } =
-    store.useUpdate(category.id);
+    useCategoryUpdate(category.id);
 
   return (
     <CMSMobileItem
@@ -86,7 +84,7 @@ export function CMSCategoryMobileItem(props: {
           'Po zakończeniu edycji naciśnij przycisk Zapisz, aby zapisać zmiany.',
         content: (
           <CategoryForm
-            colors={store.data.categoriesColors}
+            colors={colors}
             category={category}
             onSubmit={(value) => updateCategory(value)}
             isLoading={isUpdatePending}
@@ -101,3 +99,8 @@ export function CMSCategoryMobileItem(props: {
     </CMSMobileItem>
   );
 }
+
+export type CMSCategoryMobileItemProps = {
+  category: TCategory;
+  colors: TCategoryColor[];
+};

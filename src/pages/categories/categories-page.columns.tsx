@@ -1,16 +1,16 @@
 import { CategoryColorBadge } from '@/components/categories/category-color-badge';
 import { CategoryTypeLabel } from '@/components/categories/category-type';
 import { TCategory } from '@/lib/db-schemas/category';
+import { TCategoryColor } from '@/lib/db-schemas/category-colors';
 import { isInArray } from '@/lib/utils/tanstack-table-filter-functions';
 import { createColumnHelper } from '@tanstack/react-table';
 import { CategoryActions } from './categories-page.layout';
-import { CategoriesPageStore } from './categories-page.store';
 
 const columnBuilder = createColumnHelper<TCategory>();
 
 export const NO_COLOR_VALUE = '-';
 
-export const categoriesPageTableColsFactory = (store: CategoriesPageStore) => [
+export const categoriesPageTableColsFactory = (colors: TCategoryColor[]) => [
   columnBuilder.accessor('name', {
     id: 'category-name',
     header: 'Nazwa',
@@ -45,7 +45,7 @@ export const categoriesPageTableColsFactory = (store: CategoriesPageStore) => [
     id: 'category-actions',
     header: 'Akcje',
     cell: ({ row }) => (
-      <CategoryActions category={row.original} store={store} />
+      <CategoryActions category={row.original} colors={colors} />
     ),
   }),
 ];

@@ -17,13 +17,16 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { ReactNode } from 'react';
+import { ReactNode, useMemo } from 'react';
 import {
   categoriesPageTableColsFactory,
   NO_COLOR_VALUE,
 } from './categories-page.columns';
+import {
+  useCategoriesPageData,
+  useCategoryCreate,
+} from './categories-page.hooks';
 import { CMSCategoryMobileItem } from './categories-page.layout';
-import { useCategoriesPageStore } from './categories-page.store';
 
 const CATEGORIES_PAGE_TITLE = 'Kategorie';
 const CATEGORIES_PAGE_DESCRIPTION = 'Zarządzaj swoimi kategoriami transakcji';
@@ -43,15 +46,13 @@ const POSSIBLE_CATEGORIES_TYPES: {
 ];
 
 export default function CategoriesPage() {
-  const store = useCategoriesPageStore();
-
-  const categories = store.data.categories;
+  const { categories, categoriesColors, isLoading } = useCategoriesPageData();
 
   const mobileCategoriesItems = categories.map((category) => (
     <CMSCategoryMobileItem
       category={category}
-      store={store}
       key={category.id}
+      colors={categoriesColors}
     />
   ));
 
@@ -60,20 +61,23 @@ export default function CategoriesPage() {
       value: NO_COLOR_VALUE,
       text: 'Bez koloru',
     },
-    ...store.data.categoriesColors.map((color) => ({
+    ...categoriesColors.map((color) => ({
       value: String(color.colorId),
       text: color.name,
     })),
   ];
 
   const { create: createCategory, isPending: isCreatePending } =
-    store.useCreate();
+    useCategoryCreate();
 
   const [pagination, setPagination] = useURLPaginationState({
     pageIndex: 0,
     pageSize: 10,
   });
-  const columns = categoriesPageTableColsFactory(store);
+  const columns = useMemo(
+    () => categoriesPageTableColsFactory(categoriesColors),
+    [categoriesColors]
+  );
   const table = useReactTable<TCategory>({
     data: categories,
     columns,
@@ -107,7 +111,7 @@ export default function CategoriesPage() {
 
   return (
     <CMS
-      isLoading={store.isLoading}
+      isLoading={isLoading}
       title={CATEGORIES_PAGE_TITLE}
       description={CATEGORIES_PAGE_DESCRIPTION}
       mobileItems={mobileCategoriesItems}
@@ -117,7 +121,7 @@ export default function CategoriesPage() {
         id: 'editor',
         content: (
           <CategoryForm
-            colors={store.data.categoriesColors}
+            colors={categoriesColors}
             onSubmit={(value) => createCategory(value)}
             isLoading={isCreatePending}
           />
