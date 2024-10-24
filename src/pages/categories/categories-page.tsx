@@ -48,25 +48,6 @@ const POSSIBLE_CATEGORIES_TYPES: {
 export default function CategoriesPage() {
   const { categories, categoriesColors, isLoading } = useCategoriesPageData();
 
-  const mobileCategoriesItems = categories.map((category) => (
-    <CMSCategoryMobileItem
-      category={category}
-      key={category.id}
-      colors={categoriesColors}
-    />
-  ));
-
-  const colorFilterOptions: CheckboxesFilterFormOption[] = [
-    {
-      value: NO_COLOR_VALUE,
-      text: 'Bez koloru',
-    },
-    ...categoriesColors.map((color) => ({
-      value: String(color.colorId),
-      text: color.name,
-    })),
-  ];
-
   const { create: createCategory, isPending: isCreatePending } =
     useCategoryCreate();
 
@@ -90,6 +71,25 @@ export default function CategoriesPage() {
       pagination,
     },
   });
+
+  const mobileCategoriesItems = categories.map((category) => (
+    <CMSCategoryMobileItem
+      category={category}
+      key={category.id}
+      colors={categoriesColors}
+    />
+  ));
+
+  const colorFilterOptions: CheckboxesFilterFormOption[] = [
+    {
+      value: NO_COLOR_VALUE,
+      text: 'Bez koloru',
+    },
+    ...categoriesColors.map((color) => ({
+      value: String(color.colorId),
+      text: color.name,
+    })),
+  ];
 
   const filters: CMSTableFiltersConfig = [
     {
