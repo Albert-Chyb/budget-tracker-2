@@ -1,11 +1,7 @@
 import { useCMSEditorController } from '@/components/cms/cms-editor-controller';
+import { CMSTableState } from '@/components/cms/types/cms-table-state';
 import { UserContext } from '@/contexts/user-context';
-import {
-  TCategory,
-  TCreateCategory,
-  TUpdateCategory,
-} from '@/lib/db-schemas/category';
-import { TCategoryColor } from '@/lib/db-schemas/category-colors';
+import { TCreateCategory, TUpdateCategory } from '@/lib/db-schemas/category';
 import {
   useCategoriesQuery,
   useCategoryCreateMutation,
@@ -15,21 +11,16 @@ import {
 import { useCategoriesColorsQuery } from '@/lib/db/categories-colors';
 import { useContext } from 'react';
 
-export type UseCategoriesPageDataReturn = {
-  categories: TCategory[];
-  categoriesColors: TCategoryColor[];
-  isLoading: boolean;
-};
-
-export function useCategoriesPageData(): UseCategoriesPageDataReturn {
+export function useCategoriesPageData(queryConfig?: CMSTableState) {
   const { isLoading: isColorsLoading, data: colors } =
     useCategoriesColorsQuery();
 
-  const { isLoading: isCategoriesLoading, data: categories } =
-    useCategoriesQuery();
+  const { isLoading: isCategoriesLoading, data: categoriesQueryResult } =
+    useCategoriesQuery(queryConfig);
 
   return {
-    categories: categories ?? [],
+    categoriesCount: categoriesQueryResult?.count || 0,
+    categories: categoriesQueryResult?.categories ?? [],
     categoriesColors: colors ?? [],
     isLoading: isColorsLoading || isCategoriesLoading,
   };

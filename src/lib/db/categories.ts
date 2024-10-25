@@ -1,5 +1,12 @@
+import { CMSTableState } from '@/components/cms/types/cms-table-state';
+import { NO_COLOR_VALUE } from '@/pages/categories/categories-page.columns';
 import { User } from '@supabase/supabase-js';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  keepPreviousData,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { useUserQuery } from '../auth/user';
 import {
   categorySchema,
@@ -11,19 +18,69 @@ import {
 } from '../db-schemas/category';
 import { getSupabase } from '../supabase/init';
 
-export async function getCategories(userId: string): Promise<TCategory[]> {
+export async function getCategories(userId: string, config?: CMSTableState) {
   const supabase = getSupabase();
-  const { data: categories, error } = await supabase
+  const query = supabase
     .from('transactions_categories')
-    .select('id, name, type, colorId, color:categories_colors(*)')
-    .eq('ownerId', userId)
-    .order('id', { ascending: true });
+    .select('id, name, type, colorId, color:categories_colors(*)', {
+      count: 'exact',
+    })
+    .eq('ownerId', userId);
+
+  if (config) {
+    const {
+      pagination: { pageIndex, pageSize },
+      columnFilters,
+      sorting,
+    } = config;
+
+    for (const columnFilter of columnFilters) {
+      const { id: columnName, value: filterValue } = columnFilter;
+
+      if (columnName === 'name') {
+        query.ilike('name', `%${filterValue}%`);
+      } else if (columnName === 'type') {
+        query.eq('type', String(filterValue));
+      } else if (columnName === 'colorId') {
+        if (Array.isArray(filterValue) && filterValue.length > 0) {
+          const filterValueWithoutEmptyColor = filterValue.filter(
+            (v) => v !== NO_COLOR_VALUE
+          );
+          const filtersContainsEmptyColor =
+            filterValueWithoutEmptyColor.length !== filterValue.length;
+
+          if (filtersContainsEmptyColor) {
+            query.or(
+              `colorId.in.(${filterValueWithoutEmptyColor}),colorId.is.null`
+            );
+          } else {
+            query.in('colorId', filterValueWithoutEmptyColor);
+          }
+        }
+      }
+    }
+
+    for (const sortedColumn of sorting) {
+      const { id: columnName, desc } = sortedColumn;
+
+      query.order(columnName, { ascending: !desc });
+    }
+
+    const from = pageIndex * pageSize;
+    const to = from + pageSize - 1;
+    query.range(from, to);
+  }
+
+  const { data, error, count } = await query;
 
   if (error) {
     throw error;
   }
 
-  return categories.map((category) => categorySchema.parse(category));
+  return {
+    count,
+    categories: data.map((category) => categorySchema.parse(category)),
+  };
 }
 
 export async function createCategory(
@@ -74,13 +131,14 @@ export async function deleteCategory(id: TCategory['id'], userId: string) {
   }
 }
 
-export function useCategoriesQuery() {
+export function useCategoriesQuery(queryConfig?: CMSTableState) {
   const { data: user } = useUserQuery();
 
   return useQuery({
     enabled: !!user,
-    queryKey: ['categories'],
-    queryFn: () => getCategories((<User>user).id),
+    queryKey: ['categories', queryConfig],
+    queryFn: () => getCategories((<User>user).id, queryConfig),
+    placeholderData: keepPreviousData,
   });
 }
 

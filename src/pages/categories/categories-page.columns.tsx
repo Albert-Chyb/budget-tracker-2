@@ -12,13 +12,13 @@ export const NO_COLOR_VALUE = '-';
 
 export const categoriesPageTableColsFactory = (colors: TCategoryColor[]) => [
   columnBuilder.accessor('name', {
-    id: 'category-name',
+    id: 'name',
     header: 'Nazwa',
     cell: (props) => props.renderValue(),
     filterFn: 'includesString',
   }),
   columnBuilder.accessor('type', {
-    id: 'category-transactions-type',
+    id: 'type',
     header: 'Typ transakcji',
     cell: (props) => {
       const type = props.getValue();
@@ -30,7 +30,7 @@ export const categoriesPageTableColsFactory = (colors: TCategoryColor[]) => [
   columnBuilder.accessor(
     (data) => (data.colorId ? String(data.colorId) : NO_COLOR_VALUE),
     {
-      id: 'category-color-id',
+      id: 'colorId',
       header: 'Kolor',
       cell: (props) =>
         props.row.original.color !== null ? (

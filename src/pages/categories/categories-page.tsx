@@ -11,13 +11,15 @@ import { useURLPaginationState } from '@/hooks/url-pagination-state';
 import { TCategory, TCategoryType } from '@/lib/db-schemas/category';
 import {
   Column,
+  ColumnFiltersState,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  SortingState,
   useReactTable,
 } from '@tanstack/react-table';
-import { ReactNode, useMemo } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
 import {
   categoriesPageTableColsFactory,
   NO_COLOR_VALUE,
@@ -46,15 +48,22 @@ const POSSIBLE_CATEGORIES_TYPES: {
 ];
 
 export default function CategoriesPage() {
-  const { categories, categoriesColors, isLoading } = useCategoriesPageData();
-
-  const { create: createCategory, isPending: isCreatePending } =
-    useCategoryCreate();
-
   const [pagination, setPagination] = useURLPaginationState({
     pageIndex: 0,
     pageSize: 10,
   });
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const { categories, categoriesColors, isLoading, categoriesCount } =
+    useCategoriesPageData({
+      pagination,
+      columnFilters,
+      sorting,
+    });
+
+  const { create: createCategory, isPending: isCreatePending } =
+    useCategoryCreate();
+
   const columns = useMemo(
     () => categoriesPageTableColsFactory(categoriesColors),
     [categoriesColors]
@@ -63,13 +72,26 @@ export default function CategoriesPage() {
     data: categories,
     columns,
     getCoreRowModel: getCoreRowModel(),
+
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+
     onPaginationChange: setPagination,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+
+    manualFiltering: true,
+    manualSorting: true,
+    manualPagination: true,
+
     state: {
       pagination,
+      columnFilters,
+      sorting,
     },
+
+    rowCount: categoriesCount,
   });
 
   const mobileCategoriesItems = categories.map((category) => (
@@ -93,17 +115,17 @@ export default function CategoriesPage() {
 
   const filters: CMSTableFiltersConfig = [
     {
-      column: table.getColumn('category-name') as Column<unknown>,
+      column: table.getColumn('name') as Column<unknown>,
       columnName: 'Nazwa',
       form: <TextFieldFilterForm />,
     },
     {
-      column: table.getColumn('category-transactions-type') as Column<unknown>,
+      column: table.getColumn('type') as Column<unknown>,
       columnName: 'Typ transakcji',
       form: <RadioGroupFilterForm options={POSSIBLE_CATEGORIES_TYPES} />,
     },
     {
-      column: table.getColumn('category-color-id') as Column<unknown>,
+      column: table.getColumn('colorId') as Column<unknown>,
       columnName: 'Kolor',
       form: <CheckboxesFilterForm options={colorFilterOptions} />,
     },
