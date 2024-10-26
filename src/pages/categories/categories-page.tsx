@@ -7,7 +7,6 @@ import {
 } from '@/components/cms/filters-forms/checkboxes-filter-form';
 import { RadioGroupFilterForm } from '@/components/cms/filters-forms/radio-group-filter-form';
 import { TextFieldFilterForm } from '@/components/cms/filters-forms/text-field-filter-form';
-import { useURLPaginationState } from '@/hooks/url-pagination-state';
 import { TCategory, TCategoryType } from '@/lib/db-schemas/category';
 import {
   Column,
@@ -16,6 +15,7 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  PaginationState,
   SortingState,
   useReactTable,
 } from '@tanstack/react-table';
@@ -48,22 +48,24 @@ const POSSIBLE_CATEGORIES_TYPES: {
 ];
 
 export default function CategoriesPage() {
-  const [pagination, setPagination] = useURLPaginationState({
+  const [isServerSide, setIsServerSide] = useState(false);
+  const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
   });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
+  const queryConfig = isServerSide
+    ? {
+        pagination,
+        columnFilters,
+        sorting,
+      }
+    : undefined;
   const { categories, categoriesColors, isLoading, categoriesCount } =
-    useCategoriesPageData({
-      pagination,
-      columnFilters,
-      sorting,
-    });
-
+    useCategoriesPageData(queryConfig);
   const { create: createCategory, isPending: isCreatePending } =
     useCategoryCreate();
-
   const columns = useMemo(
     () => categoriesPageTableColsFactory(categoriesColors),
     [categoriesColors]
@@ -81,9 +83,9 @@ export default function CategoriesPage() {
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
 
-    manualFiltering: true,
-    manualSorting: true,
-    manualPagination: true,
+    manualFiltering: isServerSide,
+    manualSorting: isServerSide,
+    manualPagination: isServerSide,
 
     state: {
       pagination,
@@ -91,8 +93,13 @@ export default function CategoriesPage() {
       sorting,
     },
 
-    rowCount: categoriesCount,
+    rowCount: isServerSide ? categoriesCount : undefined,
   });
+
+  function handleServerSideProcessingChange() {
+    table.resetPagination();
+    setIsServerSide((v) => !v);
+  }
 
   const mobileCategoriesItems = categories.map((category) => (
     <CMSCategoryMobileItem
@@ -153,6 +160,8 @@ export default function CategoriesPage() {
           'Po wypełnieniu formularza naciśnij przycisk Zapisz, aby stworzyć nową kategorię.',
         isDismissible: !isCreatePending,
       }}
+      onServerSideProcessingChange={handleServerSideProcessingChange}
+      serverSideProcessing={isServerSide}
     />
   );
 }

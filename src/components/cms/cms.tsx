@@ -2,6 +2,8 @@ import { RowData, Table } from '@tanstack/react-table';
 import { Plus } from 'lucide-react';
 import { JSXElementConstructor, ReactElement } from 'react';
 import { Button } from '../ui/button';
+import { Label } from '../ui/label';
+import { Switch } from '../ui/switch';
 import { CMSContext, CMSContextProvider } from './cms-context';
 import CMSEditorTrigger, { CMSEditorTriggerProps } from './cms-editor-trigger';
 import { CMSLoadingSkeleton } from './cms-loading-skeleton';
@@ -19,6 +21,8 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
     table,
     isLoading,
     filters,
+    onServerSideProcessingChange,
+    serverSideProcessing,
   } = props;
 
   return (
@@ -27,13 +31,21 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
         <CMSLoadingSkeleton />
       ) : (
         <section>
-          <header className='flex justify-between items-center gap-x-2 py-6'>
+          <header className='flex items-center gap-x-2 py-6'>
             <div>
               <h2 className='text-2xl font-semibold'>{title}</h2>
               <p className='text-muted-foreground'>{description}</p>
             </div>
 
-            <div className='shrink-0'>
+            <div className='ml-auto flex items-center gap-x-2'>
+              <Label className='inline-flex items-center gap-2 '>
+                Przetwarzanie na serwerze
+                <Switch
+                  checked={serverSideProcessing}
+                  onCheckedChange={onServerSideProcessingChange}
+                />
+              </Label>
+
               <CMSEditorTrigger {...newItemEditor}>
                 <Button size='icon' variant='ghost'>
                   <Plus className='size-6' />
@@ -68,4 +80,6 @@ export type CMSProps<TData extends RowData> = {
   >[];
   table: Table<TData>;
   filters: CMSTableFiltersConfig;
+  onServerSideProcessingChange(isServerSide: boolean): void;
+  serverSideProcessing: boolean;
 };
