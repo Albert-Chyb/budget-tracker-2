@@ -1,11 +1,6 @@
-import {
-  ColumnFiltersState,
-  PaginationState,
-  SortingState,
-} from '@tanstack/react-table';
+import { TableState } from '@tanstack/react-table';
 
-export type CMSTableState = {
-  pagination: PaginationState;
-  columnFilters: ColumnFiltersState;
-  sorting: SortingState;
-};
+export type CMSTableState = Pick<
+  TableState,
+  'pagination' | 'sorting' | 'columnFilters'
+>;
