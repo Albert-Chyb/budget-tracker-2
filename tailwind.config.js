@@ -57,10 +57,18 @@ module.exports = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
         },
+        'pending-bar': {
+          '0%': { transform: 'scaleX(0)', transformOrigin: 'left' },
+          '50%': { transform: 'scaleX(1)', transformOrigin: 'left' },
+          '50.01%': { transformOrigin: 'right' },
+          '99.99%': { transform: 'scaleX(0)', transformOrigin: 'right' },
+          '100%': { transformOrigin: 'left' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'pending-bar': 'pending-bar 1.5s linear infinite',
       },
     },
   },

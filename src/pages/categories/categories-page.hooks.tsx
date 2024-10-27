@@ -15,7 +15,7 @@ export function useCategoriesPageData(queryConfig?: CMSTableState) {
   const { isLoading: isColorsLoading, data: colors } =
     useCategoriesColorsQuery();
 
-  const { isLoading: isCategoriesLoading, data: categoriesQueryResult } =
+  const { isLoading: isCategoriesLoading, data: categoriesQueryResult, isRefetching } =
     useCategoriesQuery(queryConfig);
 
   return {
@@ -23,6 +23,7 @@ export function useCategoriesPageData(queryConfig?: CMSTableState) {
     categories: categoriesQueryResult?.categories ?? [],
     categoriesColors: colors ?? [],
     isLoading: isColorsLoading || isCategoriesLoading,
+    isTableDataRefetching: isRefetching,
   };
 }
 

@@ -62,7 +62,7 @@ export default function CategoriesPage() {
         sorting,
       }
     : undefined;
-  const { categories, categoriesColors, isLoading, categoriesCount } =
+  const { categories, categoriesColors, isLoading, categoriesCount, isTableDataRefetching } =
     useCategoriesPageData(queryConfig);
   const { create: createCategory, isPending: isCreatePending } =
     useCategoryCreate();
@@ -141,6 +141,7 @@ export default function CategoriesPage() {
   return (
     <CMS
       isLoading={isLoading}
+      isTablePending={isTableDataRefetching}
       title={CATEGORIES_PAGE_TITLE}
       description={CATEGORIES_PAGE_DESCRIPTION}
       mobileItems={mobileCategoriesItems}

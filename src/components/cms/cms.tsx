@@ -23,6 +23,7 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
     filters,
     onServerSideProcessingChange,
     serverSideProcessing,
+    isTablePending,
   } = props;
 
   return (
@@ -59,7 +60,11 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
               isMobile ? (
                 <CMSMobile>{mobileItems}</CMSMobile>
               ) : (
-                <CMSDesktopTable table={table} filters={filters} />
+                <CMSDesktopTable
+                  table={table}
+                  filters={filters}
+                  isPending={isTablePending}
+                />
               )
             }
           </CMSContext.Consumer>
@@ -71,6 +76,7 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
 
 export type CMSProps<TData extends RowData> = {
   isLoading: boolean;
+  isTablePending: boolean;
   title: string;
   description: string;
   newItemEditor: CMSEditorTriggerProps;

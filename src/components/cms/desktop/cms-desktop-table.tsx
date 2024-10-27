@@ -6,6 +6,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { TanStackTablePaginator } from '@/components/ui/tanstack-table/paginator';
+import { pseudoPendingIndicator } from '@/lib/utils/pseudo-pending-indicator';
 import {
   flexRender,
   RowData,
@@ -18,7 +19,7 @@ import { CMSTableHead } from './cms-desktop-table-head';
 export function CMSDesktopTable<TData extends RowData>(
   props: CategoriesPageTableProps<TData>
 ) {
-  const { table, filters } = props;
+  const { table, filters, isPending } = props;
 
   const tableHeaderRows = table.getHeaderGroups().map(({ id, headers }) => (
     <TableRow key={id}>
@@ -38,6 +39,9 @@ export function CMSDesktopTable<TData extends RowData>(
     </TableRow>
   ));
 
+  const { className: pendingIndicatorClasses } =
+    pseudoPendingIndicator(isPending);
+
   return (
     <>
       <CMSDesktopTableFilters
@@ -48,7 +52,7 @@ export function CMSDesktopTable<TData extends RowData>(
       <div className='rounded-md border mt-6'>
         <Table>
           <TableHeader>{tableHeaderRows}</TableHeader>
-          <TableBody>{tableRows}</TableBody>
+          <TableBody className={pendingIndicatorClasses}>{tableRows}</TableBody>
         </Table>
       </div>
 
@@ -60,4 +64,5 @@ export function CMSDesktopTable<TData extends RowData>(
 export type CategoriesPageTableProps<TData extends RowData> = {
   table: TanstackTable<TData>;
   filters: CMSTableFiltersConfig;
+  isPending: boolean;
 };
