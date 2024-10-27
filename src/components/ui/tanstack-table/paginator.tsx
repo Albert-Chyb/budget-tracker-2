@@ -64,7 +64,7 @@ export function TanStackTablePaginator<TData>(
 
           <TanStackTablePaginatorItem>
             <TanStackTablePaginatorButton
-              aria-label='Następna stron'
+              aria-label='Następna strona'
               disabled={!table.getCanNextPage()}
               onClick={() => table.nextPage()}
             >

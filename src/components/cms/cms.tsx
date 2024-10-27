@@ -48,7 +48,11 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
               </Label>
 
               <CMSEditorTrigger {...newItemEditor}>
-                <Button size='icon' variant='ghost'>
+                <Button
+                  size='icon'
+                  variant='ghost'
+                  aria-label='Dodaj nową kategorie'
+                >
                   <Plus className='size-6' />
                 </Button>
               </CMSEditorTrigger>
