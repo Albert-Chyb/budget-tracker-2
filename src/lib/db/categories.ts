@@ -134,12 +134,20 @@ export async function deleteCategory(id: TCategory['id'], userId: string) {
 export function useCategoriesQuery(queryConfig?: CMSTableState) {
   const { data: user } = useUserQuery();
 
-  return useQuery({
-    enabled: !!user,
+  const serverSideTableStateQuery = useQuery({
+    enabled: !!user && !!queryConfig,
     queryKey: ['categories', queryConfig],
     queryFn: () => getCategories((<User>user).id, queryConfig),
     placeholderData: keepPreviousData,
   });
+
+  const clientSideTableStateQuery = useQuery({
+    enabled: !!user && !queryConfig,
+    queryKey: ['categories'],
+    queryFn: () => getCategories((<User>user).id, queryConfig),
+  });
+
+  return queryConfig ? serverSideTableStateQuery : clientSideTableStateQuery;
 }
 
 export type CategoryCreateMutationVariables = {
