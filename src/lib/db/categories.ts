@@ -18,6 +18,26 @@ import {
 } from '../db-schemas/category';
 import { getSupabase } from '../supabase/init';
 
+/**
+ * Transforms the colorId column filter from the CMS table in a way that is safe to use in the supabase `in` filter.
+ *
+ * @param filterValue Original filter value
+ * @returns Object containing the safe filter value and information if the flag is present in the original filter.
+ */
+function handleColorIdFilter([...filterValue]: unknown[]) {
+  const indexOfNoColorFlag = filterValue.findIndex((v) => v === NO_COLOR_VALUE);
+  const hasFlag = indexOfNoColorFlag !== -1;
+
+  if (hasFlag) {
+    filterValue.splice(indexOfNoColorFlag, 1);
+  }
+
+  return {
+    safeFilterValue: filterValue,
+    hasFlag,
+  };
+}
+
 export async function getCategories(userId: string, config?: CMSTableState) {
   const supabase = getSupabase();
   const query = supabase
@@ -43,18 +63,12 @@ export async function getCategories(userId: string, config?: CMSTableState) {
         query.eq('type', String(filterValue));
       } else if (columnName === 'colorId') {
         if (Array.isArray(filterValue) && filterValue.length > 0) {
-          const filterValueWithoutEmptyColor = filterValue.filter(
-            (v) => v !== NO_COLOR_VALUE
-          );
-          const filtersContainsEmptyColor =
-            filterValueWithoutEmptyColor.length !== filterValue.length;
+          const { safeFilterValue, hasFlag } = handleColorIdFilter(filterValue);
 
-          if (filtersContainsEmptyColor) {
-            query.or(
-              `colorId.in.(${filterValueWithoutEmptyColor}),colorId.is.null`
-            );
+          if (hasFlag) {
+            query.or(`colorId.in.(${safeFilterValue}),colorId.is.null`);
           } else {
-            query.in('colorId', filterValueWithoutEmptyColor);
+            query.in('colorId', safeFilterValue);
           }
         }
       }
