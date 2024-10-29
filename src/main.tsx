@@ -1,5 +1,6 @@
 import { UserProvider } from '@/contexts/user-context.tsx';
 import { initSupabase } from '@/lib/supabase/init.ts';
+import { TooltipProvider } from '@radix-ui/react-tooltip';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
@@ -15,7 +16,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <ReactQueryClientProvider>
       <ThemeProvider>
         <UserProvider>
-          <RouterProvider router={router} />
+          <TooltipProvider>
+            <RouterProvider router={router} />
+          </TooltipProvider>
         </UserProvider>
       </ThemeProvider>
     </ReactQueryClientProvider>
