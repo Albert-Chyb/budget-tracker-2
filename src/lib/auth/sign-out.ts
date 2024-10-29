@@ -21,6 +21,7 @@ export function useSignOutMutation() {
     mutationFn: signOut,
     onSuccess() {
       client.setQueryData(USER_QUERY_KEY, null);
+      client.clear();
       client.invalidateQueries({ queryKey: USER_QUERY_KEY });
     },
   });
