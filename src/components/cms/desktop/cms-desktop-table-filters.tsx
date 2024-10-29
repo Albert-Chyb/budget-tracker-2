@@ -1,4 +1,9 @@
 import { Button } from '@/components/ui/button';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { FilterX } from 'lucide-react';
 import { CMSTableFiltersConfig } from '../cms-table-filters';
@@ -25,6 +30,7 @@ export function CMSDesktopTableFilters(props: CMSDesktopTableFiltersProps) {
               <CMSDesktopTableFilterTrigger
                 column={filter.column}
                 columnName={filter.columnName}
+                tooltip={`Filtruj kolumnę: ${filter.columnName}`}
               >
                 {filter.form}
               </CMSDesktopTableFilterTrigger>
@@ -32,15 +38,21 @@ export function CMSDesktopTableFilters(props: CMSDesktopTableFiltersProps) {
           ))}
         </ul>
 
-        <Button
-          type='button'
-          className='ml-auto'
-          aria-label='Wyczyść filtry'
-          size='icon'
-          onClick={() => onFiltersReset()}
-        >
-          <FilterX className='size-5' />
-        </Button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              type='button'
+              className='ml-auto'
+              aria-label='Wyczyść filtry'
+              size='icon'
+              onClick={() => onFiltersReset()}
+            >
+              <FilterX className='size-5' />
+            </Button>
+          </TooltipTrigger>
+
+          <TooltipContent>Wyczyść wszystkie filtry</TooltipContent>
+        </Tooltip>
       </div>
     </section>
   );

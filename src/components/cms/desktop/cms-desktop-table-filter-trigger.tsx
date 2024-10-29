@@ -8,25 +8,32 @@ import { Column } from '@tanstack/react-table';
 import { CirclePlus } from 'lucide-react';
 import { PropsWithChildren } from 'react';
 import { CMSTableFilterContext } from '../cms-table-filters';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 export function CMSDesktopTableFilterTrigger<TData>(
   props: CMSDesktopTableFilterTriggerProps<TData>
 ) {
-  const { column, children, columnName } = props;
+  const { column, children, columnName, tooltip } = props;
 
   return (
     <div className='flex items-center '>
       <Popover modal={true}>
-        <PopoverTrigger asChild>
-          <Button
-            type='button'
-            variant='outline'
-            aria-label={`Wyświetl filtry dla kolumny: ${columnName}`}
-          >
-            <CirclePlus className='mr-2' />
-            {columnName}
-          </Button>
-        </PopoverTrigger>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <PopoverTrigger asChild>
+              <Button
+                type='button'
+                variant='outline'
+                aria-label={`Wyświetl filtry dla kolumny: ${columnName}`}
+              >
+                <CirclePlus className='mr-2' />
+                {columnName}
+              </Button>
+            </PopoverTrigger>
+          </TooltipTrigger>
+
+          <TooltipContent>{tooltip}</TooltipContent>
+        </Tooltip>
 
         <PopoverContent>
           <CMSTableFilterContext.Provider
@@ -46,4 +53,5 @@ export function CMSDesktopTableFilterTrigger<TData>(
 export type CMSDesktopTableFilterTriggerProps<TData> = PropsWithChildren<{
   column: Column<TData, unknown>;
   columnName: string;
+  tooltip: string;
 }>;

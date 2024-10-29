@@ -5,6 +5,11 @@ import CMSEditorTrigger, {
 } from '@/components/cms/cms-editor-trigger';
 import CMSMobileItem from '@/components/cms/mobile/cms-mobile-item';
 import { Button } from '@/components/ui/button';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { TCategory } from '@/lib/db-schemas/category';
 import { TCategoryColor } from '@/lib/db-schemas/category-colors';
 import { Pen, Trash } from 'lucide-react';
@@ -32,20 +37,27 @@ export function CategoryActions(props: CMSCategoryActionsProps) {
       />
     ),
     isDismissible: !isUpdatePending,
+    tooltip: 'Edytuj kategorię',
   };
 
   return (
     <>
-      <Button
-        type='button'
-        size='icon'
-        variant='ghost'
-        aria-label={`Usuń kategorię: ${category.name}`}
-        onClick={() => deleteCategory()}
-        disabled={isDeletePending}
-      >
-        <Trash className='size-4' />
-      </Button>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            type='button'
+            size='icon'
+            variant='ghost'
+            aria-label={`Usuń kategorię: ${category.name}`}
+            onClick={() => deleteCategory()}
+            disabled={isDeletePending}
+          >
+            <Trash className='size-4' />
+          </Button>
+        </TooltipTrigger>
+
+        <TooltipContent>Usuń kategorię</TooltipContent>
+      </Tooltip>
 
       <CMSEditorTrigger {...editorProps}>
         <Button
@@ -91,6 +103,7 @@ export function CMSCategoryMobileItem(props: CMSCategoryMobileItemProps) {
           />
         ),
         isDismissible: !isUpdatePending,
+        tooltip: '',
       }}
       isBeingDeleted={isDeletePending}
       onDelete={() => deleteCategory()}

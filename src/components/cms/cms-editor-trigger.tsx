@@ -39,6 +39,7 @@ export type CMSEditorTriggerProps = PropsWithChildren<{
   content: ReactElement;
   id: string;
   isDismissible: boolean;
+  tooltip: string;
 }>;
 
 export type CMSChildEditorTriggerProps = CMSEditorTriggerProps & {

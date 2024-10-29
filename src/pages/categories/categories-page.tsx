@@ -62,8 +62,13 @@ export default function CategoriesPage() {
         sorting,
       }
     : undefined;
-  const { categories, categoriesColors, isLoading, categoriesCount, isTableDataRefetching } =
-    useCategoriesPageData(queryConfig);
+  const {
+    categories,
+    categoriesColors,
+    isLoading,
+    categoriesCount,
+    isTableDataRefetching,
+  } = useCategoriesPageData(queryConfig);
   const { create: createCategory, isPending: isCreatePending } =
     useCategoryCreate();
   const columns = useMemo(
@@ -160,6 +165,7 @@ export default function CategoriesPage() {
         description:
           'Po wypełnieniu formularza naciśnij przycisk Zapisz, aby stworzyć nową kategorię.',
         isDismissible: !isCreatePending,
+        tooltip: 'Stwórz nową kategorię',
       }}
       onServerSideProcessingChange={handleServerSideProcessingChange}
       serverSideProcessing={isServerSide}
