@@ -5,9 +5,12 @@ import {
   CheckboxesFilterForm,
   CheckboxesFilterFormOption,
 } from '@/components/cms/filters-forms/checkboxes-filter-form';
-import { RadioGroupFilterForm } from '@/components/cms/filters-forms/radio-group-filter-form';
+import {
+  RadioGroupFilterForm,
+  TRadioGroupFilterFormOption,
+} from '@/components/cms/filters-forms/radio-group-filter-form';
 import { TextFieldFilterForm } from '@/components/cms/filters-forms/text-field-filter-form';
-import { TCategory, TCategoryType } from '@/lib/db-schemas/category';
+import { categoryTypeLabel, TCategory } from '@/lib/db-schemas/category';
 import {
   Column,
   ColumnFiltersState,
@@ -19,7 +22,7 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table';
-import { ReactNode, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   categoriesPageTableColsFactory,
   NO_COLOR_VALUE,
@@ -32,20 +35,6 @@ import { CMSCategoryMobileItem } from './categories-page.layout';
 
 const CATEGORIES_PAGE_TITLE = 'Kategorie';
 const CATEGORIES_PAGE_DESCRIPTION = 'Zarządzaj swoimi kategoriami transakcji';
-
-const POSSIBLE_CATEGORIES_TYPES: {
-  value: TCategoryType;
-  text: ReactNode;
-}[] = [
-  {
-    value: 'income',
-    text: 'Przychód',
-  },
-  {
-    value: 'expense',
-    text: 'Wydatek',
-  },
-];
 
 export default function CategoriesPage() {
   const [isServerSide, setIsServerSide] = useState(false);
@@ -102,6 +91,7 @@ export default function CategoriesPage() {
   });
 
   function handleServerSideProcessingChange() {
+    table.resetColumnFilters();
     table.resetPagination();
     setIsServerSide((v) => !v);
   }
@@ -114,13 +104,24 @@ export default function CategoriesPage() {
     />
   ));
 
+  const categoryTypeFilterOptions: TRadioGroupFilterFormOption[] = [
+    {
+      value: isServerSide ? 'income' : categoryTypeLabel['income'],
+      text: categoryTypeLabel['income'],
+    },
+    {
+      value: isServerSide ? 'expense' : categoryTypeLabel['expense'],
+      text: categoryTypeLabel['expense'],
+    },
+  ];
+
   const colorFilterOptions: CheckboxesFilterFormOption[] = [
     {
       value: NO_COLOR_VALUE,
       text: 'Bez koloru',
     },
     ...categoriesColors.map((color) => ({
-      value: String(color.colorId),
+      value: isServerSide ? String(color.colorId) : color.name,
       text: color.name,
     })),
   ];
@@ -134,7 +135,7 @@ export default function CategoriesPage() {
     {
       column: table.getColumn('type') as Column<unknown>,
       columnName: 'Typ transakcji',
-      form: <RadioGroupFilterForm options={POSSIBLE_CATEGORIES_TYPES} />,
+      form: <RadioGroupFilterForm options={categoryTypeFilterOptions} />,
     },
     {
       column: table.getColumn('colorId') as Column<unknown>,
