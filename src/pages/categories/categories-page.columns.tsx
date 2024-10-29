@@ -3,7 +3,7 @@ import { CategoryTypeLabel } from '@/components/categories/category-type';
 import { categoryTypeLabel, TCategory } from '@/lib/db-schemas/category';
 import { TCategoryColor } from '@/lib/db-schemas/category-colors';
 import { isInArray } from '@/lib/utils/tanstack-table-filter-functions';
-import { createColumnHelper } from '@tanstack/react-table';
+import { createColumnHelper, FilterFn } from '@tanstack/react-table';
 import { CategoryActions } from './categories-page.layout';
 
 const columnBuilder = createColumnHelper<TCategory>();
@@ -34,7 +34,7 @@ export const categoriesPageTableColsFactory = (colors: TCategoryColor[]) => [
       ) : (
         NO_COLOR_VALUE
       ),
-    filterFn: isInArray,
+    filterFn: isInArray as FilterFn<TCategory>,
   }),
   columnBuilder.display({
     id: 'category-actions',
