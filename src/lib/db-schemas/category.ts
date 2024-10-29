@@ -3,6 +3,11 @@ import { categoryColorsSchema } from './category-colors';
 
 export const categoryTypeSchema = z.enum(['income', 'expense']);
 
+export const categoryTypeLabel = {
+  [categoryTypeSchema.Enum.expense]: 'Wydatek',
+  [categoryTypeSchema.Enum.income]: 'Przychód',
+} as Record<TCategoryType, string>;
+
 export const categorySchema = z.object({
   id: z.number().int().positive(),
   name: z.string().min(3).max(32),

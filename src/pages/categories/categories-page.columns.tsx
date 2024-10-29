@@ -1,6 +1,6 @@
 import { CategoryColorBadge } from '@/components/categories/category-color-badge';
 import { CategoryTypeLabel } from '@/components/categories/category-type';
-import { TCategory } from '@/lib/db-schemas/category';
+import { categoryTypeLabel, TCategory } from '@/lib/db-schemas/category';
 import { TCategoryColor } from '@/lib/db-schemas/category-colors';
 import { isInArray } from '@/lib/utils/tanstack-table-filter-functions';
 import { createColumnHelper } from '@tanstack/react-table';
@@ -17,30 +17,25 @@ export const categoriesPageTableColsFactory = (colors: TCategoryColor[]) => [
     cell: (props) => props.renderValue(),
     filterFn: 'includesString',
   }),
-  columnBuilder.accessor('type', {
+  columnBuilder.accessor((data) => categoryTypeLabel[data.type], {
     id: 'type',
     header: 'Typ transakcji',
     cell: (props) => {
-      const type = props.getValue();
-
-      return <CategoryTypeLabel type={type} />;
+      return <CategoryTypeLabel type={props.row.original.type} />;
     },
     filterFn: 'equals',
   }),
-  columnBuilder.accessor(
-    (data) => (data.colorId ? String(data.colorId) : NO_COLOR_VALUE),
-    {
-      id: 'colorId',
-      header: 'Kolor',
-      cell: (props) =>
-        props.row.original.color !== null ? (
-          <CategoryColorBadge color={props.row.original.color} />
-        ) : (
-          NO_COLOR_VALUE
-        ),
-      filterFn: isInArray,
-    }
-  ),
+  columnBuilder.accessor((data) => data.color?.name ?? NO_COLOR_VALUE, {
+    id: 'colorId',
+    header: 'Kolor',
+    cell: (props) =>
+      props.row.original.color !== null ? (
+        <CategoryColorBadge color={props.row.original.color} />
+      ) : (
+        NO_COLOR_VALUE
+      ),
+    filterFn: isInArray,
+  }),
   columnBuilder.display({
     id: 'category-actions',
     header: 'Akcje',
