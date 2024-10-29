@@ -16,7 +16,7 @@ export function CMSDesktopTableFilterTrigger<TData>(
 
   return (
     <div className='flex items-center '>
-      <Popover>
+      <Popover modal={true}>
         <PopoverTrigger asChild>
           <Button
             type='button'
