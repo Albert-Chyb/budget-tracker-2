@@ -7,7 +7,7 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import { useUserQuery } from '../auth/user';
+import { USER_QUERY_KEY, useUserQuery } from '../auth/user';
 import {
   categorySchema,
   createCategorySchema,
@@ -150,14 +150,14 @@ export function useCategoriesQuery(queryConfig?: CMSTableState) {
 
   const serverSideTableStateQuery = useQuery({
     enabled: !!user && !!queryConfig,
-    queryKey: ['categories', queryConfig],
+    queryKey: [...USER_QUERY_KEY,'categories', queryConfig],
     queryFn: () => getCategories((<User>user).id, queryConfig),
     placeholderData: keepPreviousData,
   });
 
   const clientSideTableStateQuery = useQuery({
     enabled: !!user && !queryConfig,
-    queryKey: ['categories'],
+    queryKey: [...USER_QUERY_KEY, 'categories'],
     queryFn: () => getCategories((<User>user).id, queryConfig),
   });
 
@@ -177,7 +177,7 @@ export function useCategoryCreateMutation() {
       createCategory(userId, category),
     onSuccess() {
       client.invalidateQueries({
-        queryKey: ['categories'],
+        queryKey: [...USER_QUERY_KEY, 'categories'],
       });
     },
   });
@@ -197,7 +197,7 @@ export function useCategoryUpdateMutation() {
       updateCategory(id, userId, category),
     onSuccess() {
       client.invalidateQueries({
-        queryKey: ['categories'],
+        queryKey: [...USER_QUERY_KEY, 'categories'],
       });
     },
   });
@@ -216,7 +216,7 @@ export function useCategoryDeleteMutation() {
       deleteCategory(id, userId),
     onSuccess: () =>
       client.invalidateQueries({
-        queryKey: ['categories'],
+        queryKey: [...USER_QUERY_KEY, 'categories'],
       }),
   });
 }
