@@ -17,7 +17,7 @@ export function CMSDesktopEditorTrigger(props: CMSDesktopEditorTriggerProps) {
       <SheetTrigger asChild>{children}</SheetTrigger>
 
       <SheetContent>
-        <SheetHeader>
+        <SheetHeader className='mb-4'>
           <SheetTitle>{title}</SheetTitle>
           <SheetDescription>{description}</SheetDescription>
         </SheetHeader>
