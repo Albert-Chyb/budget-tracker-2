@@ -8,27 +8,33 @@ export default function CMSMobileItem(props: CMSMobileItemProps) {
 
   return (
     <li className='border-2 rounded-sm'>
-      <CMSEditorTrigger {...editor}>
-        <Button
-          variant='ghost'
-          className='rounded-none w-full'
-          disabled={isBeingDeleted}
-        >
-          {children}
-        </Button>
-      </CMSEditorTrigger>
+      <section>
+        {children}
 
-      <div className='px-2 pb-2'>
-        <LoadingButton
-          type='submit'
-          variant='destructive'
-          className='w-full'
-          isLoading={isBeingDeleted}
-          onClick={onDelete}
-        >
-          Usuń
-        </LoadingButton>
-      </div>
+        <footer className='flex gap-x-2 p-2'>
+          <LoadingButton
+            type='submit'
+            variant='destructive'
+            className='w-full'
+            isLoading={isBeingDeleted}
+            onClick={onDelete}
+            size='sm'
+          >
+            Usuń
+          </LoadingButton>
+
+          <CMSEditorTrigger {...editor}>
+            <Button
+              variant='ghost'
+              className='rounded-none w-full'
+              disabled={isBeingDeleted}
+              size='sm'
+            >
+              Edytuj
+            </Button>
+          </CMSEditorTrigger>
+        </footer>
+      </section>
     </li>
   );
 }
