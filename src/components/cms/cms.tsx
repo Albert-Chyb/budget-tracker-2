@@ -1,6 +1,5 @@
 import { RowData, Table } from '@tanstack/react-table';
 import { Plus } from 'lucide-react';
-import { JSXElementConstructor, ReactElement } from 'react';
 import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 import { Switch } from '../ui/switch';
@@ -9,14 +8,12 @@ import CMSEditorTrigger, { CMSEditorTriggerProps } from './cms-editor-trigger';
 import { CMSLoadingSkeleton } from './cms-loading-skeleton';
 import { CMSTableFiltersConfig } from './cms-table-filters';
 import { CMSDesktopTable } from './desktop/cms-desktop-table';
-import { CMSMobile } from './mobile/cms-mobile';
-import { CMSMobileItemProps } from './mobile/cms-mobile-item';
+import { CMSMobile, CMSMobileProps } from './mobile/cms-mobile';
 
 export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
   const {
     title,
     description,
-    mobileItems,
     newItemEditor,
     table,
     isLoading,
@@ -24,6 +21,9 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
     onServerSideProcessingChange,
     serverSideProcessing,
     isTablePending,
+    mobileActionsColumnId,
+    mobileTitleColumnId,
+    mobileCaptionBuilder,
   } = props;
 
   return (
@@ -62,7 +62,12 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
           <CMSContext.Consumer>
             {({ isMobile }) =>
               isMobile ? (
-                <CMSMobile>{mobileItems}</CMSMobile>
+                <CMSMobile
+                  table={table}
+                  actionsColumnId={mobileActionsColumnId}
+                  titleColumnId={mobileTitleColumnId}
+                  captionBuilder={mobileCaptionBuilder}
+                />
               ) : (
                 <CMSDesktopTable
                   table={table}
@@ -84,12 +89,11 @@ export type CMSProps<TData extends RowData> = {
   title: string;
   description: string;
   newItemEditor: CMSEditorTriggerProps;
-  mobileItems: ReactElement<
-    CMSMobileItemProps,
-    JSXElementConstructor<CMSMobileItemProps>
-  >[];
   table: Table<TData>;
   filters: CMSTableFiltersConfig;
   onServerSideProcessingChange(isServerSide: boolean): void;
   serverSideProcessing: boolean;
+  mobileTitleColumnId: string;
+  mobileActionsColumnId: string;
+  mobileCaptionBuilder: CMSMobileProps<TData>['captionBuilder'];
 };

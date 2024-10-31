@@ -11,9 +11,12 @@ import {
 } from '@/components/cms/filters-forms/radio-group-filter-form';
 import { TextFieldFilterForm } from '@/components/cms/filters-forms/text-field-filter-form';
 import { categoryTypeLabel, TCategory } from '@/lib/db-schemas/category';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import {
+  Cell,
   Column,
   ColumnFiltersState,
+  flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
@@ -31,7 +34,6 @@ import {
   useCategoriesPageData,
   useCategoryCreate,
 } from './categories-page.hooks';
-import { CMSCategoryMobileItem } from './categories-page.layout';
 
 const CATEGORIES_PAGE_TITLE = 'Kategorie';
 const CATEGORIES_PAGE_DESCRIPTION = 'Zarządzaj swoimi kategoriami transakcji';
@@ -96,14 +98,6 @@ export default function CategoriesPage() {
     setIsServerSide((v) => !v);
   }
 
-  const mobileCategoriesItems = categories.map((category) => (
-    <CMSCategoryMobileItem
-      category={category}
-      key={category.id}
-      colors={categoriesColors}
-    />
-  ));
-
   const categoryTypeFilterOptions: TRadioGroupFilterFormOption[] = [
     {
       value: isServerSide ? 'income' : categoryTypeLabel['income'],
@@ -144,13 +138,21 @@ export default function CategoriesPage() {
     },
   ];
 
+  function mobileCaptionBuilder(cell: Cell<TCategory, unknown>) {
+    return (
+      <>
+        <VisuallyHidden>Szczegóły kategorii: </VisuallyHidden>{' '}
+        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+      </>
+    );
+  }
+
   return (
     <CMS
       isLoading={isLoading}
       isTablePending={isTableDataRefetching}
       title={CATEGORIES_PAGE_TITLE}
       description={CATEGORIES_PAGE_DESCRIPTION}
-      mobileItems={mobileCategoriesItems}
       table={table}
       filters={filters}
       newItemEditor={{
@@ -170,6 +172,9 @@ export default function CategoriesPage() {
       }}
       onServerSideProcessingChange={handleServerSideProcessingChange}
       serverSideProcessing={isServerSide}
+      mobileTitleColumnId='name'
+      mobileActionsColumnId='category-actions'
+      mobileCaptionBuilder={mobileCaptionBuilder}
     />
   );
 }

@@ -1,9 +1,7 @@
-import Category from '@/components/categories/category';
 import CategoryForm from '@/components/categories/category-form';
 import CMSEditorTrigger, {
   CMSEditorTriggerProps,
 } from '@/components/cms/cms-editor-trigger';
-import CMSMobileItem from '@/components/cms/mobile/cms-mobile-item';
 import { Button } from '@/components/ui/button';
 import {
   Tooltip,
@@ -75,45 +73,6 @@ export function CategoryActions(props: CMSCategoryActionsProps) {
 }
 
 export type CMSCategoryActionsProps = {
-  category: TCategory;
-  colors: TCategoryColor[];
-};
-
-export function CMSCategoryMobileItem(props: CMSCategoryMobileItemProps) {
-  const { category, colors } = props;
-
-  const { delete: deleteCategory, isPending: isDeletePending } =
-    useCategoryDelete(category.id);
-  const { update: updateCategory, isPending: isUpdatePending } =
-    useCategoryUpdate(category.id);
-
-  return (
-    <CMSMobileItem
-      editor={{
-        id: String(category.id),
-        title: category.name,
-        description:
-          'Po zakończeniu edycji naciśnij przycisk Zapisz, aby zapisać zmiany.',
-        content: (
-          <CategoryForm
-            colors={colors}
-            category={category}
-            onSubmit={(value) => updateCategory(value)}
-            isLoading={isUpdatePending}
-          />
-        ),
-        isDismissible: !isUpdatePending,
-        tooltip: '',
-      }}
-      isBeingDeleted={isDeletePending}
-      onDelete={() => deleteCategory()}
-    >
-      <Category category={category} />
-    </CMSMobileItem>
-  );
-}
-
-export type CMSCategoryMobileItemProps = {
   category: TCategory;
   colors: TCategoryColor[];
 };
