@@ -9,12 +9,11 @@ import {
 } from '@/components/ui/drawer';
 import { CirclePlus } from 'lucide-react';
 import { CMSChildTableFilterTriggerProps } from '../cms-table-filter-trigger';
-import { CMSTableFilterConfig } from '../cms-table-filters';
 
 export const CMSMobileTableFilterTrigger = (
-  props: CMSMobileTableFilterTriggerProps
+  props: CMSChildTableFilterTriggerProps
 ) => {
-  const { columnName, form, open, onOpenChange } = props;
+  const { columnName, children, open, onOpenChange } = props;
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
@@ -33,14 +32,8 @@ export const CMSMobileTableFilterTrigger = (
           </DrawerDescription>
         </DrawerHeader>
 
-        {form}
+        {children}
       </DrawerContent>
     </Drawer>
   );
 };
-
-export type CMSMobileTableFilterTriggerProps = Omit<
-  CMSTableFilterConfig,
-  'column'
-> &
-  CMSChildTableFilterTriggerProps;

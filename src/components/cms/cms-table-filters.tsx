@@ -3,19 +3,10 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { Column, Updater } from '@tanstack/react-table';
+import { Updater } from '@tanstack/react-table';
 import { FilterX } from 'lucide-react';
-import { createContext, ReactNode } from 'react';
+import { createContext, PropsWithChildren } from 'react';
 import { Button } from '../ui/button';
-import { CMSTableFilterTrigger } from './cms-table-filter-trigger';
-
-export type CMSTableFilterConfig = {
-  column: Column<unknown, unknown>;
-  columnName: string;
-  form: ReactNode;
-};
-
-export type CMSTableFiltersConfig = CMSTableFilterConfig[];
 
 export type CMSTableFilterContextValue<TFilterValue> = {
   setFilterValue: (value: Updater<TFilterValue | undefined>) => void;
@@ -32,16 +23,12 @@ export const CMSTableFilterContext = createContext<
 });
 
 export const CMSTableFilters = (props: CMSTableFiltersProps) => {
-  const { filters, onFiltersReset } = props;
+  const { onFiltersReset, children } = props;
 
   return (
     <section className='flex'>
       <ul className='flex gap-x-2' aria-label='Lista filtrów'>
-        {filters.map((filter) => (
-          <li key={filter.column.id}>
-            <CMSTableFilterTrigger {...filter} />
-          </li>
-        ))}
+        {children}
       </ul>
 
       <Tooltip>
@@ -62,7 +49,6 @@ export const CMSTableFilters = (props: CMSTableFiltersProps) => {
   );
 };
 
-export type CMSTableFiltersProps = {
-  filters: CMSTableFiltersConfig;
+export type CMSTableFiltersProps = PropsWithChildren<{
   onFiltersReset: () => void;
-};
+}>;

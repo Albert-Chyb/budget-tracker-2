@@ -1,6 +1,7 @@
 import CategoryForm from '@/components/categories/category-form';
 import CMS from '@/components/cms/cms';
-import { CMSTableFiltersConfig } from '@/components/cms/cms-table-filters';
+import { CMSTableFilterTrigger } from '@/components/cms/cms-table-filter-trigger';
+import { CMSTableFilters } from '@/components/cms/cms-table-filters';
 import {
   CheckboxesFilterForm,
   CheckboxesFilterFormOption,
@@ -120,23 +121,30 @@ export default function CategoriesPage() {
     })),
   ];
 
-  const filters: CMSTableFiltersConfig = [
-    {
-      column: table.getColumn('name') as Column<unknown>,
-      columnName: 'Nazwa',
-      form: <TextFieldFilterForm />,
-    },
-    {
-      column: table.getColumn('type') as Column<unknown>,
-      columnName: 'Typ transakcji',
-      form: <RadioGroupFilterForm options={categoryTypeFilterOptions} />,
-    },
-    {
-      column: table.getColumn('colorId') as Column<unknown>,
-      columnName: 'Kolor',
-      form: <CheckboxesFilterForm options={colorFilterOptions} />,
-    },
-  ];
+  const filters = (
+    <CMSTableFilters onFiltersReset={table.resetColumnFilters}>
+      <CMSTableFilterTrigger
+        column={table.getColumn('name') as Column<unknown>}
+        columnName={'Nazwa'}
+      >
+        <TextFieldFilterForm />
+      </CMSTableFilterTrigger>
+
+      <CMSTableFilterTrigger
+        column={table.getColumn('type') as Column<unknown>}
+        columnName={'Typ transakcji'}
+      >
+        <RadioGroupFilterForm options={categoryTypeFilterOptions} />
+      </CMSTableFilterTrigger>
+
+      <CMSTableFilterTrigger
+        column={table.getColumn('colorId') as Column<unknown>}
+        columnName={'Kolor'}
+      >
+        <CheckboxesFilterForm options={colorFilterOptions} />
+      </CMSTableFilterTrigger>
+    </CMSTableFilters>
+  );
 
   function mobileCaptionBuilder(cell: Cell<TCategory, unknown>) {
     return (

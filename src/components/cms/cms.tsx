@@ -1,12 +1,12 @@
 import { RowData, Table } from '@tanstack/react-table';
 import { Plus } from 'lucide-react';
+import { ReactElement } from 'react';
 import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 import { Switch } from '../ui/switch';
 import { CMSContext, CMSContextProvider } from './cms-context';
 import CMSEditorTrigger, { CMSEditorTriggerProps } from './cms-editor-trigger';
 import { CMSLoadingSkeleton } from './cms-loading-skeleton';
-import { CMSTableFilters, CMSTableFiltersConfig } from './cms-table-filters';
 import { CMSDesktopTable } from './desktop/cms-desktop-table';
 import { CMSMobile, CMSMobileProps } from './mobile/cms-mobile';
 
@@ -60,10 +60,7 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
           </header>
 
           <div className='space-y-2'>
-            <CMSTableFilters
-              filters={filters}
-              onFiltersReset={() => table.resetColumnFilters()}
-            />
+            {filters}
 
             <CMSContext.Consumer>
               {({ isMobile }) =>
@@ -93,7 +90,7 @@ export type CMSProps<TData extends RowData> = {
   description: string;
   newItemEditor: CMSEditorTriggerProps;
   table: Table<TData>;
-  filters: CMSTableFiltersConfig;
+  filters: ReactElement;
   onServerSideProcessingChange(isServerSide: boolean): void;
   serverSideProcessing: boolean;
   mobileTitleColumnId: string;

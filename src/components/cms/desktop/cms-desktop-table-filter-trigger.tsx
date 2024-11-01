@@ -11,12 +11,11 @@ import {
 } from '@/components/ui/tooltip';
 import { CirclePlus } from 'lucide-react';
 import { CMSChildTableFilterTriggerProps } from '../cms-table-filter-trigger';
-import { CMSTableFilterConfig } from '../cms-table-filters';
 
 export function CMSDesktopTableFilterTrigger(
-  props: CMSDesktopTableFilterTriggerProps
+  props: CMSChildTableFilterTriggerProps
 ) {
-  const { form, columnName, onOpenChange, open } = props;
+  const { children, columnName, onOpenChange, open } = props;
 
   return (
     <div className='flex items-center '>
@@ -34,14 +33,8 @@ export function CMSDesktopTableFilterTrigger(
           <TooltipContent>Filtruj kolumnę: {columnName}</TooltipContent>
         </Tooltip>
 
-        <PopoverContent>{form}</PopoverContent>
+        <PopoverContent>{children}</PopoverContent>
       </Popover>
     </div>
   );
 }
-
-export type CMSDesktopTableFilterTriggerProps = Omit<
-  CMSTableFilterConfig,
-  'column'
-> &
-  CMSChildTableFilterTriggerProps;
