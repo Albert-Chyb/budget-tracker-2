@@ -38,11 +38,6 @@ export function TextFieldFilterForm() {
     close();
   }
 
-  function handleReset() {
-    setFilterValue('');
-    close();
-  }
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-2'>
@@ -60,20 +55,9 @@ export function TextFieldFilterForm() {
           )}
         />
 
-        <div className='flex gap-x-2'>
-          <Button
-            type='button'
-            variant='outline'
-            className='w-full'
-            onClick={handleReset}
-          >
-            Wyczyść
-          </Button>
-
-          <Button type='submit' className='w-full'>
-            Zastosuj
-          </Button>
-        </div>
+        <Button type='submit' className='w-full' variant='outline'>
+          Zastosuj
+        </Button>
       </form>
     </Form>
   );

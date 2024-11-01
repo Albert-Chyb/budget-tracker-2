@@ -1,8 +1,10 @@
 import { Button } from '@/components/ui/button';
 import {
   Drawer,
+  DrawerClose,
   DrawerContent,
   DrawerDescription,
+  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -13,7 +15,7 @@ import { CMSChildTableFilterTriggerProps } from '../cms-table-filter-trigger';
 export const CMSMobileTableFilterTrigger = (
   props: CMSChildTableFilterTriggerProps
 ) => {
-  const { columnName, children, open, onOpenChange } = props;
+  const { columnName, children, open, onOpenChange, column } = props;
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
@@ -24,7 +26,7 @@ export const CMSMobileTableFilterTrigger = (
         </Button>
       </DrawerTrigger>
 
-      <DrawerContent className='px-[var(--screen-edge-spacing)] pb-2'>
+      <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>Filtrujesz kolumnę: {columnName}</DrawerTitle>
           <DrawerDescription>
@@ -32,7 +34,19 @@ export const CMSMobileTableFilterTrigger = (
           </DrawerDescription>
         </DrawerHeader>
 
-        {children}
+        <div className='px-[var(--screen-edge-spacing)]'>{children}</div>
+
+        <DrawerFooter>
+          <DrawerClose asChild>
+            <Button
+              type='button'
+              variant='secondary'
+              onClick={() => column.setFilterValue(undefined)}
+            >
+              Wyczyść
+            </Button>
+          </DrawerClose>
+        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   );

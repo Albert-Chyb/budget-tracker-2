@@ -9,16 +9,17 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { PopoverClose } from '@radix-ui/react-popover';
 import { CirclePlus } from 'lucide-react';
 import { CMSChildTableFilterTriggerProps } from '../cms-table-filter-trigger';
 
 export function CMSDesktopTableFilterTrigger(
   props: CMSChildTableFilterTriggerProps
 ) {
-  const { children, columnName, onOpenChange, open } = props;
+  const { children, columnName, onOpenChange, open, column } = props;
 
   return (
-    <div className='flex items-center '>
+    <div className='flex items-center'>
       <Popover modal={true} open={open} onOpenChange={onOpenChange}>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -33,7 +34,20 @@ export function CMSDesktopTableFilterTrigger(
           <TooltipContent>Filtruj kolumnę: {columnName}</TooltipContent>
         </Tooltip>
 
-        <PopoverContent>{children}</PopoverContent>
+        <PopoverContent>
+          {children}
+
+          <PopoverClose asChild>
+            <Button
+              type='button'
+              variant='secondary'
+              onClick={() => column.setFilterValue(undefined)}
+              className='w-full mt-4'
+            >
+              Wyczyść
+            </Button>
+          </PopoverClose>
+        </PopoverContent>
       </Popover>
     </div>
   );

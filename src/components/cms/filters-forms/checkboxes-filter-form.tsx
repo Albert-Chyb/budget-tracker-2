@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Label } from '@radix-ui/react-label';
@@ -49,10 +48,6 @@ export function CheckboxesFilterForm(props: CheckboxesFilterFormProps) {
     }
   }
 
-  function handleReset() {
-    setFilterValue([]);
-  }
-
   return (
     <form onSubmit={($event) => $event.preventDefault()}>
       <fieldset>
@@ -74,15 +69,6 @@ export function CheckboxesFilterForm(props: CheckboxesFilterFormProps) {
           </div>
         </ScrollArea>
       </fieldset>
-
-      <Button
-        className='w-full'
-        type='button'
-        variant='outline'
-        onClick={handleReset}
-      >
-        Wyczyść
-      </Button>
     </form>
   );
 }
