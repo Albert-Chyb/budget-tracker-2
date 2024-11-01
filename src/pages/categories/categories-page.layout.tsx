@@ -1,8 +1,11 @@
 import CategoryForm from '@/components/categories/category-form';
+import {
+  CMSActionButton,
+  CMSActionsButtons,
+} from '@/components/cms/cms-actions';
 import CMSEditorTrigger, {
   CMSEditorTriggerProps,
 } from '@/components/cms/cms-editor-trigger';
-import { Button } from '@/components/ui/button';
 import {
   Tooltip,
   TooltipContent,
@@ -39,36 +42,36 @@ export function CategoryActions(props: CMSCategoryActionsProps) {
   };
 
   return (
-    <>
+    <CMSActionsButtons>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button
+          <CMSActionButton
+            icon={<Trash className='size-4' />}
             type='button'
-            size='icon'
-            variant='ghost'
+            variant='outline'
             aria-label={`Usuń kategorię: ${category.name}`}
             onClick={() => deleteCategory()}
             disabled={isDeletePending}
           >
-            <Trash className='size-4' />
-          </Button>
+            Usuń
+          </CMSActionButton>
         </TooltipTrigger>
 
         <TooltipContent>Usuń kategorię</TooltipContent>
       </Tooltip>
 
       <CMSEditorTrigger {...editorProps}>
-        <Button
+        <CMSActionButton
+          icon={<Pen className='size-4' />}
           disabled={isDeletePending}
           type='button'
-          size='icon'
-          variant='ghost'
+          variant='outline'
           aria-label={`Edytuj kategorię: ${category.name}`}
         >
-          <Pen className='size-4' />
-        </Button>
+          Edytuj
+        </CMSActionButton>
       </CMSEditorTrigger>
-    </>
+    </CMSActionsButtons>
   );
 }
 
