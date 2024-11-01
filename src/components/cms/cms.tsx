@@ -59,25 +59,27 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
             </div>
           </header>
 
-          <CMSTableFilters
-            filters={filters}
-            onFiltersReset={() => table.resetColumnFilters()}
-          />
+          <div className='space-y-2'>
+            <CMSTableFilters
+              filters={filters}
+              onFiltersReset={() => table.resetColumnFilters()}
+            />
 
-          <CMSContext.Consumer>
-            {({ isMobile }) =>
-              isMobile ? (
-                <CMSMobile
-                  table={table}
-                  actionsColumnId={mobileActionsColumnId}
-                  titleColumnId={mobileTitleColumnId}
-                  captionBuilder={mobileCaptionBuilder}
-                />
-              ) : (
-                <CMSDesktopTable table={table} isPending={isTablePending} />
-              )
-            }
-          </CMSContext.Consumer>
+            <CMSContext.Consumer>
+              {({ isMobile }) =>
+                isMobile ? (
+                  <CMSMobile
+                    table={table}
+                    actionsColumnId={mobileActionsColumnId}
+                    titleColumnId={mobileTitleColumnId}
+                    captionBuilder={mobileCaptionBuilder}
+                  />
+                ) : (
+                  <CMSDesktopTable table={table} isPending={isTablePending} />
+                )
+              }
+            </CMSContext.Consumer>
+          </div>
         </section>
       )}
     </CMSContextProvider>
