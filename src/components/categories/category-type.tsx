@@ -6,7 +6,7 @@ export function CategoryTypeLabel(props: CategoryTypeLabelProps) {
 
   return (
     <div className='flex gap-x-2 items-center'>
-      <span>{type === 'expense' ? <SquareMinus /> : <SquarePlus />}</span>
+      <span aria-hidden="true">{type === 'expense' ? <SquareMinus /> : <SquarePlus />}</span>
       <span>{categoryTypeLabel[type]}</span>
     </div>
   );
