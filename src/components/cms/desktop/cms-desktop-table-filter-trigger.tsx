@@ -4,54 +4,44 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { Column } from '@tanstack/react-table';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { CirclePlus } from 'lucide-react';
-import { PropsWithChildren } from 'react';
-import { CMSTableFilterContext } from '../cms-table-filters';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { CMSChildTableFilterTriggerProps } from '../cms-table-filter-trigger';
+import { CMSTableFilterConfig } from '../cms-table-filters';
 
-export function CMSDesktopTableFilterTrigger<TData>(
-  props: CMSDesktopTableFilterTriggerProps<TData>
+export function CMSDesktopTableFilterTrigger(
+  props: CMSDesktopTableFilterTriggerProps
 ) {
-  const { column, children, columnName, tooltip } = props;
+  const { form, columnName, onOpenChange, open } = props;
 
   return (
     <div className='flex items-center '>
-      <Popover modal={true}>
+      <Popover modal={true} open={open} onOpenChange={onOpenChange}>
         <Tooltip>
           <TooltipTrigger asChild>
             <PopoverTrigger asChild>
-              <Button
-                type='button'
-                variant='outline'
-                aria-label={`Wyświetl filtry dla kolumny: ${columnName}`}
-              >
+              <Button type='button' variant='outline'>
                 <CirclePlus className='mr-2' />
                 {columnName}
               </Button>
             </PopoverTrigger>
           </TooltipTrigger>
 
-          <TooltipContent>{tooltip}</TooltipContent>
+          <TooltipContent>Filtruj kolumnę: {columnName}</TooltipContent>
         </Tooltip>
 
-        <PopoverContent>
-          <CMSTableFilterContext.Provider
-            value={{
-              setFilterValue: column.setFilterValue,
-              filterValue: column.getFilterValue(),
-            }}
-          >
-            {children}
-          </CMSTableFilterContext.Provider>
-        </PopoverContent>
+        <PopoverContent>{form}</PopoverContent>
       </Popover>
     </div>
   );
 }
 
-export type CMSDesktopTableFilterTriggerProps<TData> = PropsWithChildren<{
-  column: Column<TData, unknown>;
-  columnName: string;
-  tooltip: string;
-}>;
+export type CMSDesktopTableFilterTriggerProps = Omit<
+  CMSTableFilterConfig,
+  'column'
+> &
+  CMSChildTableFilterTriggerProps;

@@ -8,7 +8,6 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { PopoverClose } from '@radix-ui/react-popover';
 import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -23,7 +22,7 @@ const formSchema = z.object({
 type FormValue = z.infer<typeof formSchema>;
 
 export function TextFieldFilterForm() {
-  const { setFilterValue, filterValue } = useContext(
+  const { setFilterValue, filterValue, close } = useContext(
     CMSTableFilterContext
   ) as CMSTableFilterContextValue<string>;
 
@@ -36,10 +35,12 @@ export function TextFieldFilterForm() {
 
   function handleSubmit(formValue: FormValue) {
     setFilterValue(formValue.phrase);
+    close();
   }
 
   function handleReset() {
     setFilterValue('');
+    close();
   }
 
   return (
@@ -60,22 +61,18 @@ export function TextFieldFilterForm() {
         />
 
         <div className='flex gap-x-2'>
-          <PopoverClose asChild>
-            <Button
-              type='button'
-              variant='outline'
-              className='w-full'
-              onClick={handleReset}
-            >
-              Wyczyść
-            </Button>
-          </PopoverClose>
+          <Button
+            type='button'
+            variant='outline'
+            className='w-full'
+            onClick={handleReset}
+          >
+            Wyczyść
+          </Button>
 
-          <PopoverClose asChild>
-            <Button type='submit' className='w-full'>
-              Zastosuj
-            </Button>
-          </PopoverClose>
+          <Button type='submit' className='w-full'>
+            Zastosuj
+          </Button>
         </div>
       </form>
     </Form>

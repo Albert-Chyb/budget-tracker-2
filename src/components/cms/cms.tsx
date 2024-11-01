@@ -6,7 +6,7 @@ import { Switch } from '../ui/switch';
 import { CMSContext, CMSContextProvider } from './cms-context';
 import CMSEditorTrigger, { CMSEditorTriggerProps } from './cms-editor-trigger';
 import { CMSLoadingSkeleton } from './cms-loading-skeleton';
-import { CMSTableFiltersConfig } from './cms-table-filters';
+import { CMSTableFilters, CMSTableFiltersConfig } from './cms-table-filters';
 import { CMSDesktopTable } from './desktop/cms-desktop-table';
 import { CMSMobile, CMSMobileProps } from './mobile/cms-mobile';
 
@@ -59,6 +59,11 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
             </div>
           </header>
 
+          <CMSTableFilters
+            filters={filters}
+            onFiltersReset={() => table.resetColumnFilters()}
+          />
+
           <CMSContext.Consumer>
             {({ isMobile }) =>
               isMobile ? (
@@ -69,11 +74,7 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
                   captionBuilder={mobileCaptionBuilder}
                 />
               ) : (
-                <CMSDesktopTable
-                  table={table}
-                  filters={filters}
-                  isPending={isTablePending}
-                />
+                <CMSDesktopTable table={table} isPending={isTablePending} />
               )
             }
           </CMSContext.Consumer>

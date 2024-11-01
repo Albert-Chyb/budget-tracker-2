@@ -12,14 +12,12 @@ import {
   RowData,
   Table as TanstackTable,
 } from '@tanstack/react-table';
-import { CMSTableFiltersConfig } from '../cms-table-filters';
-import { CMSDesktopTableFilters } from './cms-desktop-table-filters';
 import { CMSTableHead } from './cms-desktop-table-head';
 
 export function CMSDesktopTable<TData extends RowData>(
   props: CategoriesPageTableProps<TData>
 ) {
-  const { table, filters, isPending } = props;
+  const { table, isPending } = props;
 
   const tableHeaderRows = table.getHeaderGroups().map(({ id, headers }) => (
     <TableRow key={id}>
@@ -44,11 +42,6 @@ export function CMSDesktopTable<TData extends RowData>(
 
   return (
     <>
-      <CMSDesktopTableFilters
-        filters={filters}
-        onFiltersReset={() => table.resetColumnFilters()}
-      />
-
       <div className='rounded-md border mt-6'>
         <Table>
           <TableHeader>{tableHeaderRows}</TableHeader>
@@ -63,6 +56,5 @@ export function CMSDesktopTable<TData extends RowData>(
 
 export type CategoriesPageTableProps<TData extends RowData> = {
   table: TanstackTable<TData>;
-  filters: CMSTableFiltersConfig;
   isPending: boolean;
 };
