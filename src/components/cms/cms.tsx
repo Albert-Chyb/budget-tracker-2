@@ -28,57 +28,60 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
 
   return (
     <CMSContextProvider>
-      {isLoading ? (
-        <CMSLoadingSkeleton />
-      ) : (
-        <section>
-          <header className='flex items-center gap-x-2 py-6'>
-            <div>
-              <h2 className='text-2xl font-semibold'>{title}</h2>
-              <p className='text-muted-foreground'>{description}</p>
-            </div>
+      <CMSContext.Consumer>
+        {({ isMobile }) => {
+          if (isLoading) {
+            return <CMSLoadingSkeleton />;
+          }
 
-            <div className='ml-auto flex items-center gap-x-2'>
-              <Label className='inline-flex items-center gap-2 '>
-                Przetwarzanie na serwerze
-                <Switch
-                  checked={serverSideProcessing}
-                  onCheckedChange={onServerSideProcessingChange}
-                />
-              </Label>
+          const dataView = isMobile ? (
+            <CMSMobile
+              table={table}
+              actionsColumnId={mobileActionsColumnId}
+              titleColumnId={mobileTitleColumnId}
+              captionBuilder={mobileCaptionBuilder}
+            />
+          ) : (
+            <CMSDesktopTable table={table} isPending={isTablePending} />
+          );
 
-              <CMSEditorTrigger {...newItemEditor}>
-                <Button
-                  size='icon'
-                  variant='ghost'
-                  aria-label='Dodaj nową kategorie'
-                >
-                  <Plus className='size-6' />
-                </Button>
-              </CMSEditorTrigger>
-            </div>
-          </header>
+          return (
+            <section>
+              <header className='flex items-center gap-x-2 py-6'>
+                <div>
+                  <h2 className='text-2xl font-semibold'>{title}</h2>
+                  <p className='text-muted-foreground'>{description}</p>
+                </div>
 
-          <div className='space-y-2'>
-            {filters}
+                <div className='ml-auto flex items-center gap-x-2'>
+                  <Label className='inline-flex items-center gap-2 '>
+                    Przetwarzanie na serwerze
+                    <Switch
+                      checked={serverSideProcessing}
+                      onCheckedChange={onServerSideProcessingChange}
+                    />
+                  </Label>
 
-            <CMSContext.Consumer>
-              {({ isMobile }) =>
-                isMobile ? (
-                  <CMSMobile
-                    table={table}
-                    actionsColumnId={mobileActionsColumnId}
-                    titleColumnId={mobileTitleColumnId}
-                    captionBuilder={mobileCaptionBuilder}
-                  />
-                ) : (
-                  <CMSDesktopTable table={table} isPending={isTablePending} />
-                )
-              }
-            </CMSContext.Consumer>
-          </div>
-        </section>
-      )}
+                  <CMSEditorTrigger {...newItemEditor}>
+                    <Button
+                      size='icon'
+                      variant='ghost'
+                      aria-label='Dodaj nową kategorie'
+                    >
+                      <Plus className='size-6' />
+                    </Button>
+                  </CMSEditorTrigger>
+                </div>
+              </header>
+
+              <div className='space-y-2'>
+                {filters}
+                {dataView}
+              </div>
+            </section>
+          );
+        }}
+      </CMSContext.Consumer>
     </CMSContextProvider>
   );
 }
