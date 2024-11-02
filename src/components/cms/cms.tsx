@@ -4,6 +4,7 @@ import { ReactElement } from 'react';
 import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 import { Switch } from '../ui/switch';
+import { TanStackTablePaginator } from '../ui/tanstack-table/paginator';
 import { CMSContext, CMSContextProvider } from './cms-context';
 import CMSEditorTrigger, { CMSEditorTriggerProps } from './cms-editor-trigger';
 import { CMSLoadingSkeleton } from './cms-loading-skeleton';
@@ -45,6 +46,8 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
             <CMSDesktopTable table={table} isPending={isTablePending} />
           );
 
+          const pagination = <TanStackTablePaginator table={table} />;
+
           return (
             <section>
               <header className='flex items-center gap-x-2 py-6'>
@@ -77,6 +80,7 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
               <div className='space-y-2'>
                 {filters}
                 {dataView}
+                {pagination}
               </div>
             </section>
           );
