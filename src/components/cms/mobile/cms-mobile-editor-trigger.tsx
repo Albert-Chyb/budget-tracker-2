@@ -31,7 +31,7 @@ export default function CMSMobileEditorTrigger(
       onOpenChange={handleOpenChange}
       dismissible={dismissible}
     >
-      <DrawerTrigger className='block w-full p-2' asChild>
+      <DrawerTrigger asChild>
         {children}
       </DrawerTrigger>
 
