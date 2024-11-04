@@ -7,7 +7,6 @@ import { TanStackTablePaginator } from '../ui/tanstack-table/paginator';
 import { CMSContext, CMSContextProvider } from './cms-context';
 import CMSEditorTrigger, { CMSEditorTriggerProps } from './cms-editor-trigger';
 import { CMSLoadingSkeleton } from './cms-loading-skeleton';
-import { CMSServerSideSwitch } from './cms-server-side-switch';
 import { CMSDesktopTable } from './desktop/cms-desktop-table';
 import { CMSMobile, CMSMobileProps } from './mobile/cms-mobile';
 
@@ -19,8 +18,6 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
     table,
     isLoading,
     filters,
-    onServerSideProcessingChange,
-    serverSideProcessing,
     isTablePending,
     mobileActionsColumnId,
     mobileTitleColumnId,
@@ -58,11 +55,6 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
                   <p className='text-muted-foreground'>{description}</p>
                 </div>
 
-                <CMSServerSideSwitch
-                  checked={serverSideProcessing}
-                  onCheckedChange={onServerSideProcessingChange}
-                />
-
                 <CMSEditorTrigger {...newItemEditor}>
                   <Button
                     size='icon'
@@ -95,8 +87,6 @@ export type CMSProps<TData extends RowData> = {
   newItemEditor: CMSEditorTriggerProps;
   table: Table<TData>;
   filters: ReactElement;
-  onServerSideProcessingChange(isServerSide: boolean): void;
-  serverSideProcessing: boolean;
   mobileTitleColumnId: string;
   mobileActionsColumnId: string;
   mobileCaptionBuilder: CMSMobileProps<TData>['captionBuilder'];

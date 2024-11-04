@@ -1,12 +1,7 @@
 import { CMSTableState } from '@/components/cms/types/cms-table-state';
 import { NO_COLOR_VALUE } from '@/pages/categories/categories-page.columns';
 import { User } from '@supabase/supabase-js';
-import {
-  keepPreviousData,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { USER_QUERY_KEY, useUserQuery } from '../auth/user';
 import {
   categorySchema,
@@ -145,23 +140,14 @@ export async function deleteCategory(id: TCategory['id'], userId: string) {
   }
 }
 
-export function useCategoriesQuery(queryConfig?: CMSTableState) {
+export function useCategoriesQuery() {
   const { data: user } = useUserQuery();
 
-  const serverSideTableStateQuery = useQuery({
-    enabled: !!user && !!queryConfig,
-    queryKey: [...USER_QUERY_KEY,'categories', queryConfig],
-    queryFn: () => getCategories((<User>user).id, queryConfig),
-    placeholderData: keepPreviousData,
-  });
-
-  const clientSideTableStateQuery = useQuery({
-    enabled: !!user && !queryConfig,
+  return useQuery({
+    enabled: !!user,
     queryKey: [...USER_QUERY_KEY, 'categories'],
-    queryFn: () => getCategories((<User>user).id, queryConfig),
+    queryFn: () => getCategories((<User>user).id),
   });
-
-  return queryConfig ? serverSideTableStateQuery : clientSideTableStateQuery;
 }
 
 export type CategoryCreateMutationVariables = {

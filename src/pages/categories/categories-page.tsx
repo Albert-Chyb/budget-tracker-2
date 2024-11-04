@@ -40,27 +40,15 @@ const CATEGORIES_PAGE_TITLE = 'Kategorie';
 const CATEGORIES_PAGE_DESCRIPTION = 'Zarządzaj swoimi kategoriami transakcji';
 
 export default function CategoriesPage() {
-  const [isServerSide, setIsServerSide] = useState(false);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
   });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
-  const queryConfig = isServerSide
-    ? {
-        pagination,
-        columnFilters,
-        sorting,
-      }
-    : undefined;
-  const {
-    categories,
-    categoriesColors,
-    isLoading,
-    categoriesCount,
-    isTableDataRefetching,
-  } = useCategoriesPageData(queryConfig);
+
+  const { categories, categoriesColors, isLoading, isTableDataRefetching } =
+    useCategoriesPageData();
   const { create: createCategory, isPending: isCreatePending } =
     useCategoryCreate();
   const columns = useMemo(
@@ -80,32 +68,20 @@ export default function CategoriesPage() {
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
 
-    manualFiltering: isServerSide,
-    manualSorting: isServerSide,
-    manualPagination: isServerSide,
-
     state: {
       pagination,
       columnFilters,
       sorting,
     },
-
-    rowCount: isServerSide ? categoriesCount : undefined,
   });
-
-  function handleServerSideProcessingChange() {
-    table.resetColumnFilters();
-    table.resetPagination();
-    setIsServerSide((v) => !v);
-  }
 
   const categoryTypeFilterOptions: TRadioGroupFilterFormOption[] = [
     {
-      value: isServerSide ? 'income' : categoryTypeLabel['income'],
+      value: categoryTypeLabel['income'],
       text: categoryTypeLabel['income'],
     },
     {
-      value: isServerSide ? 'expense' : categoryTypeLabel['expense'],
+      value: categoryTypeLabel['expense'],
       text: categoryTypeLabel['expense'],
     },
   ];
@@ -116,7 +92,7 @@ export default function CategoriesPage() {
       text: 'Bez koloru',
     },
     ...categoriesColors.map((color) => ({
-      value: isServerSide ? String(color.colorId) : color.name,
+      value: color.name,
       text: color.name,
     })),
   ];
@@ -178,8 +154,6 @@ export default function CategoriesPage() {
         isDismissible: !isCreatePending,
         tooltip: 'Stwórz nową kategorię',
       }}
-      onServerSideProcessingChange={handleServerSideProcessingChange}
-      serverSideProcessing={isServerSide}
       mobileTitleColumnId='name'
       mobileActionsColumnId='category-actions'
       mobileCaptionBuilder={mobileCaptionBuilder}

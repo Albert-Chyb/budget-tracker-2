@@ -1,5 +1,4 @@
 import { useCMSEditorController } from '@/components/cms/cms-editor-controller';
-import { CMSTableState } from '@/components/cms/types/cms-table-state';
 import { UserContext } from '@/contexts/user-context';
 import { TCreateCategory, TUpdateCategory } from '@/lib/db-schemas/category';
 import {
@@ -11,12 +10,15 @@ import {
 import { useCategoriesColorsQuery } from '@/lib/db/categories-colors';
 import { useContext } from 'react';
 
-export function useCategoriesPageData(queryConfig?: CMSTableState) {
+export function useCategoriesPageData() {
   const { isLoading: isColorsLoading, data: colors } =
     useCategoriesColorsQuery();
 
-  const { isLoading: isCategoriesLoading, data: categoriesQueryResult, isRefetching } =
-    useCategoriesQuery(queryConfig);
+  const {
+    isLoading: isCategoriesLoading,
+    data: categoriesQueryResult,
+    isRefetching,
+  } = useCategoriesQuery();
 
   return {
     categoriesCount: categoriesQueryResult?.count || 0,
