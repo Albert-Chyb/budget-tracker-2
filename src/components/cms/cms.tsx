@@ -46,7 +46,9 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
             <CMSDesktopTable table={table} isPending={isTablePending} />
           );
 
-          const pagination = <TanStackTablePaginator table={table} />;
+          const pagination = (
+            <TanStackTablePaginator table={table} compact={isMobile} />
+          );
 
           return (
             <section>

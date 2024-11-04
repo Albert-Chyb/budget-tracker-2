@@ -1,3 +1,4 @@
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { Table } from '@tanstack/react-table';
 import {
   ChevronFirst,
@@ -18,10 +19,13 @@ const PAGE_SIZE_OPTIONS = new Set([10, 25, 50, 100]);
 export function TanStackTablePaginator<TData>(
   props: TanStackTablePaginatorProps<TData> & ComponentProps<'div'>
 ) {
-  const { table, className, ...otherProps } = props;
+  const { table, className, compact = false, ...otherProps } = props;
 
   return (
-    <div className={twMerge(className, 'flex justify-center')} {...otherProps}>
+    <div
+      className={twMerge(className, 'flex justify-center flex-wrap gap-2')}
+      {...otherProps}
+    >
       <nav aria-label='pagination'>
         <TanStackTablePaginatorContent className='flex gap-x-2 justify-center items-center'>
           <TanStackTablePaginatorItem>
@@ -45,7 +49,7 @@ export function TanStackTablePaginator<TData>(
           </TanStackTablePaginatorItem>
 
           <span className='text-muted-foreground text-sm'>
-            Strona{' '}
+            {compact ? <VisuallyHidden>Strona </VisuallyHidden> : 'Strona '}
             <TanStackTablePaginatorPageIndex pageCount={table.getPageCount()}>
               {table.getState().pagination.pageIndex + 1}
             </TanStackTablePaginatorPageIndex>{' '}
@@ -81,4 +85,5 @@ export function TanStackTablePaginator<TData>(
 
 export type TanStackTablePaginatorProps<TData> = {
   table: Table<TData>;
+  compact?: boolean;
 };

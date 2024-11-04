@@ -10,7 +10,7 @@ export function TanStackTablePaginatorButton(
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Button variant={isActive ? 'outline' : 'ghost'} {...btnProps} />
+        <Button variant={isActive ? 'outline' : 'ghost'} size='icon' {...btnProps} />
       </TooltipTrigger>
 
       <TooltipContent>{btnProps['aria-label']}</TooltipContent>
