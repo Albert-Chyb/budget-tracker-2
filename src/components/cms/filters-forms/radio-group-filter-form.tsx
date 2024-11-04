@@ -1,61 +1,72 @@
+import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Label } from '@radix-ui/react-label';
-import { ReactNode, useContext, useId } from 'react';
+import {
+  ComponentPropsWithoutRef,
+  ComponentRef,
+  ForwardedRef,
+  forwardRef,
+  PropsWithChildren,
+  useContext,
+  useId,
+} from 'react';
+import { twMerge } from 'tailwind-merge';
 import {
   CMSTableFilterContext,
   CMSTableFilterContextValue,
 } from '../cms-table-filters';
 
-export function RadioGroupFilterForm(props: RadioGroupFilterFormProps) {
-  const { options } = props;
+export const RadioGroupFilter = forwardRef(
+  (
+    props: ComponentPropsWithoutRef<typeof RadioGroup>,
+    forwardedRef: ForwardedRef<ComponentRef<typeof RadioGroup>>
+  ) => {
+    const { className, ...otherProps } = props;
+    
+    const { filterValue, setFilterValue } = useContext(
+      CMSTableFilterContext
+    ) as CMSTableFilterContextValue<string>;
+    const id = useId();
 
-  const { filterValue, setFilterValue } = useContext(
-    CMSTableFilterContext
-  ) as CMSTableFilterContextValue<string>;
-  const id = useId();
+    const radioGroupValue = typeof filterValue === 'string' ? filterValue : '';
 
-  const radioGroupValue = typeof filterValue === 'string' ? filterValue : '';
-  const optionsWithReset = [{ value: '', text: 'Wszystko' }, ...options];
+    return (
+      <form onSubmit={($event) => $event.preventDefault()}>
+        <Label htmlFor={id} className='inline-block mb-4'>
+          Wyświetl wartość
+        </Label>
 
-  return (
-    <form onSubmit={($event) => $event.preventDefault()}>
-      <Label
-        htmlFor={id}
-        className='inline-block leading-none text-sm font-medium mb-2'
-      >
-        Wyświetl wartość
-      </Label>
-      <RadioGroup
-        onValueChange={setFilterValue}
-        value={radioGroupValue}
-        id={id}
-      >
-        {optionsWithReset.map((option, index) => (
-          <RadioGroupOption key={index} option={option} />
-        ))}
-      </RadioGroup>
-    </form>
-  );
-}
+        <RadioGroup
+          className={twMerge(className, 'space-y-1')}
+          onValueChange={setFilterValue}
+          value={radioGroupValue}
+          {...otherProps}
+          ref={forwardedRef}
+          id={id}
+        />
+      </form>
+    );
+  }
+);
 
-export type TRadioGroupFilterFormOption = { value: string; text: ReactNode };
+export const RadioGroupFilterOption = forwardRef(
+  (
+    props: RadioGroupFilterOptionProps,
+    forwardedRef: ForwardedRef<ComponentRef<typeof RadioGroupItem>>
+  ) => {
+    const id = useId();
+    const { children, ...otherProps } = props;
 
-export type RadioGroupFilterFormProps = {
-  options: TRadioGroupFilterFormOption[];
-};
+    return (
+      <div className='flex items-center space-x-3'>
+        <RadioGroupItem {...otherProps} id={id} ref={forwardedRef} />
+        <Label htmlFor={id}>{children}</Label>
+      </div>
+    );
+  }
+);
 
-function RadioGroupOption(props: RadioGroupOptionProps) {
-  const id = useId();
-  const { option } = props;
+export type RadioGroupFilterOptionProps = PropsWithChildren<
+  ComponentPropsWithoutRef<typeof RadioGroupItem>
+>;
 
-  return (
-    <div className='flex items-center space-x-3'>
-      <RadioGroupItem value={option.value} id={id} />
-      <Label htmlFor={id}>{option.text}</Label>
-    </div>
-  );
-}
 
-type RadioGroupOptionProps = {
-  option: TRadioGroupFilterFormOption;
-};

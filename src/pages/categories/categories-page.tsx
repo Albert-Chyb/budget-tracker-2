@@ -7,8 +7,8 @@ import {
   CheckboxesFilterFormOption,
 } from '@/components/cms/filters-forms/checkboxes-filter-form';
 import {
-  RadioGroupFilterForm,
-  TRadioGroupFilterFormOption,
+  RadioGroupFilter,
+  RadioGroupFilterOption,
 } from '@/components/cms/filters-forms/radio-group-filter-form';
 import { TextFieldFilterForm } from '@/components/cms/filters-forms/text-field-filter-form';
 import { categoryTypeLabel, TCategory } from '@/lib/db-schemas/category';
@@ -75,17 +75,6 @@ export default function CategoriesPage() {
     },
   });
 
-  const categoryTypeFilterOptions: TRadioGroupFilterFormOption[] = [
-    {
-      value: categoryTypeLabel['income'],
-      text: categoryTypeLabel['income'],
-    },
-    {
-      value: categoryTypeLabel['expense'],
-      text: categoryTypeLabel['expense'],
-    },
-  ];
-
   const colorFilterOptions: CheckboxesFilterFormOption[] = [
     {
       value: NO_COLOR_VALUE,
@@ -110,7 +99,15 @@ export default function CategoriesPage() {
         column={table.getColumn('type') as Column<unknown>}
         columnName={'Typ transakcji'}
       >
-        <RadioGroupFilterForm options={categoryTypeFilterOptions} />
+        <RadioGroupFilter>
+          <RadioGroupFilterOption value={categoryTypeLabel['income']}>
+            {categoryTypeLabel['income']}
+          </RadioGroupFilterOption>
+
+          <RadioGroupFilterOption value={categoryTypeLabel['expense']}>
+            {categoryTypeLabel['expense']}
+          </RadioGroupFilterOption>
+        </RadioGroupFilter>
       </CMSTableFilterTrigger>
 
       <CMSTableFilterTrigger
