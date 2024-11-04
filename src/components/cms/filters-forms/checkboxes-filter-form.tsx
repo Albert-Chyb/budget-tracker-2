@@ -1,7 +1,17 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { CheckboxProps, CheckedState } from '@radix-ui/react-checkbox';
 import { Label } from '@radix-ui/react-label';
-import { ReactNode, useContext, useId } from 'react';
+import {
+  ComponentPropsWithoutRef,
+  ComponentRef,
+  createContext,
+  ForwardedRef,
+  forwardRef,
+  PropsWithChildren,
+  useContext,
+  useId,
+} from 'react';
 import {
   CMSTableFilterContext,
   CMSTableFilterContextValue,
@@ -25,8 +35,20 @@ function removeCheckboxValueFromFilter(
   return filters.filter((i) => i !== value);
 }
 
-export function CheckboxesFilterForm(props: CheckboxesFilterFormProps) {
-  const { options } = props;
+type CheckboxesContextValue = {
+  checkedValues: string[];
+  onCheckedChange: (
+    value: CheckboxProps['value'],
+    newState: CheckedState
+  ) => void;
+};
+const CheckboxesFilterContext = createContext<CheckboxesContextValue>({
+  checkedValues: [],
+  onCheckedChange() {},
+});
+
+export const CheckboxesFilter = (props: PropsWithChildren) => {
+  const { children } = props;
 
   const { filterValue, setFilterValue } = useContext(
     CMSTableFilterContext
@@ -34,19 +56,31 @@ export function CheckboxesFilterForm(props: CheckboxesFilterFormProps) {
 
   const checkedOptions = filterValue ?? [];
 
-  function handleCheckedChange(value: string, newCheckedState: boolean) {
-    if (newCheckedState) {
-      setFilterValue((prevCheckedItems) =>
-        insertCheckboxValueToFilter(prevCheckedItems ?? [], value)
-      );
-    } else {
-      setFilterValue((prevCheckedItems) => {
-        if (prevCheckedItems) {
-          return removeCheckboxValueFromFilter(prevCheckedItems, value);
-        }
-      });
-    }
-  }
+  const context: CheckboxesContextValue = {
+    checkedValues: checkedOptions,
+    onCheckedChange(value, newCheckedState) {
+      if (newCheckedState === 'indeterminate') {
+        return;
+      }
+
+      const valueAsString = String(value);
+
+      if (newCheckedState) {
+        setFilterValue((prevCheckedItems) =>
+          insertCheckboxValueToFilter(prevCheckedItems ?? [], valueAsString)
+        );
+      } else {
+        setFilterValue((prevCheckedItems) => {
+          if (prevCheckedItems) {
+            return removeCheckboxValueFromFilter(
+              prevCheckedItems,
+              valueAsString
+            );
+          }
+        });
+      }
+    },
+  };
 
   return (
     <form onSubmit={($event) => $event.preventDefault()}>
@@ -54,54 +88,47 @@ export function CheckboxesFilterForm(props: CheckboxesFilterFormProps) {
         <legend className='leading-none text-sm font-medium'>
           Wybierz wartości
         </legend>
+
         <ScrollArea className='h-72 mt-4'>
-          <div className='space-y-3'>
-            {options.map((option, index) => (
-              <CheckboxOption
-                key={index}
-                option={option}
-                isChecked={checkedOptions.includes(option.value)}
-                onCheckedChange={(newCheckedState) =>
-                  handleCheckedChange(option.value, newCheckedState)
-                }
-              />
-            ))}
-          </div>
+          <CheckboxesFilterContext.Provider value={context}>
+            <div className='space-y-3'>{children}</div>
+          </CheckboxesFilterContext.Provider>
         </ScrollArea>
       </fieldset>
     </form>
   );
-}
-
-export type CheckboxesFilterFormOption = {
-  value: string;
-  text: ReactNode;
 };
 
-export type CheckboxesFilterFormProps = {
-  options: CheckboxesFilterFormOption[];
-};
+export const CheckboxFilterOption = forwardRef(
+  (
+    props: PropsWithChildren<ComponentPropsWithoutRef<typeof Checkbox>>,
+    forwardedRef: ForwardedRef<ComponentRef<typeof Checkbox>>
+  ) => {
+    const { children, value, ...otherProps } = props;
+    const checkboxId = useId();
+    const checkboxesContext = useContext(CheckboxesFilterContext);
 
-function CheckboxOption(props: OptionProps) {
-  const { option, isChecked, onCheckedChange } = props;
+    if (!checkboxesContext) {
+      throw new Error(
+        'CheckboxFilterOption component can only be used inside CheckboxesFilterContext'
+      );
+    }
 
-  const id = useId();
+    const { checkedValues, onCheckedChange } = checkboxesContext;
+    const isChecked = checkedValues.includes(value as string);
 
-  return (
-    <div className='flex items-center space-x-3'>
-      <Checkbox
-        value={option.value}
-        id={id}
-        checked={isChecked}
-        onCheckedChange={onCheckedChange}
-      />
-      <Label htmlFor={id}>{option.text}</Label>
-    </div>
-  );
-}
+    return (
+      <div className='flex items-center space-x-3'>
+        <Checkbox
+          checked={isChecked}
+          onCheckedChange={(newState) => onCheckedChange(value, newState)}
+          ref={forwardedRef}
+          id={checkboxId}
+          {...otherProps}
+        />
 
-type OptionProps = {
-  option: CheckboxesFilterFormOption;
-  isChecked: boolean;
-  onCheckedChange: (newState: boolean) => void;
-};
+        <Label htmlFor={checkboxId}>{children}</Label>
+      </div>
+    );
+  }
+);

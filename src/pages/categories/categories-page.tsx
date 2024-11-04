@@ -3,8 +3,8 @@ import CMS from '@/components/cms/cms';
 import { CMSTableFilterTrigger } from '@/components/cms/cms-table-filter-trigger';
 import { CMSTableFilters } from '@/components/cms/cms-table-filters';
 import {
-  CheckboxesFilterForm,
-  CheckboxesFilterFormOption,
+  CheckboxesFilter,
+  CheckboxFilterOption,
 } from '@/components/cms/filters-forms/checkboxes-filter-form';
 import {
   RadioGroupFilter,
@@ -75,12 +75,14 @@ export default function CategoriesPage() {
     },
   });
 
-  const colorFilterOptions: CheckboxesFilterFormOption[] = [
+  const colorFilterOptions = [
     {
+      id: NO_COLOR_VALUE,
       value: NO_COLOR_VALUE,
       text: 'Bez koloru',
     },
     ...categoriesColors.map((color) => ({
+      id: color.colorId,
       value: color.name,
       text: color.name,
     })),
@@ -114,7 +116,13 @@ export default function CategoriesPage() {
         column={table.getColumn('colorId') as Column<unknown>}
         columnName={'Kolor'}
       >
-        <CheckboxesFilterForm options={colorFilterOptions} />
+        <CheckboxesFilter>
+          {colorFilterOptions.map((option) => (
+            <CheckboxFilterOption key={option.id} value={option.value}>
+              {option.text}
+            </CheckboxFilterOption>
+          ))}
+        </CheckboxesFilter>
       </CMSTableFilterTrigger>
     </CMSTableFilters>
   );
