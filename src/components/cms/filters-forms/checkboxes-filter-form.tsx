@@ -17,33 +17,15 @@ import {
   CMSTableFilterContextValue,
 } from '../cms-table-filters';
 
-function insertCheckboxValueToFilter(
-  filters: string[],
-  value: string
-): string[] {
-  const set = new Set([...filters]);
-
-  set.add(value);
-
-  return [...set];
-}
-
-function removeCheckboxValueFromFilter(
-  filters: string[],
-  value: string
-): string[] {
-  return filters.filter((i) => i !== value);
-}
-
 type CheckboxesContextValue = {
-  checkedValues: string[];
+  checkedValues: Set<string>;
   onCheckedChange: (
     value: CheckboxProps['value'],
     newState: CheckedState
   ) => void;
 };
 const CheckboxesFilterContext = createContext<CheckboxesContextValue>({
-  checkedValues: [],
+  checkedValues: new Set(),
   onCheckedChange() {},
 });
 
@@ -54,10 +36,10 @@ export const CheckboxesFilter = (props: PropsWithChildren) => {
     CMSTableFilterContext
   ) as CMSTableFilterContextValue<string[]>;
 
-  const checkedOptions = filterValue ?? [];
+  const checkedValues = new Set(filterValue ?? []);
 
   const context: CheckboxesContextValue = {
-    checkedValues: checkedOptions,
+    checkedValues,
     onCheckedChange(value, newCheckedState) {
       if (newCheckedState === 'indeterminate') {
         return;
@@ -66,19 +48,12 @@ export const CheckboxesFilter = (props: PropsWithChildren) => {
       const valueAsString = String(value);
 
       if (newCheckedState) {
-        setFilterValue((prevCheckedItems) =>
-          insertCheckboxValueToFilter(prevCheckedItems ?? [], valueAsString)
-        );
+        checkedValues.add(valueAsString);
       } else {
-        setFilterValue((prevCheckedItems) => {
-          if (prevCheckedItems) {
-            return removeCheckboxValueFromFilter(
-              prevCheckedItems,
-              valueAsString
-            );
-          }
-        });
+        checkedValues.delete(valueAsString);
       }
+
+      setFilterValue([...checkedValues]);
     },
   };
 
@@ -115,7 +90,7 @@ export const CheckboxFilterOption = forwardRef(
     }
 
     const { checkedValues, onCheckedChange } = checkboxesContext;
-    const isChecked = checkedValues.includes(value as string);
+    const isChecked = checkedValues.has(value as string);
 
     return (
       <div className='flex items-center space-x-3'>
