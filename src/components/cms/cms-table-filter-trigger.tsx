@@ -7,7 +7,6 @@ import { CMSMobileTableFilterTrigger } from './mobile/cms-mobile-table-filter-tr
 export type CMSTableFilterContextValue<TFilterValue> = {
   setFilterValue: (value: Updater<TFilterValue | undefined>) => void;
   filterValue: TFilterValue | undefined;
-  close: () => void;
 };
 
 export const CMSTableFilterContext = createContext<
@@ -15,7 +14,6 @@ export const CMSTableFilterContext = createContext<
 >({
   setFilterValue: () => {},
   filterValue: '',
-  close: () => {},
 });
 
 export const CMSTableFilterTrigger = (props: CMSTableFilterTriggerProps) => {
@@ -35,12 +33,7 @@ export const CMSTableFilterTrigger = (props: CMSTableFilterTriggerProps) => {
   const contextValue: CMSTableFilterContextValue<unknown> = {
     setFilterValue: column.setFilterValue,
     filterValue: column.getFilterValue(),
-    close: handleFilterTriggerClose,
   };
-
-  function handleFilterTriggerClose() {
-    setIsOpened(false);
-  }
 
   return (
     <li>
