@@ -56,6 +56,12 @@ export const CMSTableFilters = (props: CMSTableFiltersProps) => {
 
   const { isMobile } = useContext(CMSContext);
 
+  const body = (
+    <ul className={isMobile ? '' : 'flex gap-x-2'} aria-label='Lista filtrów'>
+      {children}
+    </ul>
+  );
+
   if (isMobile) {
     return (
       <section className='flex'>
@@ -77,28 +83,27 @@ export const CMSTableFilters = (props: CMSTableFiltersProps) => {
               <Separator decorative={true} />
             </SheetHeader>
 
-            <ul>{children}</ul>
+            {body}
 
             <SheetFooter className='gap-y-2 flex-col'>
               <SheetClose asChild>
-                <Button type='button'>
-                  Zamknij
-                </Button>
+                <Button type='button'>Zamknij</Button>
               </SheetClose>
             </SheetFooter>
           </ScrollableSheetContent>
         </Sheet>
 
-        <ResetFiltersBtn onClick={onFiltersReset} className='ml-auto shrink-0' />
+        <ResetFiltersBtn
+          onClick={onFiltersReset}
+          className='ml-auto shrink-0'
+        />
       </section>
     );
   }
 
   return (
     <section className='flex'>
-      <ul className='flex gap-x-2' aria-label='Lista filtrów'>
-        {children}
-      </ul>
+      {body}
 
       <ResetFiltersBtn onClick={onFiltersReset} className='ml-auto shrink-0' />
     </section>
