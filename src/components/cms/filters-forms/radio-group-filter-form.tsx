@@ -21,7 +21,7 @@ export const RadioGroupFilter = forwardRef(
     forwardedRef: ForwardedRef<ComponentRef<typeof RadioGroup>>
   ) => {
     const { className, ...otherProps } = props;
-    
+
     const { filterValue, setFilterValue } = useContext(
       CMSTableFilterContext
     ) as CMSTableFilterContextValue<string>;
@@ -32,7 +32,7 @@ export const RadioGroupFilter = forwardRef(
     return (
       <form onSubmit={($event) => $event.preventDefault()}>
         <Label htmlFor={id} className='inline-block mb-3'>
-          Wyświetl wartość
+          Wybierz szukaną wartość
         </Label>
 
         <RadioGroup
@@ -68,5 +68,3 @@ export const RadioGroupFilterOption = forwardRef(
 export type RadioGroupFilterOptionProps = PropsWithChildren<
   ComponentPropsWithoutRef<typeof RadioGroupItem>
 >;
-
-

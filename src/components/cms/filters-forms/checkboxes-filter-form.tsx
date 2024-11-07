@@ -60,7 +60,9 @@ export const CheckboxesFilter = (props: PropsWithChildren) => {
   return (
     <form onSubmit={($event) => $event.preventDefault()}>
       <fieldset>
-        <legend className={`${labelVariants()} mb-3`}>Wybierz wartości</legend>
+        <legend className={`${labelVariants()} mb-3`}>
+          Wybierz szukane wartości
+        </legend>
 
         <ScrollArea className='h-72'>
           <CheckboxesFilterContext.Provider value={context}>
