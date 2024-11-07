@@ -1,7 +1,7 @@
 import { Checkbox } from '@/components/ui/checkbox';
+import { Label, labelVariants } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { CheckboxProps, CheckedState } from '@radix-ui/react-checkbox';
-import { Label } from '@radix-ui/react-label';
 import {
   ComponentPropsWithoutRef,
   ComponentRef,
@@ -60,11 +60,9 @@ export const CheckboxesFilter = (props: PropsWithChildren) => {
   return (
     <form onSubmit={($event) => $event.preventDefault()}>
       <fieldset>
-        <legend className='leading-none text-sm font-medium'>
-          Wybierz wartości
-        </legend>
+        <legend className={`${labelVariants()} mb-3`}>Wybierz wartości</legend>
 
-        <ScrollArea className='h-72 mt-4'>
+        <ScrollArea className='h-72'>
           <CheckboxesFilterContext.Provider value={context}>
             <div className='space-y-3'>{children}</div>
           </CheckboxesFilterContext.Provider>

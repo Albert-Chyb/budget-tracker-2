@@ -31,7 +31,7 @@ export const RadioGroupFilter = forwardRef(
 
     return (
       <form onSubmit={($event) => $event.preventDefault()}>
-        <Label htmlFor={id} className='inline-block mb-4'>
+        <Label htmlFor={id} className='inline-block mb-3'>
           Wyświetl wartość
         </Label>
 

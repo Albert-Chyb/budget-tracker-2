@@ -1,5 +1,5 @@
 import { Input } from '@/components/ui/input';
-import { Label } from '@radix-ui/react-label';
+import { Label } from '@/components/ui/label';
 import { useDebounce } from '@uidotdev/usehooks';
 import { useContext, useEffect, useId, useState } from 'react';
 import {
@@ -21,7 +21,7 @@ export function TextFieldFilterForm() {
 
   return (
     <form onSubmit={($event) => $event.preventDefault()}>
-      <Label htmlFor={inputId} className='inline-block mb-2'>
+      <Label htmlFor={inputId} className='inline-block mb-3'>
         Wpisz szukaną frazę
       </Label>
 
