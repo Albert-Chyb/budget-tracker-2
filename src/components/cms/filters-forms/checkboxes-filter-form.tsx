@@ -15,7 +15,7 @@ import {
 import {
   CMSTableFilterContext,
   CMSTableFilterContextValue,
-} from '../cms-table-filters';
+} from '../cms-table-filter-trigger';
 
 type CheckboxesContextValue = {
   checkedValues: Set<string>;

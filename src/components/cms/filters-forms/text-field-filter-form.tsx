@@ -5,7 +5,7 @@ import { useContext, useEffect, useId, useState } from 'react';
 import {
   CMSTableFilterContext,
   CMSTableFilterContextValue,
-} from '../cms-table-filters';
+} from '../cms-table-filter-trigger';
 
 export function TextFieldFilterForm() {
   const { setFilterValue, filterValue } = useContext(

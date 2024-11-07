@@ -13,7 +13,7 @@ import { twMerge } from 'tailwind-merge';
 import {
   CMSTableFilterContext,
   CMSTableFilterContextValue,
-} from '../cms-table-filters';
+} from '../cms-table-filter-trigger';
 
 export const RadioGroupFilter = forwardRef(
   (

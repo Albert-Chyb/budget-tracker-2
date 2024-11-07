@@ -3,14 +3,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { Updater } from '@tanstack/react-table';
 import { Filter, FilterX } from 'lucide-react';
-import {
-  ComponentProps,
-  createContext,
-  PropsWithChildren,
-  useContext,
-} from 'react';
+import { ComponentProps, PropsWithChildren, useContext } from 'react';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 import {
@@ -24,20 +18,6 @@ import {
   SheetTrigger,
 } from '../ui/sheet';
 import { CMSContext } from './cms-context';
-
-export type CMSTableFilterContextValue<TFilterValue> = {
-  setFilterValue: (value: Updater<TFilterValue | undefined>) => void;
-  filterValue: TFilterValue | undefined;
-  close: () => void;
-};
-
-export const CMSTableFilterContext = createContext<
-  CMSTableFilterContextValue<unknown>
->({
-  setFilterValue: () => {},
-  filterValue: '',
-  close: () => {},
-});
 
 const ResetFiltersBtn = (props: ComponentProps<typeof Button>) => (
   <Tooltip>
