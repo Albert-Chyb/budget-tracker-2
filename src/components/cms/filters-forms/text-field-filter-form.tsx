@@ -19,6 +19,10 @@ export function TextFieldFilterForm() {
     setFilterValue(debouncedTerm);
   }, [debouncedTerm, setFilterValue]);
 
+  useEffect(() => {
+    setSearchedTerm(filterValue ?? '');
+  }, [filterValue]);
+
   return (
     <form onSubmit={($event) => $event.preventDefault()}>
       <Label htmlFor={inputId} className='inline-block mb-3'>
