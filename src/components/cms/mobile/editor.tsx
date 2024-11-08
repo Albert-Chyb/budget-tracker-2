@@ -6,17 +6,11 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
-import { PropsWithChildren } from 'react';
-import {
-  CMSChildEditorTriggerProps,
-  CMSEditorTriggerProps,
-} from '../cms-editor-trigger';
+import { ChildEditorProps } from '../editor';
 
-export default function CMSMobileEditorTrigger(
-  props: CMSMobileEditorTriggerProps
-) {
+export default function MobileEditor(props: ChildEditorProps) {
   const {
-    children,
+    trigger,
     title,
     description,
     content,
@@ -31,9 +25,7 @@ export default function CMSMobileEditorTrigger(
       onOpenChange={handleOpenChange}
       dismissible={dismissible}
     >
-      <DrawerTrigger asChild>
-        {children}
-      </DrawerTrigger>
+      <DrawerTrigger asChild>{trigger}</DrawerTrigger>
 
       <DrawerContent>
         <DrawerHeader>
@@ -48,6 +40,3 @@ export default function CMSMobileEditorTrigger(
     </Drawer>
   );
 }
-
-export type CMSMobileEditorTriggerProps =
-  PropsWithChildren<CMSEditorTriggerProps> & CMSChildEditorTriggerProps;

@@ -1,10 +1,10 @@
-import { PropsWithChildren, ReactElement, useContext } from 'react';
+import { ReactElement, ReactNode, useContext } from 'react';
 import { CMSContext } from './cms-context';
 import { useCMSEditorOpenState } from './cms-editor-open-state';
-import { CMSDesktopEditorTrigger } from './desktop/cms-desktop-editor-trigger';
-import CMSMobileEditorTrigger from './mobile/cms-mobile-editor-trigger';
+import { DesktopEditor } from './desktop/editor';
+import MobileEditor from './mobile/editor';
 
-export default function CMSEditorTrigger(props: CMSEditorTriggerProps) {
+export function Editor(props: EditorProps) {
   const { isDismissible } = props;
 
   const { isMobile } = useContext(CMSContext);
@@ -19,7 +19,7 @@ export default function CMSEditorTrigger(props: CMSEditorTriggerProps) {
     setIsOpened(open);
   }
 
-  const childProps: CMSChildEditorTriggerProps = {
+  const childProps: ChildEditorProps = {
     ...props,
     isOpened: isOpened,
     handleOpenChange: handleOpenChange,
@@ -27,22 +27,23 @@ export default function CMSEditorTrigger(props: CMSEditorTriggerProps) {
   };
 
   return isMobile ? (
-    <CMSMobileEditorTrigger {...childProps} />
+    <MobileEditor {...childProps} />
   ) : (
-    <CMSDesktopEditorTrigger {...childProps} />
+    <DesktopEditor {...childProps} />
   );
 }
 
-export type CMSEditorTriggerProps = PropsWithChildren<{
-  title: string;
-  description: string;
-  content: ReactElement;
+export type EditorProps = {
+  title: ReactNode;
+  description: ReactNode;
+  trigger: ReactElement;
+  content: ReactNode;
   id: string;
   isDismissible: boolean;
   tooltip: string;
-}>;
+};
 
-export type CMSChildEditorTriggerProps = CMSEditorTriggerProps & {
+export type ChildEditorProps = EditorProps & {
   isOpened: boolean;
   handleOpenChange: (open: boolean) => void;
   dismissible: boolean;

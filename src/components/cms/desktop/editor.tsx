@@ -11,11 +11,11 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { CMSChildEditorTriggerProps } from '../cms-editor-trigger';
+import { ChildEditorProps } from '../editor';
 
-export function CMSDesktopEditorTrigger(props: CMSDesktopEditorTriggerProps) {
+export function DesktopEditor(props: ChildEditorProps) {
   const {
-    children,
+    trigger,
     title,
     description,
     isOpened,
@@ -28,7 +28,7 @@ export function CMSDesktopEditorTrigger(props: CMSDesktopEditorTriggerProps) {
     <Sheet open={isOpened} onOpenChange={handleOpenChange}>
       <Tooltip>
         <TooltipTrigger asChild>
-          <SheetTrigger asChild>{children}</SheetTrigger>
+          <SheetTrigger asChild>{trigger}</SheetTrigger>
         </TooltipTrigger>
 
         <TooltipContent>{tooltip}</TooltipContent>
@@ -45,5 +45,3 @@ export function CMSDesktopEditorTrigger(props: CMSDesktopEditorTriggerProps) {
     </Sheet>
   );
 }
-
-export type CMSDesktopEditorTriggerProps = CMSChildEditorTriggerProps;

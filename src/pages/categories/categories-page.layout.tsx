@@ -3,9 +3,7 @@ import {
   CMSActionButton,
   CMSActionsButtons,
 } from '@/components/cms/cms-actions';
-import CMSEditorTrigger, {
-  CMSEditorTriggerProps,
-} from '@/components/cms/cms-editor-trigger';
+import { Editor } from '@/components/cms/editor';
 import {
   Tooltip,
   TooltipContent,
@@ -23,23 +21,6 @@ export function CategoryActions(props: CMSCategoryActionsProps) {
     useCategoryDelete(category.id);
   const { update: updateCategory, isPending: isUpdatePending } =
     useCategoryUpdate(category.id);
-
-  const editorProps: CMSEditorTriggerProps = {
-    id: String(category.id),
-    title: category.name,
-    description:
-      'Po zakończeniu edycji naciśnij przycisk Zapisz, aby zapisać zmiany.',
-    content: (
-      <CategoryForm
-        colors={colors}
-        category={category}
-        onSubmit={(value) => updateCategory(value)}
-        isLoading={isUpdatePending}
-      />
-    ),
-    isDismissible: !isUpdatePending,
-    tooltip: 'Edytuj kategorię',
-  };
 
   return (
     <CMSActionsButtons>
@@ -60,17 +41,32 @@ export function CategoryActions(props: CMSCategoryActionsProps) {
         <TooltipContent>Usuń kategorię</TooltipContent>
       </Tooltip>
 
-      <CMSEditorTrigger {...editorProps}>
-        <CMSActionButton
-          icon={<Pen className='size-4' />}
-          disabled={isDeletePending}
-          type='button'
-          variant='outline'
-          aria-label={`Edytuj kategorię: ${category.name}`}
-        >
-          Edytuj
-        </CMSActionButton>
-      </CMSEditorTrigger>
+      <Editor
+        id={String(category.id)}
+        title={category.name}
+        description='Po zakończeniu edycji naciśnij przycisk Zapisz, aby zapisać zmiany.'
+        isDismissible={!isUpdatePending}
+        tooltip={'Edytuj kategorię'}
+        trigger={
+          <CMSActionButton
+            icon={<Pen className='size-4' />}
+            disabled={isDeletePending}
+            type='button'
+            variant='outline'
+            aria-label={`Edytuj kategorię: ${category.name}`}
+          >
+            Edytuj
+          </CMSActionButton>
+        }
+        content={
+          <CategoryForm
+            colors={colors}
+            category={category}
+            onSubmit={(value) => updateCategory(value)}
+            isLoading={isUpdatePending}
+          />
+        }
+      />
     </CMSActionsButtons>
   );
 }

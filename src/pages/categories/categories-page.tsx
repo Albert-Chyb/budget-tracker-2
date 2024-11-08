@@ -1,8 +1,8 @@
 import CategoryForm from '@/components/categories/category-form';
 import * as CMS from '@/components/cms/cms';
-import CMSEditorTrigger from '@/components/cms/cms-editor-trigger';
 import { CMSTableFilterTrigger } from '@/components/cms/cms-table-filter-trigger';
 import { CMSTableFilters } from '@/components/cms/cms-table-filters';
+import { Editor } from '@/components/cms/editor';
 import {
   CheckboxesFilter,
   CheckboxFilterOption,
@@ -133,12 +133,21 @@ export default function CategoriesPage() {
           </CMS.Description>
         </CMS.Hgroup>
 
-        <CMSEditorTrigger
+        <Editor
           id='editor'
           title='Nowa kategoria'
           description='Po wypełnieniu formularza naciśnij przycisk Zapisz, aby stworzyć nową kategorię.'
           isDismissible={!isCreatePending}
           tooltip='Stwórz nową kategorię'
+          trigger={
+            <Button
+              size='icon'
+              variant='ghost'
+              aria-label='Dodaj nową kategorie'
+            >
+              <Plus className='size-6' />
+            </Button>
+          }
           content={
             <CategoryForm
               colors={categoriesColors}
@@ -146,11 +155,7 @@ export default function CategoriesPage() {
               isLoading={isCreatePending}
             />
           }
-        >
-          <Button size='icon' variant='ghost' aria-label='Dodaj nową kategorie'>
-            <Plus className='size-6' />
-          </Button>
-        </CMSEditorTrigger>
+        />
       </CMS.Header>
     </CMS.Root>
   );
