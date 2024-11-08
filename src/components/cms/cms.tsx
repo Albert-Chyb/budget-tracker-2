@@ -1,20 +1,24 @@
 import { RowData, Table } from '@tanstack/react-table';
-import { Plus } from 'lucide-react';
-import { ReactElement } from 'react';
-import { Button } from '../ui/button';
+import { PropsWithChildren, ReactElement } from 'react';
 
 import { TanStackTablePaginator } from '../ui/tanstack-table/paginator';
 import { CMSContext, CMSContextProvider } from './cms-context';
-import CMSEditorTrigger, { CMSEditorTriggerProps } from './cms-editor-trigger';
 import { CMSLoadingSkeleton } from './cms-loading-skeleton';
 import { CMSDesktopTable } from './desktop/cms-desktop-table';
 import { CMSMobile, CMSMobileProps } from './mobile/cms-mobile';
 
-export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
+type Props<TData extends RowData> = PropsWithChildren<{
+  isLoading: boolean;
+  isTablePending: boolean;
+  table: Table<TData>;
+  filters: ReactElement;
+  mobileTitleColumnId: string;
+  mobileActionsColumnId: string;
+  mobileCaptionBuilder: CMSMobileProps<TData>['captionBuilder'];
+}>;
+
+function Root<TData extends RowData>(props: Props<TData>) {
   const {
-    title,
-    description,
-    newItemEditor,
     table,
     isLoading,
     filters,
@@ -22,6 +26,7 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
     mobileActionsColumnId,
     mobileTitleColumnId,
     mobileCaptionBuilder,
+    children,
   } = props;
 
   return (
@@ -49,22 +54,7 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
 
           return (
             <section>
-              <header className='flex items-center gap-x-2 py-6'>
-                <div className='mr-auto'>
-                  <h2 className='text-2xl font-semibold'>{title}</h2>
-                  <p className='text-muted-foreground'>{description}</p>
-                </div>
-
-                <CMSEditorTrigger {...newItemEditor}>
-                  <Button
-                    size='icon'
-                    variant='ghost'
-                    aria-label='Dodaj nową kategorie'
-                  >
-                    <Plus className='size-6' />
-                  </Button>
-                </CMSEditorTrigger>
-              </header>
+              {children}
 
               <div className='space-y-2'>
                 {filters}
@@ -79,15 +69,20 @@ export default function CMS<TData extends RowData>(props: CMSProps<TData>) {
   );
 }
 
-export type CMSProps<TData extends RowData> = {
-  isLoading: boolean;
-  isTablePending: boolean;
-  title: string;
-  description: string;
-  newItemEditor: CMSEditorTriggerProps;
-  table: Table<TData>;
-  filters: ReactElement;
-  mobileTitleColumnId: string;
-  mobileActionsColumnId: string;
-  mobileCaptionBuilder: CMSMobileProps<TData>['captionBuilder'];
-};
+const Hgroup = ({ children }: PropsWithChildren) => (
+  <hgroup className='mr-auto'>{children}</hgroup>
+);
+
+const Header = ({ children }: PropsWithChildren) => (
+  <header className='flex items-center gap-x-2 py-6'>{children}</header>
+);
+
+const Title = ({ children }: PropsWithChildren) => (
+  <h2 className='text-2xl font-semibold'>{children}</h2>
+);
+
+const Description = ({ children }: PropsWithChildren) => (
+  <p className='text-muted-foreground'>{children}</p>
+);
+
+export { Root, Description, Header, Hgroup, Title };
