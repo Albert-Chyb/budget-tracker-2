@@ -3,14 +3,14 @@ import { Label } from '@/components/ui/label';
 import { useDebounce } from '@uidotdev/usehooks';
 import { useContext, useEffect, useId, useState } from 'react';
 import {
-  CMSTableFilterContext,
-  CMSTableFilterContextValue,
-} from '../cms-table-filter-trigger';
+  ColumnFilterContext,
+  ColumnFilterContextValue,
+} from '../contexts/column-filter';
 
 export function TextFieldFilterForm() {
   const { setFilterValue, filterValue } = useContext(
-    CMSTableFilterContext
-  ) as CMSTableFilterContextValue<string>;
+    ColumnFilterContext
+  ) as ColumnFilterContextValue<string>;
   const [searchedTerm, setSearchedTerm] = useState(filterValue ?? '');
   const debouncedTerm = useDebounce(searchedTerm, 300);
   const inputId = useId();

@@ -11,11 +11,11 @@ import {
 } from 'react';
 import { twMerge } from 'tailwind-merge';
 import {
-  CMSTableFilterContext,
-  CMSTableFilterContextValue,
-} from '../cms-table-filter-trigger';
+  ColumnFilterContext,
+  ColumnFilterContextValue,
+} from '../contexts/column-filter';
 
-export const RadioGroupFilter = forwardRef(
+export const RadioGroupFilterForm = forwardRef(
   (
     props: ComponentPropsWithoutRef<typeof RadioGroup>,
     forwardedRef: ForwardedRef<ComponentRef<typeof RadioGroup>>
@@ -23,8 +23,8 @@ export const RadioGroupFilter = forwardRef(
     const { className, ...otherProps } = props;
 
     const { filterValue, setFilterValue } = useContext(
-      CMSTableFilterContext
-    ) as CMSTableFilterContextValue<string>;
+      ColumnFilterContext
+    ) as ColumnFilterContextValue<string>;
     const id = useId();
 
     const radioGroupValue = typeof filterValue === 'string' ? filterValue : '';

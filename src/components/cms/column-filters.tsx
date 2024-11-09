@@ -31,7 +31,7 @@ const ResetFiltersBtn = (props: ComponentProps<typeof Button>) => (
   </Tooltip>
 );
 
-export const CMSTableFilters = (props: CMSTableFiltersProps) => {
+export const ColumnFilters = (props: ColumnFiltersProps) => {
   const { onFiltersReset, children } = props;
 
   const { isMobile } = useContext(CMSContext);
@@ -90,6 +90,6 @@ export const CMSTableFilters = (props: CMSTableFiltersProps) => {
   );
 };
 
-export type CMSTableFiltersProps = PropsWithChildren<{
+export type ColumnFiltersProps = PropsWithChildren<{
   onFiltersReset: () => void;
 }>;

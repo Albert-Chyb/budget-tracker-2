@@ -1,10 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { TypographyLarge, TypographyMuted } from '@/components/ui/typography';
-import { CMSChildTableFilterTriggerProps } from '../cms-table-filter-trigger';
+import { ChildColumnFilterProps } from '../column-filter';
 
-export const CMSMobileTableFilterTrigger = (
-  props: CMSChildTableFilterTriggerProps
+export const MobileColumnFilter = <TData,>(
+  props: ChildColumnFilterProps<TData>
 ) => {
   const { columnName, children, column } = props;
 

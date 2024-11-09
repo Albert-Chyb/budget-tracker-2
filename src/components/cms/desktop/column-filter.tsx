@@ -11,10 +11,10 @@ import {
 } from '@/components/ui/tooltip';
 import { PopoverClose } from '@radix-ui/react-popover';
 import { CirclePlus } from 'lucide-react';
-import { CMSChildTableFilterTriggerProps } from '../cms-table-filter-trigger';
+import { ChildColumnFilterProps } from '../column-filter';
 
-export function CMSDesktopTableFilterTrigger(
-  props: CMSChildTableFilterTriggerProps
+export function DesktopColumnFilter<TData>(
+  props: ChildColumnFilterProps<TData>
 ) {
   const { children, columnName, onOpenChange, open, column } = props;
 

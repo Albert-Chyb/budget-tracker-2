@@ -13,9 +13,9 @@ import {
   useId,
 } from 'react';
 import {
-  CMSTableFilterContext,
-  CMSTableFilterContextValue,
-} from '../cms-table-filter-trigger';
+  ColumnFilterContext,
+  ColumnFilterContextValue,
+} from '../contexts/column-filter';
 
 type CheckboxesContextValue = {
   checkedValues: Set<string>;
@@ -29,12 +29,12 @@ const CheckboxesFilterContext = createContext<CheckboxesContextValue>({
   onCheckedChange() {},
 });
 
-export const CheckboxesFilter = (props: PropsWithChildren) => {
+export const CheckboxesFilterForm = (props: PropsWithChildren) => {
   const { children } = props;
 
   const { filterValue, setFilterValue } = useContext(
-    CMSTableFilterContext
-  ) as CMSTableFilterContextValue<string[]>;
+    ColumnFilterContext
+  ) as ColumnFilterContextValue<string[]>;
 
   const checkedValues = new Set(filterValue ?? []);
 

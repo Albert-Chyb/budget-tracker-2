@@ -1,14 +1,14 @@
 import CategoryForm from '@/components/categories/category-form';
 import * as CMS from '@/components/cms/cms';
-import { CMSTableFilterTrigger } from '@/components/cms/cms-table-filter-trigger';
-import { CMSTableFilters } from '@/components/cms/cms-table-filters';
+import { ColumnFilter } from '@/components/cms/column-filter';
+import { ColumnFilters } from '@/components/cms/column-filters';
 import { Editor } from '@/components/cms/editor';
 import {
-  CheckboxesFilter,
+  CheckboxesFilterForm,
   CheckboxFilterOption,
 } from '@/components/cms/filters-forms/checkboxes-filter-form';
 import {
-  RadioGroupFilter,
+  RadioGroupFilterForm,
   RadioGroupFilterOption,
 } from '@/components/cms/filters-forms/radio-group-filter-form';
 import { TextFieldFilterForm } from '@/components/cms/filters-forms/text-field-filter-form';
@@ -17,7 +17,6 @@ import { categoryTypeLabel, TCategory } from '@/lib/db-schemas/category';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import {
   Cell,
-  Column,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -68,19 +67,16 @@ export default function CategoriesPage() {
   ];
 
   const filters = (
-    <CMSTableFilters onFiltersReset={table.resetColumnFilters}>
-      <CMSTableFilterTrigger
-        column={table.getColumn('name') as Column<unknown>}
-        columnName={'Nazwa'}
-      >
+    <ColumnFilters onFiltersReset={table.resetColumnFilters}>
+      <ColumnFilter column={table.getColumn('name')!} columnName={'Nazwa'}>
         <TextFieldFilterForm />
-      </CMSTableFilterTrigger>
+      </ColumnFilter>
 
-      <CMSTableFilterTrigger
-        column={table.getColumn('type') as Column<unknown>}
+      <ColumnFilter
+        column={table.getColumn('type')!}
         columnName={'Typ transakcji'}
       >
-        <RadioGroupFilter>
+        <RadioGroupFilterForm>
           <RadioGroupFilterOption value={categoryTypeLabel['income']}>
             {categoryTypeLabel['income']}
           </RadioGroupFilterOption>
@@ -88,22 +84,19 @@ export default function CategoriesPage() {
           <RadioGroupFilterOption value={categoryTypeLabel['expense']}>
             {categoryTypeLabel['expense']}
           </RadioGroupFilterOption>
-        </RadioGroupFilter>
-      </CMSTableFilterTrigger>
+        </RadioGroupFilterForm>
+      </ColumnFilter>
 
-      <CMSTableFilterTrigger
-        column={table.getColumn('colorId') as Column<unknown>}
-        columnName={'Kolor'}
-      >
-        <CheckboxesFilter>
+      <ColumnFilter column={table.getColumn('colorId')!} columnName={'Kolor'}>
+        <CheckboxesFilterForm>
           {colorFilterOptions.map((option) => (
             <CheckboxFilterOption key={option.id} value={option.value}>
               {option.text}
             </CheckboxFilterOption>
           ))}
-        </CheckboxesFilter>
-      </CMSTableFilterTrigger>
-    </CMSTableFilters>
+        </CheckboxesFilterForm>
+      </ColumnFilter>
+    </ColumnFilters>
   );
 
   function mobileCaptionBuilder(cell: Cell<TCategory, unknown>) {
