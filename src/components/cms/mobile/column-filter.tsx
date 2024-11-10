@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
 import { TypographyLarge, TypographyMuted } from '@/components/ui/typography';
 import { ChildColumnFilterProps } from '../column-filter';
 
@@ -10,15 +9,8 @@ export const MobileColumnFilter = (props: ChildColumnFilterProps) => {
     column.setFilterValue(undefined);
   }
 
-  const separator = <Separator className='my-4' />;
-
   if (!inWrapper) {
-    return (
-      <>
-        {children}
-        {separator}
-      </>
-    );
+    return children;
   }
 
   return (
@@ -45,8 +37,6 @@ export const MobileColumnFilter = (props: ChildColumnFilterProps) => {
           Wyczyść
         </Button>
       </section>
-
-      {separator}
     </>
   );
 };

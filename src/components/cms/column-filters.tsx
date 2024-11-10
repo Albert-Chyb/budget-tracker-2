@@ -6,7 +6,6 @@ import {
 import { Filter, FilterX } from 'lucide-react';
 import { ComponentProps, PropsWithChildren, useContext } from 'react';
 import { Button } from '../ui/button';
-import { Separator } from '../ui/separator';
 import {
   ScrollableSheetContent,
   Sheet,
@@ -55,11 +54,11 @@ export const ColumnFilters = (props: ColumnFiltersProps) => {
               <SheetDescription>
                 Użyj poniższych filtrów, aby zawęzić wyświetlane wyniki
               </SheetDescription>
-
-              <Separator decorative={true} />
             </SheetHeader>
 
-            <ul aria-label={LIST_LABEL}>{children}</ul>
+            <ul aria-label={LIST_LABEL} className='space-y-8'>
+              {children}
+            </ul>
 
             <SheetFooter className='gap-y-2 flex-col'>
               <SheetClose asChild>
