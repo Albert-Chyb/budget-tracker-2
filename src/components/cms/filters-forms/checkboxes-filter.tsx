@@ -12,10 +12,7 @@ import {
   useContext,
   useId,
 } from 'react';
-import {
-  ColumnFilterContext,
-  ColumnFilterContextValue,
-} from '../contexts/column-filter';
+import { ColumnFilter, ColumnFilterProps } from '../column-filter';
 
 type CheckboxesContextValue = {
   checkedValues: Set<string>;
@@ -29,15 +26,15 @@ const CheckboxesFilterContext = createContext<CheckboxesContextValue>({
   onCheckedChange() {},
 });
 
-export const CheckboxesFilterForm = (props: PropsWithChildren) => {
-  const { children } = props;
+export const CheckboxesColumnFilter = (
+  props: PropsWithChildren<ColumnFilterProps>
+) => {
+  const { children, column, columnName } = props;
 
-  const { filterValue, setFilterValue } = useContext(
-    ColumnFilterContext
-  ) as ColumnFilterContextValue<string[]>;
+  const filterValue = column.getFilterValue();
+  const setFilterValue = column.setFilterValue;
 
-  const checkedValues = new Set(filterValue ?? []);
-
+  const checkedValues = new Set(Array.isArray(filterValue) ? filterValue : []);
   const context: CheckboxesContextValue = {
     checkedValues,
     onCheckedChange(value, newCheckedState) {
@@ -58,19 +55,21 @@ export const CheckboxesFilterForm = (props: PropsWithChildren) => {
   };
 
   return (
-    <form onSubmit={($event) => $event.preventDefault()}>
-      <fieldset>
-        <legend className={`${labelVariants()} mb-3`}>
-          Wybierz szukane wartości
-        </legend>
+    <ColumnFilter column={column} columnName={columnName}>
+      <form onSubmit={($event) => $event.preventDefault()}>
+        <fieldset>
+          <legend className={`${labelVariants()} mb-3`}>
+            Wybierz szukane wartości
+          </legend>
 
-        <ScrollArea className='h-72'>
-          <CheckboxesFilterContext.Provider value={context}>
-            <div className='space-y-3'>{children}</div>
-          </CheckboxesFilterContext.Provider>
-        </ScrollArea>
-      </fieldset>
-    </form>
+          <ScrollArea className='h-72'>
+            <CheckboxesFilterContext.Provider value={context}>
+              <div className='space-y-3'>{children}</div>
+            </CheckboxesFilterContext.Provider>
+          </ScrollArea>
+        </fieldset>
+      </form>
+    </ColumnFilter>
   );
 };
 

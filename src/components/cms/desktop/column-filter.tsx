@@ -13,9 +13,7 @@ import { PopoverClose } from '@radix-ui/react-popover';
 import { CirclePlus } from 'lucide-react';
 import { ChildColumnFilterProps } from '../column-filter';
 
-export function DesktopColumnFilter<TData>(
-  props: ChildColumnFilterProps<TData>
-) {
+export function DesktopColumnFilter(props: ChildColumnFilterProps) {
   const { children, columnName, onOpenChange, open, column } = props;
 
   return (

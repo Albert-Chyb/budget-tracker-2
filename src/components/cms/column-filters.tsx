@@ -31,16 +31,12 @@ const ResetFiltersBtn = (props: ComponentProps<typeof Button>) => (
   </Tooltip>
 );
 
+const LIST_LABEL = 'Lista filtrów';
+
 export const ColumnFilters = (props: ColumnFiltersProps) => {
   const { onFiltersReset, children } = props;
 
   const { isMobile } = useContext(CMSContext);
-
-  const body = (
-    <ul className={isMobile ? '' : 'flex gap-x-2'} aria-label='Lista filtrów'>
-      {children}
-    </ul>
-  );
 
   if (isMobile) {
     return (
@@ -63,7 +59,7 @@ export const ColumnFilters = (props: ColumnFiltersProps) => {
               <Separator decorative={true} />
             </SheetHeader>
 
-            {body}
+            <ul aria-label={LIST_LABEL}>{children}</ul>
 
             <SheetFooter className='gap-y-2 flex-col'>
               <SheetClose asChild>
@@ -82,8 +78,10 @@ export const ColumnFilters = (props: ColumnFiltersProps) => {
   }
 
   return (
-    <section className='flex'>
-      {body}
+    <section className='flex items-end'>
+      <ul className='flex gap-x-2 items-end' aria-label={LIST_LABEL}>
+        {children}
+      </ul>
 
       <ResetFiltersBtn onClick={onFiltersReset} className='ml-auto shrink-0' />
     </section>

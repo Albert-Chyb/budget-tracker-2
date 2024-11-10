@@ -1,45 +1,33 @@
 import { Column } from '@tanstack/react-table';
 import { PropsWithChildren, useContext, useState } from 'react';
 import { CMSContext } from './cms-context';
-import {
-  ColumnFilterContext,
-  ColumnFilterContextValue,
-} from './contexts/column-filter';
 import { DesktopColumnFilter } from './desktop/column-filter';
 import { MobileColumnFilter } from './mobile/column-filter';
 
-export const ColumnFilter = <TData,>(props: ColumnFilterProps<TData>) => {
-  const { column } = props;
-
+export const ColumnFilter = (props: ColumnFilterProps) => {
   const [isOpened, setIsOpened] = useState(false);
   const { isMobile } = useContext(CMSContext);
 
   const FilterConstructor = isMobile ? MobileColumnFilter : DesktopColumnFilter;
-  const filterProps: ChildColumnFilterProps<TData> = {
+  const filterProps: ChildColumnFilterProps = {
     ...props,
     open: isOpened,
     onOpenChange: setIsOpened,
   };
-  const contextValue: ColumnFilterContextValue<unknown> = {
-    setFilterValue: column.setFilterValue,
-    filterValue: column.getFilterValue(),
-  };
 
   return (
     <li>
-      <ColumnFilterContext.Provider value={contextValue}>
-        <FilterConstructor {...filterProps} />
-      </ColumnFilterContext.Provider>
+      <FilterConstructor {...filterProps} />
     </li>
   );
 };
 
-export type ColumnFilterProps<TData> = PropsWithChildren<{
-  column: Column<TData, unknown>;
+export type ColumnFilterProps = PropsWithChildren<{
+  column: Column<unknown, unknown>;
   columnName: string;
 }>;
 
-export type ChildColumnFilterProps<TData> = ColumnFilterProps<TData> & {
+export type ChildColumnFilterProps = ColumnFilterProps & {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };

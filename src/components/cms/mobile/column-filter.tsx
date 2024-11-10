@@ -3,9 +3,7 @@ import { Separator } from '@/components/ui/separator';
 import { TypographyLarge, TypographyMuted } from '@/components/ui/typography';
 import { ChildColumnFilterProps } from '../column-filter';
 
-export const MobileColumnFilter = <TData,>(
-  props: ChildColumnFilterProps<TData>
-) => {
+export const MobileColumnFilter = (props: ChildColumnFilterProps) => {
   const { columnName, children, column } = props;
 
   function handleColumnFiltersReset() {

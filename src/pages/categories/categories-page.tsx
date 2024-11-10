@@ -1,22 +1,22 @@
 import CategoryForm from '@/components/categories/category-form';
 import * as CMS from '@/components/cms/cms';
-import { ColumnFilter } from '@/components/cms/column-filter';
 import { ColumnFilters } from '@/components/cms/column-filters';
 import { Editor } from '@/components/cms/editor';
 import {
-  CheckboxesFilterForm,
+  CheckboxesColumnFilter,
   CheckboxFilterOption,
-} from '@/components/cms/filters-forms/checkboxes-filter-form';
+} from '@/components/cms/filters-forms/checkboxes-filter';
 import {
-  RadioGroupFilterForm,
+  RadioGroupColumnFilter,
   RadioGroupFilterOption,
-} from '@/components/cms/filters-forms/radio-group-filter-form';
-import { TextFieldFilterForm } from '@/components/cms/filters-forms/text-field-filter-form';
+} from '@/components/cms/filters-forms/radio-group-filter';
+import { TextInputColumnFilter } from '@/components/cms/filters-forms/text-field-filter';
 import { Button } from '@/components/ui/button';
 import { categoryTypeLabel, TCategory } from '@/lib/db-schemas/category';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import {
   Cell,
+  Column,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -68,34 +68,34 @@ export default function CategoriesPage() {
 
   const filters = (
     <ColumnFilters onFiltersReset={table.resetColumnFilters}>
-      <ColumnFilter column={table.getColumn('name')!} columnName={'Nazwa'}>
-        <TextFieldFilterForm />
-      </ColumnFilter>
+      <TextInputColumnFilter
+        column={table.getColumn('name') as Column<unknown>}
+        columnName={'Nazwa'}
+      />
 
-      <ColumnFilter
-        column={table.getColumn('type')!}
+      <RadioGroupColumnFilter
+        column={table.getColumn('type') as Column<unknown>}
         columnName={'Typ transakcji'}
       >
-        <RadioGroupFilterForm>
-          <RadioGroupFilterOption value={categoryTypeLabel['income']}>
-            {categoryTypeLabel['income']}
-          </RadioGroupFilterOption>
+        <RadioGroupFilterOption value={categoryTypeLabel['income']}>
+          {categoryTypeLabel['income']}
+        </RadioGroupFilterOption>
 
-          <RadioGroupFilterOption value={categoryTypeLabel['expense']}>
-            {categoryTypeLabel['expense']}
-          </RadioGroupFilterOption>
-        </RadioGroupFilterForm>
-      </ColumnFilter>
+        <RadioGroupFilterOption value={categoryTypeLabel['expense']}>
+          {categoryTypeLabel['expense']}
+        </RadioGroupFilterOption>
+      </RadioGroupColumnFilter>
 
-      <ColumnFilter column={table.getColumn('colorId')!} columnName={'Kolor'}>
-        <CheckboxesFilterForm>
-          {colorFilterOptions.map((option) => (
-            <CheckboxFilterOption key={option.id} value={option.value}>
-              {option.text}
-            </CheckboxFilterOption>
-          ))}
-        </CheckboxesFilterForm>
-      </ColumnFilter>
+      <CheckboxesColumnFilter
+        column={table.getColumn('colorId') as Column<unknown>}
+        columnName={'Kolor'}
+      >
+        {colorFilterOptions.map((option) => (
+          <CheckboxFilterOption key={option.id} value={option.value}>
+            {option.text}
+          </CheckboxFilterOption>
+        ))}
+      </CheckboxesColumnFilter>
     </ColumnFilters>
   );
 

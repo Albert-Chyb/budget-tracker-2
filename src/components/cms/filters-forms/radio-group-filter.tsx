@@ -6,44 +6,41 @@ import {
   ForwardedRef,
   forwardRef,
   PropsWithChildren,
-  useContext,
   useId,
 } from 'react';
 import { twMerge } from 'tailwind-merge';
-import {
-  ColumnFilterContext,
-  ColumnFilterContextValue,
-} from '../contexts/column-filter';
+import { ColumnFilter, ColumnFilterProps } from '../column-filter';
 
-export const RadioGroupFilterForm = forwardRef(
+export const RadioGroupColumnFilter = forwardRef(
   (
-    props: ComponentPropsWithoutRef<typeof RadioGroup>,
+    props: ComponentPropsWithoutRef<typeof RadioGroup> & ColumnFilterProps,
     forwardedRef: ForwardedRef<ComponentRef<typeof RadioGroup>>
   ) => {
-    const { className, ...otherProps } = props;
+    const { className, column, columnName, ...radioGroupProps } = props;
 
-    const { filterValue, setFilterValue } = useContext(
-      ColumnFilterContext
-    ) as ColumnFilterContextValue<string>;
+    const filterValue = props.column.getFilterValue();
+    const setFilterValue = props.column.setFilterValue;
     const id = useId();
 
     const radioGroupValue = typeof filterValue === 'string' ? filterValue : '';
 
     return (
-      <form onSubmit={($event) => $event.preventDefault()}>
-        <Label htmlFor={id} className='inline-block mb-3'>
-          Wybierz szukaną wartość
-        </Label>
+      <ColumnFilter column={column} columnName={columnName}>
+        <form onSubmit={($event) => $event.preventDefault()}>
+          <Label htmlFor={id} className='inline-block mb-3'>
+            Wybierz szukaną wartość
+          </Label>
 
-        <RadioGroup
-          className={twMerge(className, 'space-y-1')}
-          onValueChange={setFilterValue}
-          value={radioGroupValue}
-          {...otherProps}
-          ref={forwardedRef}
-          id={id}
-        />
-      </form>
+          <RadioGroup
+            className={twMerge(className, 'space-y-1')}
+            onValueChange={setFilterValue}
+            value={radioGroupValue}
+            ref={forwardedRef}
+            id={id}
+            {...radioGroupProps}
+          />
+        </form>
+      </ColumnFilter>
     );
   }
 );
