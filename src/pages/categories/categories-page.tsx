@@ -71,6 +71,7 @@ export default function CategoriesPage() {
       <TextInputColumnFilter
         column={table.getColumn('name') as Column<unknown>}
         columnName={'Nazwa'}
+        desktopWrapper={false}
       />
 
       <RadioGroupColumnFilter

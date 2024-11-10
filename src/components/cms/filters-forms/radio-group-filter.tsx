@@ -11,12 +11,24 @@ import {
 import { twMerge } from 'tailwind-merge';
 import { ColumnFilter, ColumnFilterProps } from '../column-filter';
 
+export type RadioGroupColumnFilterProps = PropsWithChildren<
+  {
+    radioGroupProps?: ComponentPropsWithoutRef<typeof RadioGroup>;
+  } & ColumnFilterProps
+>;
+
 export const RadioGroupColumnFilter = forwardRef(
   (
-    props: ComponentPropsWithoutRef<typeof RadioGroup> & ColumnFilterProps,
+    props: RadioGroupColumnFilterProps,
     forwardedRef: ForwardedRef<ComponentRef<typeof RadioGroup>>
   ) => {
-    const { className, column, columnName, ...radioGroupProps } = props;
+    const {
+      column,
+      columnName,
+      radioGroupProps,
+      children,
+      ...otherColumnFilterProps
+    } = props;
 
     const filterValue = props.column.getFilterValue();
     const setFilterValue = props.column.setFilterValue;
@@ -25,20 +37,26 @@ export const RadioGroupColumnFilter = forwardRef(
     const radioGroupValue = typeof filterValue === 'string' ? filterValue : '';
 
     return (
-      <ColumnFilter column={column} columnName={columnName}>
+      <ColumnFilter
+        column={column}
+        columnName={columnName}
+        {...otherColumnFilterProps}
+      >
         <form onSubmit={($event) => $event.preventDefault()}>
           <Label htmlFor={id} className='inline-block mb-3'>
             Wybierz szukaną wartość
           </Label>
 
           <RadioGroup
-            className={twMerge(className, 'space-y-1')}
             onValueChange={setFilterValue}
             value={radioGroupValue}
             ref={forwardedRef}
             id={id}
             {...radioGroupProps}
-          />
+            className={twMerge(radioGroupProps?.className, 'space-y-1')}
+          >
+            {children}
+          </RadioGroup>
         </form>
       </ColumnFilter>
     );

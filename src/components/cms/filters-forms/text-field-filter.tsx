@@ -12,12 +12,16 @@ import {
 } from 'react';
 import { ColumnFilter, ColumnFilterProps } from '../column-filter';
 
+export type TextInputColumnFilterProps = {
+  inputProps?: ComponentProps<typeof Input>;
+} & ColumnFilterProps;
+
 export const TextInputColumnFilter = forwardRef(
   (
-    props: ComponentProps<typeof Input> & ColumnFilterProps,
+    props: TextInputColumnFilterProps,
     forwardedRef: ForwardedRef<ComponentRef<typeof Input>>
   ) => {
-    const { column, columnName, ...inputProps } = props;
+    const { column, columnName, inputProps, ...otherColumnFilterProps } = props;
     const setFilterValue = column.setFilterValue;
     const filterValue = column.getFilterValue();
     const [searchedTerm, setSearchedTerm] = useState(filterValue ?? '');
@@ -35,7 +39,11 @@ export const TextInputColumnFilter = forwardRef(
     const inputValue = typeof searchedTerm === 'string' ? searchedTerm : '';
 
     return (
-      <ColumnFilter column={column} columnName={columnName}>
+      <ColumnFilter
+        column={column}
+        columnName={columnName}
+        {...otherColumnFilterProps}
+      >
         <form onSubmit={($event) => $event.preventDefault()}>
           <Label htmlFor={inputId} className='inline-block mb-3'>
             Wpisz szukaną frazę

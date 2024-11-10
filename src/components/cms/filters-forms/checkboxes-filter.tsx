@@ -29,7 +29,7 @@ const CheckboxesFilterContext = createContext<CheckboxesContextValue>({
 export const CheckboxesColumnFilter = (
   props: PropsWithChildren<ColumnFilterProps>
 ) => {
-  const { children, column, columnName } = props;
+  const { children, column, columnName, ...otherProps } = props;
 
   const filterValue = column.getFilterValue();
   const setFilterValue = column.setFilterValue;
@@ -55,7 +55,7 @@ export const CheckboxesColumnFilter = (
   };
 
   return (
-    <ColumnFilter column={column} columnName={columnName}>
+    <ColumnFilter column={column} columnName={columnName} {...otherProps}>
       <form onSubmit={($event) => $event.preventDefault()}>
         <fieldset>
           <legend className={`${labelVariants()} mb-3`}>

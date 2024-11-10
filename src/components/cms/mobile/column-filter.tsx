@@ -4,10 +4,21 @@ import { TypographyLarge, TypographyMuted } from '@/components/ui/typography';
 import { ChildColumnFilterProps } from '../column-filter';
 
 export const MobileColumnFilter = (props: ChildColumnFilterProps) => {
-  const { columnName, children, column } = props;
+  const { columnName, children, column, inWrapper } = props;
 
   function handleColumnFiltersReset() {
     column.setFilterValue(undefined);
+  }
+
+  const separator = <Separator className='my-4' />;
+
+  if (!inWrapper) {
+    return (
+      <>
+        {children}
+        {separator}
+      </>
+    );
   }
 
   return (
@@ -35,7 +46,7 @@ export const MobileColumnFilter = (props: ChildColumnFilterProps) => {
         </Button>
       </section>
 
-      <Separator className='my-4' />
+      {separator}
     </>
   );
 };
