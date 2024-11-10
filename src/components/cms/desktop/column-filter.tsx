@@ -14,11 +14,7 @@ import { CirclePlus } from 'lucide-react';
 import { ChildColumnFilterProps } from '../column-filter';
 
 export function DesktopColumnFilter(props: ChildColumnFilterProps) {
-  const { children, columnName, onOpenChange, open, column, inWrapper } = props;
-
-  if (!inWrapper) {
-    return children;
-  }
+  const { children, columnName, onOpenChange, open, column } = props;
 
   return (
     <div className='flex items-center'>

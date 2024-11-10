@@ -5,15 +5,21 @@ import { DesktopColumnFilter } from './desktop/column-filter';
 import { MobileColumnFilter } from './mobile/column-filter';
 
 export const ColumnFilter = (props: PropsWithChildren<ColumnFilterProps>) => {
-  const { mobileWrapper = true, desktopWrapper = true } = props;
+  const { mobileWrapper = true, desktopWrapper = true, children } = props;
 
   const [isOpened, setIsOpened] = useState(false);
   const { isMobile } = useContext(CMSContext);
 
+  const shouldDisplayWrapper =
+    (isMobile && mobileWrapper) || (!isMobile && desktopWrapper);
+
+  if (!shouldDisplayWrapper) {
+    return children;
+  }
+
   const FilterConstructor = isMobile ? MobileColumnFilter : DesktopColumnFilter;
   const filterProps: ChildColumnFilterProps = {
     ...props,
-    inWrapper: (isMobile && mobileWrapper) || (!isMobile && desktopWrapper),
     open: isOpened,
     onOpenChange: setIsOpened,
   };
@@ -36,6 +42,5 @@ export type ChildColumnFilterProps = PropsWithChildren<
   ColumnFilterProps & {
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    inWrapper: boolean;
   }
 >;
