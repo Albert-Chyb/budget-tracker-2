@@ -48,7 +48,7 @@ export const ColumnFilters = (props: ColumnFiltersProps) => {
             </Button>
           </SheetTrigger>
 
-          <ScrollableSheetContent className='w-full space-y-2'>
+          <ScrollableSheetContent className='space-y-2 max-sm:w-full'>
             <SheetHeader>
               <SheetTitle>Filtry</SheetTitle>
               <SheetDescription>
@@ -60,9 +60,9 @@ export const ColumnFilters = (props: ColumnFiltersProps) => {
               {children}
             </ul>
 
-            <SheetFooter className='gap-y-2 flex-col'>
+            <SheetFooter>
               <SheetClose asChild>
-                <Button type='button'>Zamknij</Button>
+                <Button type='button' className='w-full'>Zamknij</Button>
               </SheetClose>
             </SheetFooter>
           </ScrollableSheetContent>
