@@ -40,11 +40,13 @@ export const ColumnFilters = (props: ColumnFiltersProps) => {
   if (isMobile) {
     return (
       <section className='flex'>
+        <ResetFiltersBtn onClick={onFiltersReset} className='shrink-0 mr-2' />
+
         <Sheet>
           <SheetTrigger asChild>
             <Button>
               <Filter className='mr-2' aria-hidden='true' />
-              Filtruj dane
+              Filtruj
             </Button>
           </SheetTrigger>
 
@@ -62,16 +64,13 @@ export const ColumnFilters = (props: ColumnFiltersProps) => {
 
             <SheetFooter>
               <SheetClose asChild>
-                <Button type='button' className='w-full'>Zamknij</Button>
+                <Button type='button' className='w-full'>
+                  Zamknij
+                </Button>
               </SheetClose>
             </SheetFooter>
           </ScrollableSheetContent>
         </Sheet>
-
-        <ResetFiltersBtn
-          onClick={onFiltersReset}
-          className='ml-auto shrink-0'
-        />
       </section>
     );
   }

@@ -11,6 +11,7 @@ import {
   RadioGroupFilterOption,
 } from '@/components/cms/filters-forms/radio-group-filter';
 import { TextInputColumnFilter } from '@/components/cms/filters-forms/text-field-filter';
+import { Sorting, SortingOption } from '@/components/cms/mobile/sorting';
 import { Button } from '@/components/ui/button';
 import { categoryTypeLabel, TCategory } from '@/lib/db-schemas/category';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
@@ -100,6 +101,23 @@ export default function CategoriesPage() {
     </ColumnFilters>
   );
 
+  const sorting = (
+    <Sorting onSortingReset={table.resetSorting}>
+      <SortingOption
+        column={table.getColumn('name') as Column<unknown>}
+        label='Sortuj nazwę kategorii'
+      />
+      <SortingOption
+        column={table.getColumn('type') as Column<unknown>}
+        label='Sortuj typ kategorii'
+      />
+      <SortingOption
+        column={table.getColumn('colorId') as Column<unknown>}
+        label='Sortuj kolor kategorii'
+      />
+    </Sorting>
+  );
+
   function mobileCaptionBuilder(cell: Cell<TCategory, unknown>) {
     return (
       <>
@@ -115,6 +133,7 @@ export default function CategoriesPage() {
       isTablePending={isTableDataRefetching}
       table={table}
       filters={filters}
+      sorting={sorting}
       mobileTitleColumnId='name'
       mobileActionsColumnId='category-actions'
       mobileCaptionBuilder={mobileCaptionBuilder}

@@ -12,6 +12,7 @@ type Props<TData extends RowData> = PropsWithChildren<{
   isTablePending: boolean;
   table: Table<TData>;
   filters: ReactElement;
+  sorting: ReactElement;
   mobileTitleColumnId: string;
   mobileActionsColumnId: string;
   mobileCaptionBuilder: CMSMobileProps<TData>['captionBuilder'];
@@ -22,6 +23,7 @@ function Root<TData extends RowData>(props: Props<TData>) {
     table,
     isLoading,
     filters,
+    sorting,
     isTablePending,
     mobileActionsColumnId,
     mobileTitleColumnId,
@@ -57,7 +59,14 @@ function Root<TData extends RowData>(props: Props<TData>) {
               {children}
 
               <div className='space-y-2'>
-                {filters}
+                {isMobile ? (
+                  <div className='flex justify-between gap-8'>
+                    {filters}
+                    {sorting}
+                  </div>
+                ) : (
+                  filters
+                )}
                 {dataView}
                 {pagination}
               </div>
@@ -85,4 +94,4 @@ const Description = ({ children }: PropsWithChildren) => (
   <p className='text-muted-foreground'>{children}</p>
 );
 
-export { Root, Description, Header, Hgroup, Title };
+export { Description, Header, Hgroup, Root, Title };
