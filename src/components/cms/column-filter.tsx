@@ -14,7 +14,7 @@ export const ColumnFilter = (props: PropsWithChildren<ColumnFilterProps>) => {
     (isMobile && mobileWrapper) || (!isMobile && desktopWrapper);
 
   if (!shouldDisplayWrapper) {
-    return children;
+    return <li>{children}</li>;
   }
 
   const FilterConstructor = isMobile ? MobileColumnFilter : DesktopColumnFilter;
